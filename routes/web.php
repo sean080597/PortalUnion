@@ -20,7 +20,12 @@ Route::get('/faculties/destroy', ['as' => 'faculties.destroy', 'uses' => 'Facult
 Route::get('/faculties/manage', ['as' => 'faculties.manage', 'uses' => 'FacultyController@manage']);
 Route::resource('faculties', 'FacultyController', ['except' => ['destroy']]);
 
+Route::get('/classrooms', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
 Route::post('/classrooms', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
+
+Route::post('/students', ['as' => 'students.index', 'uses' => 'StudentController@index']);
+Route::post('/students/show', ['as' => 'students.show', 'uses' => 'StudentController@show']);
+Route::post('/students/{student}', ['as' => 'students.update', 'uses' => 'StudentController@update']);
 
 Route::resource('events', 'EventController');
 

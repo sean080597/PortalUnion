@@ -97,18 +97,18 @@
                                     <input type="text" id="classroom_id" name="classroom_id" value="{{ $all_students->where('user_id', Auth::user()->id)->first()->class_room_id }}">
                                 </form>
                             </li> --}}
-                            {{-- <li>
+                            <li>
                                 <a href="{{ action('ClassRoomController@index') }}"
                                     onclick="event.preventDefault();
-                                    document.getElementById('getclassrooms-{{ !empty($all_classrooms)? $all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id : ''}}').submit();"
+                                    document.getElementById('getclassrooms-{{ !empty($classrooms)? ($classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id) : ''}}').submit();"
                                 >
                                     DS Lớp
                                 </a>
-                                <form id="getclassrooms-{{!empty($all_classrooms)? $all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id : ''}}" action="{{ action('ClassRoomController@index') }}" method="POST" style="display: none;">
+                                <form id="getclassrooms-{{!empty($classrooms)? ($classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id) : ''}}" action="{{ action('ClassRoomController@index') }}" method="POST" style="display: none;">
                                     @csrf
-                                    <input type="text" id="faculty_id" name="faculty_id" value="{{ !empty($all_classrooms)? $all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id : ''}}">
+                                    <input type="text" id="faculty_id" name="faculty_id" value="{{ !empty($classrooms)? ($classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id) : ''}}">
                                 </form>
-                            </li> --}}
+                            </li>
                             <li><a href="{{ route('faculties.index') }}">DS khoa viện</a></li>
                         </ul>
                     </li>
@@ -166,8 +166,6 @@
     <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <script src="{{ asset('theme/JS/datatable.js') }}"></script>
-
-    @yield('link_js')
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('theme/JS/javascript.js') }}"></script>

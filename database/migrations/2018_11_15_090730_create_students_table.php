@@ -21,7 +21,9 @@ class CreateStudentsTable extends Migration
             $table->boolean('sex')->default('0');
             $table->date('birthday')->nullable();
             $table->char('phone', 10);
-            $table->string('hometown', 20)->nullable();
+            $table->string('hometown', 30)->nullable();
+            $table->string('ethnic', 20)->nullable();
+            $table->string('religion', 20)->nullable();
             $table->date('union_date')->nullable();
             $table->boolean('is_submit')->default('0');
             $table->primary('id');

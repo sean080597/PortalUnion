@@ -5,7 +5,7 @@
 @endsection
 
 @section('show_tab')
-<li class="breadcrumb-item"><a href="#">TT Trường</a></li>
+<li class="breadcrumb-item"><a href="#">TT lớp</a></li>
 @endsection
 
 @section('content')
@@ -42,6 +42,9 @@
                 </div>
                 <select name="state" id="maxRows" class="form-control">
                     <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
                     <option value="0" selected>Tất cả</option>
                 </select>
             </div>
@@ -61,8 +64,9 @@
             <thead class="thead-light">
                 <tr>
                     <th>STT</th>
-                    <th class="width-100">Khoa</th>
-                    <th class="width-200">Bí thư</th>
+                    <th class="width-100">MSSV</th>
+                    <th class="width-200">Họ Tên</th>
+                    <th class="width-100">Ngày sinh</th>
                     <th class="width-200">Email</th>
                     <th class="width-100">Điện thoại</th>
                     <th class="width-80">Tác vụ</th>
@@ -70,23 +74,24 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($faculties as $key => $faculty)
+                @foreach ($students as $key=>$student)
                     <tr>
                         <td>{{ ++$key }}</td>
-                        <td>{{ $faculty->name }}</td>
-                        <td>Nguyễn Văn A</td>
-                        <td>nguyenvana@gmail.com</td>
-                        <td>0909090909</td>
+                        <td>{{ $student->id }}</td>
+                        <td>{{ $student->name }}</td>
+                        <td>{{ Carbon\Carbon::parse($student->birthday)->format('d-m-Y') }}</td>
+                        <td>{{ $all_users->where('id', $student->user_id)->first()->email }}</td>
+                        <td>{{ $student->phone }}</td>
                         <td class="text-center text-primary">
-                            <a href="{{ action('ClassRoomController@index') }}"
+                            <a href="{{ action('StudentController@show') }}"
                                 onclick="event.preventDefault();
-                                document.getElementById('getclassrooms-{{ $faculty->id }}').submit();"
+                                document.getElementById('getdetailstudent-{{ $student->id }}').submit();"
                             >
                                 <i class="far fa-eye"></i>
                             </a>
-                            <form id="getclassrooms-{{ $faculty->id }}" action="{{ action('ClassRoomController@index') }}" method="POST" style="display: none;">
+                            <form id="getdetailstudent-{{ $student->id }}" action="{{ action('StudentController@show') }}" method="POST" style="display: none;">
                                 @csrf
-                                <input type="text" id="faculty_id" name="faculty_id" value="{{ $faculty->id }}">
+                                <input type="text" id="student_id" name="student_id" value="{{ $student->id }}">
                             </form>
                         </td>
                         <td class="text-center">

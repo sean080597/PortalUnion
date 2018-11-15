@@ -5,7 +5,7 @@
 @endsection
 
 @section('show_tab')
-<li class="breadcrumb-item"><a href="#">TT Trường</a></li>
+<li class="breadcrumb-item"><a href="#">TT Khoa</a></li>
 @endsection
 
 @section('content')
@@ -61,7 +61,7 @@
             <thead class="thead-light">
                 <tr>
                     <th>STT</th>
-                    <th class="width-100">Khoa</th>
+                    <th class="width-100">Chi đoàn</th>
                     <th class="width-200">Bí thư</th>
                     <th class="width-200">Email</th>
                     <th class="width-100">Điện thoại</th>
@@ -70,23 +70,22 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($faculties as $key => $faculty)
+                @foreach ($classrooms as $key=>$classroom)
                     <tr>
                         <td>{{ ++$key }}</td>
-                        <td>{{ $faculty->name }}</td>
+                        <td>{{ $classroom->id }}</td>
                         <td>Nguyễn Văn A</td>
                         <td>nguyenvana@gmail.com</td>
                         <td>0909090909</td>
                         <td class="text-center text-primary">
-                            <a href="{{ action('ClassRoomController@index') }}"
-                                onclick="event.preventDefault();
-                                document.getElementById('getclassrooms-{{ $faculty->id }}').submit();"
+                            <a href="{{ action('StudentController@index') }}"
+                                onclick="event.preventDefault();document.getElementById('getstudents-{{ $classroom->id }}').submit();"
                             >
                                 <i class="far fa-eye"></i>
                             </a>
-                            <form id="getclassrooms-{{ $faculty->id }}" action="{{ action('ClassRoomController@index') }}" method="POST" style="display: none;">
+                            <form id="getstudents-{{ $classroom->id }}" action="{{ action('StudentController@index') }}" method="POST" style="display: none;">
                                 @csrf
-                                <input type="text" id="faculty_id" name="faculty_id" value="{{ $faculty->id }}">
+                                <input type="text" id="classroom_id" name="classroom_id" value="{{ $classroom->id }}">
                             </form>
                         </td>
                         <td class="text-center">

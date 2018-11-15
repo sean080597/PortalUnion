@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\ClassRoom;
 use App\Faculty;
+use App\Student;
 use Illuminate\Http\Request;
 
 class FacultyController extends Controller
@@ -18,8 +20,10 @@ class FacultyController extends Controller
      */
     public function index()
     {
+        $classrooms = ClassRoom::all();
+        $all_students = Student::all();
         $faculties = Faculty::orderby('name', 'asc')->get();
-        return view('faculties.index', ['faculties' => $faculties]);
+        return view('faculties.index', ['classrooms' => $classrooms, 'all_students' => $all_students, 'faculties' => $faculties]);
     }
 
     /**

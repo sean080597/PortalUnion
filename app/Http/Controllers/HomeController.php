@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\ClassRoom;
+use App\Student;
+
 class HomeController extends Controller
 {
     /**
@@ -47,9 +50,9 @@ class HomeController extends Controller
         // auth()->user()->givePermissionTo('admin');
         // return User::role('writer')->get();
 
-        // $all_students = Student::all();
-        // $all_classrooms = ClassRoom::all();
+        $all_students = Student::all();
+        $all_classrooms = ClassRoom::all();
         // return view('home')->with(['all_students' => $all_students, 'all_classrooms' => $all_classrooms]);
-        return view('home');
+        return view('home', ['all_students' => $all_students, 'classrooms' => $all_classrooms]);
     }
 }

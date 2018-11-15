@@ -16,7 +16,7 @@ class CreateRelationsTable extends Migration
         Schema::create('relations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50);
-            $table->date('birthday');
+            $table->date('birthday')->nullable();
             $table->char('phone', 10)->nullable();
             $table->string('job', 50)->nullable();
             $table->boolean('role')->nullable();//dad or mom
