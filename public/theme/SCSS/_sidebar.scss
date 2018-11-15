@@ -1,0 +1,99 @@
+a[data-toggle="collapse"] {
+    position: relative;
+    display: block;
+}
+
+.dropdown-toggle::after {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+#sidebar {
+    /* don't forget to add all the previously mentioned styles here too */
+    overflow-y:scroll;
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 95vh;
+    max-height: 95vh;
+    @include bg-dark;
+    transition: all 0.3s;
+    position: fixed;
+    top: 2.8rem;
+    left: 0;
+    z-index: 99;
+    &::-webkit-scrollbar{
+        width: 6px;
+        background-color: red;
+    }
+    &::-webkit-scrollbar-thumb{
+        border-radius: 8px;
+        background-color: #000;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, .3);
+    }
+    &::-webkit-scrollbar-track{
+        border-radius: 8px;
+        background-color: $grey;
+    }
+    &.active{
+        margin-left: -250px;
+    }
+    .sidebar-header{
+        width: 100%;
+        padding-top: 1rem;
+        .wrap-avatar{
+            padding-bottom: .3rem;
+            width:50%;
+            img{
+                width:100%;
+            }
+        }
+        h4{
+            margin: 0;
+        }
+    }
+    ul{
+        .components{
+            padding: 20px 0;
+            border-bottom: 1px solid #47748b;
+        }
+        p{
+            color: #fff;
+            padding: 10px;
+        }
+    }
+}
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1rem;
+    display: block;
+    &:hover{
+        @include bg-light-hover;
+    }
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    @include bg-dark-hover;
+}
+
+ul ul a {
+    font-size: 0.9rem !important;
+    padding-left: 30px !important;
+    background: lighten($grey, 6);
+}
+@media only screen and (max-width: 768px) {
+    html{
+        font-size: 12px;
+    }
+    #sidebar {
+        min-width: 180px;
+        max-width: 180px;
+        margin-left: -180px;
+        &.active{
+            margin-left: 0;
+        }
+    }
+    #btn-sidebar{
+        display: none;
+    }
+}

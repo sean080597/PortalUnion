@@ -1,0 +1,8 @@
+#content .footer{
+    width: 100%;
+    @include bg-dark;
+    display: flex;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    justify-content: center;
+}

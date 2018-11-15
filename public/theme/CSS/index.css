@@ -1,0 +1,34 @@
+.task, .message {
+  display: block;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.message-item {
+  width: 100%;
+  background-color: #fff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.message-item textarea {
+  border: none;
+  background-color: #fff !important;
+}
+
+.message-item label {
+  font-weight: bold;
+}
+
+table thead tr th {
+  font-weight: 500;
+}
+
+table tbody tr th {
+  font-weight: 100 !important;
+}
+
+table tbody tr th a {
+  color: #3276b1;
+}
+/*# sourceMappingURL=index.css.map */

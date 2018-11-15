@@ -1,0 +1,111 @@
+@import "_variables.scss";
+@import "_mixins.scss";
+@import "_loader.scss";
+.container-fluid{
+    padding-left: 0;
+    padding-right:0;
+}
+.wrapper{
+    display: flex;
+    align-items: stretch;
+    width:100%;
+}
+#wrapper-header{
+    background-color: $header;
+    height: 70px;
+    width: 100%;
+    header{
+        width: 95%;
+        margin: 0 auto;
+        padding-top:5px;
+    }
+}
+.wrapper-img-logo{
+    @include wrapperImg(245px);
+}
+.wrapper-img-app{
+    @include wrapperImg(210px){
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
+.wrapper-img-android, .wrapper-img-ios{
+    @include wrapperImg(170px){
+        margin-right: 1.5rem;
+    }
+}
+.btn-customize{
+    background-color: #59889c;
+    color: #fff;
+    &:hover{
+        background-color: darken(#59889c,10);
+        color: #fff;
+    }
+}
+.btn-circle{
+    border-radius: 50%;
+}
+.mt-custom{
+    margin-top: 7rem;
+}
+.congtt{
+    height:430px;
+    position: relative;
+}
+.loginform{
+    p{
+        margin-bottom: 0;
+    }
+}
+.wrapper-form{
+    width: 80%;
+    border: 1px solid $nav;
+    margin: 1rem;
+    header{
+        position: relative;
+        padding: 1rem;
+        z-index: 5;
+        %bg-layout{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .bg-layout-1{
+            padding: .8rem;
+            color:#fff;
+            font-size: 1.4rem;
+            @extend %bg-layout;
+            z-index: 3;
+            background-color: $hutech-blue;
+            clip-path: polygon(0 0, 92% 0, 42% 100%, 0 100%);
+        }
+        .bg-layout-2{
+            @extend %bg-layout;
+            z-index: 2;
+            background-color: $hutech-red;
+            clip-path: polygon(0 0, 98% 0, 48% 100%, 0 100%);
+        }
+        .bg-layout-3{
+            @extend %bg-layout;
+            z-index: 1;
+            background-color: $hutech-yellow;
+        }
+    }
+    footer{
+        padding: 1rem;
+        background-color: $header;
+    }
+    fieldset{
+        border-top: 1px solid $nav;
+        border-bottom: 1px solid $nav;
+        padding: 1rem;
+    }
+}
+@media only screen and (max-width: 998px){
+    .hidden{
+        display: none;
+    }
+}

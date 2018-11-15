@@ -1,0 +1,23 @@
+@mixin bg-dark {
+    background-color: $grey;
+    color: $grey-light;
+}
+@mixin bg-dark-hover {
+    background-color: lighten($grey, 8);
+    color: #fff;
+}
+@mixin bg-light {
+    color: $grey;
+    background-color: $grey-light;
+}
+@mixin bg-light-hover{
+    background-color: darken($grey-light,8);
+    color:#000;
+}
+@mixin wrapperImg($width) {
+    width: $width;
+    @content;
+    img{
+        width: 100%;
+    }
+}

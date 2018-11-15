@@ -1,0 +1,45 @@
+%note{
+    margin-bottom: 10px;
+    padding: 5px 15px;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    ul{
+        padding-left: 1rem;
+    }
+    p, a, span{
+        font-size: .9rem;
+        margin: 0;
+    }
+    a{
+        font-weight: 600;
+    }
+    span{
+        font-weight: 700;
+    }
+}
+
+.note-success{
+    @extend %note;
+    background-color:#cde0c4;
+    border-left: .38rem solid  #356635;
+    a,p, span {
+        color:  #356635;
+    }
+}
+.note-info{
+    @extend %note;
+    background-color:#d6dde7;
+    border-left: .38rem solid  #305d8c;
+    a, p, span{
+        color:  #305d8c;
+    }
+}
+.note-warning{
+    @extend %note;
+    background-color:#efe1b3;
+    border-left: .38rem solid #dfb56c;
+    a, p, span{
+        color:  #826430;
+    }
+}

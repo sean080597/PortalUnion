@@ -1,0 +1,13 @@
+@import "_variables.scss";
+@import "_mixins.scss";
+@import "_note.scss";
+@import "_table.scss";
+.info-section{
+    width: 100%;
+    background-color: #fff;
+    padding: 1rem;
+    line-height: 1.8rem;
+    border-bottom: 1px dashed #d1c9bf;
+    border-left: 1px solid #d1c9bf;
+    border-right: 1px solid #d1c9bf;
+}
