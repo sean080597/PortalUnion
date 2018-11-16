@@ -13,6 +13,18 @@ class FacultyController extends Controller
         $this->middleware(['auth']);
     }
 
+    public function getlistfaculties(){
+        $all_faculties = Faculty::orderby('name', 'asc')->get();
+        return response()->json($all_faculties);
+    }
+
+    public function manage() {
+        $faculties = Faculty::orderby('name', 'asc')->get();
+        $classrooms = ClassRoom::all();//
+        $all_students = Student::all();//can remove after assign permissions
+        return view('faculties.manage', ['faculties' => $faculties, 'classrooms' => $classrooms, 'all_students' => $all_students]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,7 +45,9 @@ class FacultyController extends Controller
      */
     public function create()
     {
-        //
+        $classrooms = ClassRoom::all();//
+        $all_students = Student::all();//can remove after assign permissions
+        return view('faculties.create', ['classrooms' => $classrooms, 'all_students' => $all_students]);
     }
 
     /**
@@ -44,7 +58,22 @@ class FacultyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'id'=>'required|max:4',
+            'name' =>'required|max:50',
+        ]);
+
+        if(Faculty::where('id', $request->input('id'))->count() > 0){
+            return redirect()->back()->withErrors('Trùng lặp mã khoa!');
+        }
+
+        $id = $request['faculty_id'];
+        $name = $request['name'];
+        $faculty = Faculty::create($request->only('id', 'name'));
+
+        //Display a successful message upon save
+        return redirect()->route('faculties.manage')
+            ->with('flash_message', 'Id - '. $faculty->id.' Name - '.$faculty->name.' created');
     }
 
     /**
@@ -64,9 +93,12 @@ class FacultyController extends Controller
      * @param  \App\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function edit(Faculty $faculty)
+    public function edit($id)
     {
-        //
+        $classrooms = ClassRoom::all();//
+        $all_students = Student::all();//can remove after assign permissions
+        $faculty = Faculty::findOrFail($id);
+        return view('faculties.edit', ['classrooms' => $classrooms, 'all_students' => $all_students, 'faculty' => $faculty]);
     }
 
     /**
@@ -76,9 +108,21 @@ class FacultyController extends Controller
      * @param  \App\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Faculty $faculty)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'id'=>'required|max:4',
+            'name' =>'required|max:50',
+        ]);
+
+        $faculty = Faculty::findOrFail($id);
+        $faculty->id = $request->input('id');
+        $faculty->name = $request->input('name');
+        $faculty->save();
+
+        return redirect()->route('faculties.manage',
+            $faculty->id)->with('flash_message',
+            'Id - '. $faculty->id.' Name - '.$faculty->name.' created');
     }
 
     /**
@@ -87,8 +131,10 @@ class FacultyController extends Controller
      * @param  \App\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Faculty $faculty)
+    public function destroy(Request $request)
     {
-        //
+        $faculty = Faculty::findOrFail($request->faculty_id);
+        $faculty->delete();
+        return 'Faculty with name - '.$request->faculty_id.' has been deleted';
     }
 }

@@ -60,6 +60,12 @@
                         <a href="/">Trang Chủ</a>
                     </li>
                     <li>
+                        <a href="{{ route('faculties.manage') }}">QL Khoa Viện</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('classrooms.manage') }}">QL Lớp</a>
+                    </li>
+                    <li>
                         <a href="#thong-tin-dv" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">Thông tin đoàn viên</a>
                         <ul class="collapse list-unstyled" id="thong-tin-dv">
                             <li>

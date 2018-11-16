@@ -20,6 +20,15 @@ Route::get('/faculties/destroy', ['as' => 'faculties.destroy', 'uses' => 'Facult
 Route::get('/faculties/manage', ['as' => 'faculties.manage', 'uses' => 'FacultyController@manage']);
 Route::resource('faculties', 'FacultyController', ['except' => ['destroy']]);
 
+//handle manage classroom
+Route::get('/classrooms/destroy', 'ClassRoomController@destroy');
+Route::get('/classrooms/update', 'ClassRoomController@update');
+
+Route::get('/classrooms/add_new_classroom', 'ClassRoomController@addnewclassroom');
+Route::get('/classrooms/get_sel_faculties', 'ClassRoomController@getselfaculties');
+Route::get('/classrooms/getlistclassrooms', 'ClassRoomController@getlistclassrooms');
+Route::get('/classrooms/manage', ['as' => 'classrooms.manage', 'uses' => 'ClassRoomController@manage']);
+
 Route::get('/classrooms', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
 Route::post('/classrooms', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
 
