@@ -3,86 +3,59 @@
   padding: 5px 15px;
   width: 100%;
   margin-left: 0;
-  margin-right: 0;
-}
-
-.note-success ul, .note-info ul, .note-warning ul {
-  padding-left: 1rem;
-}
-
-.note-success p, .note-info p, .note-warning p, .note-success a, .note-info a, .note-warning a, .note-success span, .note-info span, .note-warning span {
-  font-size: .9rem;
-  margin: 0;
-}
-
-.note-success a, .note-info a, .note-warning a {
-  font-weight: 600;
-}
-
-.note-success span, .note-info span, .note-warning span {
-  font-weight: 700;
-}
+  margin-right: 0; }
+  .note-success ul, .note-info ul, .note-warning ul {
+    padding-left: 1rem; }
+  .note-success p, .note-info p, .note-warning p, .note-success a, .note-info a, .note-warning a, .note-success span, .note-info span, .note-warning span {
+    font-size: .9rem;
+    margin: 0; }
+  .note-success a, .note-info a, .note-warning a {
+    font-weight: 600; }
+  .note-success span, .note-info span, .note-warning span {
+    font-weight: 700; }
 
 .note-success {
   background-color: #cde0c4;
-  border-left: .38rem solid  #356635;
-}
-
-.note-success a, .note-success p, .note-success span {
-  color: #356635;
-}
+  border-left: .38rem solid  #356635; }
+  .note-success a, .note-success p, .note-success span {
+    color: #356635; }
 
 .note-info {
   background-color: #d6dde7;
-  border-left: .38rem solid  #305d8c;
-}
-
-.note-info a, .note-info p, .note-info span {
-  color: #305d8c;
-}
+  border-left: .38rem solid  #305d8c; }
+  .note-info a, .note-info p, .note-info span {
+    color: #305d8c; }
 
 .note-warning {
   background-color: #efe1b3;
-  border-left: .38rem solid #dfb56c;
-}
-
-.note-warning a, .note-warning p, .note-warning span {
-  color: #826430;
-}
+  border-left: .38rem solid #dfb56c; }
+  .note-warning a, .note-warning p, .note-warning span {
+    color: #826430; }
 
 .wrap-table {
   margin: 0;
-  padding: 0;
-}
+  padding: 0; }
 
 .width-80 {
-  min-width: 5rem;
-}
+  min-width: 5rem; }
 
 .width-100p {
   min-width: 7rem;
-  width: 7rem;
-}
+  width: 7rem; }
 
 .widht-150 {
-  min-width: 10rem;
-}
+  min-width: 10rem; }
 
 .width-200 {
-  min-width: 12rem;
-}
+  min-width: 12rem; }
 
 .width-400 {
-  min-width: 20rem;
-}
+  min-width: 20rem; }
 
 .table {
-  font-size: .9rem;
-}
-
-.table a {
-  display: block;
-}
+  font-size: .9rem; }
+  .table a {
+    display: block; }
 
 .info-section {
   width: 100%;
@@ -91,6 +64,6 @@
   line-height: 1.8rem;
   border-bottom: 1px dashed #d1c9bf;
   border-left: 1px solid #d1c9bf;
-  border-right: 1px solid #d1c9bf;
-}
+  border-right: 1px solid #d1c9bf; }
+
 /*# sourceMappingURL=ThongTin.css.map */

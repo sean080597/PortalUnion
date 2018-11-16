@@ -9,19 +9,8 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Bootstrap core CSS-->
-    <link href="{{ asset('theme/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-
-    <!-- Custom fonts for this template-->
-    <link href="{{ asset('theme/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-
-    <!-- Page level plugin CSS-->
-    <link href="{{ asset('theme/vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
-
-    <!-- Font google -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700 " rel="stylesheet">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('theme/CSS/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @yield('link_css')
 </head>
 <body>
@@ -73,7 +62,7 @@
                     <li>
                         <a href="#thong-tin-dv" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">Thông tin đoàn viên</a>
                         <ul class="collapse list-unstyled" id="thong-tin-dv">
-                            {{-- <li>
+                            <li>
                                 <a href="{{ action('StudentController@show') }}"
                                     onclick="event.preventDefault();
                                     document.getElementById('getdetailstudent-{{ $all_students->where('user_id', Auth::user()->id)->first()->id }}').submit();"
@@ -84,8 +73,8 @@
                                     @csrf
                                     <input type="text" id="student_id" name="student_id" value="{{ $all_students->where('user_id', Auth::user()->id)->first()->id }}">
                                 </form>
-                            </li> --}}
-                            {{-- <li>
+                            </li>
+                            <li>
                                 <a href="{{ action('StudentController@index') }}"
                                     onclick="event.preventDefault();
                                     document.getElementById('getstudents-{{ $all_students->where('user_id', Auth::user()->id)->first()->class_room_id }}').submit();"
@@ -96,7 +85,7 @@
                                     @csrf
                                     <input type="text" id="classroom_id" name="classroom_id" value="{{ $all_students->where('user_id', Auth::user()->id)->first()->class_room_id }}">
                                 </form>
-                            </li> --}}
+                            </li>
                             <li>
                                 <a href="{{ action('ClassRoomController@index') }}"
                                     onclick="event.preventDefault();
@@ -159,11 +148,11 @@
         </section>
     </section>
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('theme/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('theme/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    {{-- <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script> --}}
 
     <script src="{{ asset('theme/JS/datatable.js') }}"></script>
 

@@ -66,7 +66,11 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="phonenum">Điện thoại: <span class="text-danger">(*)</span></label>
-                    <input type="tel" class="form-control" name="phonenum" id="phonenum" value="{{ $student->phone }}">
+                    <input type="tel" class="form-control" name="phonenum" id="phonenum"
+                    value="{{ $student->phone }}" maxlength="10"
+                    onkeypress="return event.keyCode>48 && event.keyCode<57 ? true : false"
+                    onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
+                    >
                 </div>
                 <div class="form-group col-md-6">
                     <label for="doan">Ngày vào đoàn: <span class="text-danger">(*)</span></label>
@@ -125,7 +129,11 @@
                     </div>
                     <div class="form-group">
                         <label for="dienthoaicha">Điện thoại: <span class="text-danger">(*)</span></label>
-                        <input type="number" class="form-control" name="dienthoaicha" id="dienthoaicha" value="{{ !empty($dad->phone)?$dad->phone:'' }}">
+                        <input type="text" class="form-control" name="dienthoaicha" id="dienthoaicha"
+                        value="{{ !empty($dad->phone)?$dad->phone:'' }}" maxlength="10"
+                        onkeypress="return event.keyCode>48 && event.keyCode<57 ? true : false"
+                        onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
+                        >
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -143,7 +151,11 @@
                     </div>
                     <div class="form-group">
                         <label for="dienthoaime">Điện thoại: <span class="text-danger">(*)</span></label>
-                        <input type="number" class="form-control" name="dienthoaime" id="dienthoaime" value="{{ !empty($mom->phone)?$mom->phone:'' }}">
+                        <input type="text" class="form-control" name="dienthoaime" id="dienthoaime"
+                        value="{{ !empty($mom->phone)?$mom->phone:'' }}" maxlength="10"
+                        onkeypress="return event.keyCode>48 && event.keyCode<57 ? true : false"
+                        onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
+                        >
                     </div>
                 </div>
             </div>

@@ -26,8 +26,10 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $students = Student::where('class_room_id', $request->input('classroom_id'))->get();
+        $all_students = Student::all();
         $all_users = User::all();
-        return view('students.index', ['students' => $students, 'all_users' => $all_users]);
+        $classrooms = ClassRoom::all();
+        return view('students.index', ['students' => $students, 'all_students' => $all_students, 'all_users' => $all_users, 'classrooms' => $classrooms]);
     }
 
     /**
@@ -77,11 +79,10 @@ class StudentController extends Controller
             }
         }
 
-        // $all_classrooms = ClassRoom::all();
-        // $all_students = Student::all();
+        $all_classrooms = ClassRoom::all();
+        $all_students = Student::all();
 
-        // return view('students.show', ['student' => $student, 'user' => $user, 'faculty' => $faculty, 'dad' => $dad, 'mom' => $mom, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
-        return view('students.show', ['student' => $student, 'user' => $user, 'faculty' => $faculty, 'dad' => $dad, 'mom' => $mom]);
+        return view('students.show', ['student' => $student, 'classrooms' => $all_classrooms, 'all_students' => $all_students, 'user' => $user, 'faculty' => $faculty, 'dad' => $dad, 'mom' => $mom]);
     }
 
     /**

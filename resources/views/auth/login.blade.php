@@ -10,18 +10,20 @@
 
     <!-- base url -->
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <!-- Bootstrap core CSS-->
-    <link href="{{ asset('theme/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <!-- Custom fonts for this template-->
-    <link href="{{ asset('theme/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+   <!-- Custom fonts for this template-->
+   <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet" type="text/css">
 
     <!-- Page level plugin CSS-->
-    <link href="{{ asset('theme/vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
-    <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('theme/CSS/login.css') }}">
+    <!-- <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet"> -->
+
     <!-- Font google -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700 " rel="stylesheet">
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('theme/CSS/login.css') }}">
 </head>
 <body>
     <section class="container-fluid">
@@ -129,11 +131,11 @@
         </section>
     </section>
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('theme/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('theme/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    {{-- <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script> --}}
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('theme/JS/javascript.js') }}"></script>
