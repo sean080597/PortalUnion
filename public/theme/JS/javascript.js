@@ -14,7 +14,7 @@ $(document).ready(function () {
                 .append('<tr><td class="text-center">'+ ++key +'</td>'
                     +'<td class="text-center">'+ val.id +'</td>'
                     +'<td class="text-center">'
-                        +'<button class="btn btn-sm btn-info open_modal_classroom_to_edit" type="button" classroom_id="'+val.id+'">Edit</button>'
+                        +'<button class="btn btn-sm btn-info open_modal_classroom_to_edit" type="button" classroom_id="'+val.id+'" style="margin-right:5px">Edit</button>'
                         +'<button class="btn btn-sm btn-danger delete_classroom" type="button" classroom_id="'+val.id+'">Delete</button>'
                     +'</td></tr>');
             });

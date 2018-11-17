@@ -32,6 +32,7 @@ Route::get('/classrooms/manage', ['as' => 'classrooms.manage', 'uses' => 'ClassR
 Route::get('/classrooms', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
 Route::post('/classrooms', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
 
+Route::get('/students', ['as' => 'students.index', 'uses' => 'StudentController@index']);
 Route::post('/students', ['as' => 'students.index', 'uses' => 'StudentController@index']);
 Route::post('/students/show', ['as' => 'students.show', 'uses' => 'StudentController@show']);
 Route::post('/students/{student}', ['as' => 'students.update', 'uses' => 'StudentController@update']);

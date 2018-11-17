@@ -95,13 +95,13 @@
                             <li>
                                 <a href="{{ action('ClassRoomController@index') }}"
                                     onclick="event.preventDefault();
-                                    document.getElementById('getclassrooms-{{ !empty($classrooms)? ($classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id) : ''}}').submit();"
+                                    document.getElementById('getclassrooms-{{ ($all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id)}}').submit();"
                                 >
                                     DS Lớp
                                 </a>
-                                <form id="getclassrooms-{{!empty($classrooms)? ($classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id) : ''}}" action="{{ action('ClassRoomController@index') }}" method="POST" style="display: none;">
+                                <form id="getclassrooms-{{ ($all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id)}}" action="{{ action('ClassRoomController@index') }}" method="POST" style="display: none;">
                                     @csrf
-                                    <input type="text" id="faculty_id" name="faculty_id" value="{{ !empty($classrooms)? ($classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id) : ''}}">
+                                    <input type="text" id="faculty_id" name="faculty_id" value="{{ ($all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id)}}">
                                 </form>
                             </li>
                             <li><a href="{{ route('faculties.index') }}">DS khoa viện</a></li>

@@ -72,7 +72,8 @@ class ClassRoomController extends Controller
     {
         $all_faculties = Faculty::orderby('name', 'asc')->get();
         $all_students = Student::all();//can remove
-        return view('classrooms.manage', ['all_students' => $all_students, 'all_faculties' => $all_faculties]);
+        $all_classrooms = ClassRoom::all();//can remove
+        return view('classrooms.manage', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'all_faculties' => $all_faculties]);
     }
 
     /**
@@ -82,13 +83,10 @@ class ClassRoomController extends Controller
      */
     public function index(Request $request)
     {
-        if(!empty($request->input('faculty_id'))){
-            $classrooms = ClassRoom::where('faculty_id', $request->input('faculty_id'))->get();
-        }else{
-            $classrooms = ClassRoom::all();
-        }
+        $classrooms = ClassRoom::where('faculty_id', $request->input('faculty_id'))->get();
+        $all_classrooms = ClassRoom::all();
         $all_students = Student::all();
-        return view('classrooms.index', ['classrooms' => $classrooms, 'all_students' => $all_students]);
+        return view('classrooms.index', ['classrooms' => $classrooms, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
     }
 
     /**

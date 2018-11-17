@@ -20,9 +20,9 @@ class FacultyController extends Controller
 
     public function manage() {
         $faculties = Faculty::orderby('name', 'asc')->get();
-        $classrooms = ClassRoom::all();//
+        $all_classrooms = ClassRoom::all();//
         $all_students = Student::all();//can remove after assign permissions
-        return view('faculties.manage', ['faculties' => $faculties, 'classrooms' => $classrooms, 'all_students' => $all_students]);
+        return view('faculties.manage', ['faculties' => $faculties, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
     }
 
     /**
@@ -32,10 +32,10 @@ class FacultyController extends Controller
      */
     public function index()
     {
-        $classrooms = ClassRoom::all();
+        $all_classrooms = ClassRoom::all();
         $all_students = Student::all();
         $faculties = Faculty::orderby('name', 'asc')->get();
-        return view('faculties.index', ['classrooms' => $classrooms, 'all_students' => $all_students, 'faculties' => $faculties]);
+        return view('faculties.index', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'faculties' => $faculties]);
     }
 
     /**
@@ -45,9 +45,9 @@ class FacultyController extends Controller
      */
     public function create()
     {
-        $classrooms = ClassRoom::all();//
+        $all_classrooms = ClassRoom::all();//
         $all_students = Student::all();//can remove after assign permissions
-        return view('faculties.create', ['classrooms' => $classrooms, 'all_students' => $all_students]);
+        return view('faculties.create', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
     }
 
     /**
@@ -95,10 +95,10 @@ class FacultyController extends Controller
      */
     public function edit($id)
     {
-        $classrooms = ClassRoom::all();//
+        $all_classrooms = ClassRoom::all();//
         $all_students = Student::all();//can remove after assign permissions
         $faculty = Faculty::findOrFail($id);
-        return view('faculties.edit', ['classrooms' => $classrooms, 'all_students' => $all_students, 'faculty' => $faculty]);
+        return view('faculties.edit', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'faculty' => $faculty]);
     }
 
     /**
