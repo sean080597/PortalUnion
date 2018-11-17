@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
+use File;
 
 use App\Student;
 use App\ClassRoom;
@@ -61,7 +63,11 @@ class StudentController extends Controller
      */
     public function show(Request $request)
     {
-        $student = Student::findOrFail($request->input('student_id'));
+        if(!empty($request->input('student_id'))){
+            $student = Student::findOrFail($request->input('student_id'));
+        }else{
+            $student = Student::where('user_id', auth()->user()->id)->first();
+        }
         $user = User::where('id', $student->user_id)->first();
         //get faculty
         $class = ClassRoom::findOrFail($student->class_room_id);
@@ -205,5 +211,32 @@ class StudentController extends Controller
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
+    }
+
+    //handle upload profil image
+    public function action(Request $request){
+        $validation = Validator::make($request->all(), [
+            'select_file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+        if($validation->passes()){
+            $image = $request->file('select_file');
+            $new_name = rand().'.'.$image->getClientOriginalExtension();
+            File::delete('images/'.$request->current_img);
+            $image->move(public_path('images'), $new_name);
+
+            $user = User::findOrFail(auth()->user()->id);
+            $user->image = $new_name;
+            $user->save();
+
+            return response()->json([
+                'message' => 'Image Upload Successfully',
+                'uploaded_image' => $new_name
+            ]);
+        }else{
+            return response()->json([
+                'message' => $validation->errors()->all(),
+                'uploaded_image' => $new_name
+            ]);
+        }
     }
 }

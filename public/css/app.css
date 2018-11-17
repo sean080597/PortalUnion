@@ -443,3 +443,9 @@ ul ul a {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.error-input {
+  border: 1px solid red;
+  border-radius: 2px;
+  padding: 5px;
+}
+

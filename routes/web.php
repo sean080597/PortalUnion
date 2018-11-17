@@ -32,9 +32,13 @@ Route::get('/classrooms/manage', ['as' => 'classrooms.manage', 'uses' => 'ClassR
 Route::get('/classrooms', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
 Route::post('/classrooms', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
 
+//handle upload profile image
+Route::post('/students/ajaxupload', 'StudentController@action')->name('ajaxupload');
+
 Route::get('/students', ['as' => 'students.index', 'uses' => 'StudentController@index']);
 Route::post('/students', ['as' => 'students.index', 'uses' => 'StudentController@index']);
 Route::post('/students/show', ['as' => 'students.show', 'uses' => 'StudentController@show']);
+Route::get('/students/show', ['as' => 'students.show', 'uses' => 'StudentController@show']);
 Route::post('/students/{student}', ['as' => 'students.update', 'uses' => 'StudentController@update']);
 
 Route::resource('events', 'EventController');

@@ -51,7 +51,7 @@
             <nav id="sidebar">
                 <section class="sidebar-header d-flex flex-column align-items-center">
                     <div class="wrap-avatar">
-                        <img src="{{ asset('theme/images/img_avatar1.png') }}" alt="avatar">
+                        <img id="layout-profile-img" src="{{ !empty(auth()->user()->image) ? asset('images/'.auth()->user()->image) : asset('theme/images/img_avatar1.png') }}" alt="avatar">
                     </div>
                     <h4>{{ auth()->user()->name }}</h4>
                 </section>
@@ -164,16 +164,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('theme/JS/javascript.js') }}"></script>
-    <script type="text/javascript">
-        function confirmDelete() {
-            var result = confirm('Are you sure you want to delete?');
-
-            if (result) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    </script>
+    @yield('link_js')
 </body>
 </html>

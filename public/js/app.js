@@ -13881,7 +13881,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-module.exports = __webpack_require__(45);
+module.exports = __webpack_require__(43);
 
 
 /***/ }),
@@ -13896,10 +13896,8 @@ module.exports = __webpack_require__(45);
  */
 
 __webpack_require__(13);
-__webpack_require__(36);
-__webpack_require__(37);
 
-window.Vue = __webpack_require__(38);
+window.Vue = __webpack_require__(36);
 
 /**
  * The following block of code may be used to automatically register your
@@ -13909,7 +13907,7 @@ window.Vue = __webpack_require__(38);
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-Vue.component('example-component', __webpack_require__(41));
+Vue.component('example-component', __webpack_require__(39));
 
 // const files = require.context('./', true, /\.vue$/i)
 
@@ -13925,6 +13923,13 @@ Vue.component('example-component', __webpack_require__(41));
 
 var app = new Vue({
   el: '#app'
+});
+
+var main = new Vue({
+  el: '#main',
+  data: {
+    currentActivity: 'home'
+  }
 });
 
 /***/ }),
@@ -35971,228 +35976,6 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 36 */
-/***/ (function(module, exports) {
-
-function change_alias(alias) {
-    var str = alias;
-    str = str.toLowerCase();
-    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-    str = str.replace(/đ/g, "d");
-    str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
-    str = str.replace(/ + /g, " ");
-    str = str.trim();
-    return str;
-}
-function table_pagination($table) {
-    var $tb = '#' + $table;
-    $($tb + ' tr:gt(0)').each(function () {
-        $(this).attr('display', 'block');
-    });
-    $('#maxRows').on('change', function () {
-        $('.pagination').html();
-        var $trnum = 0;
-        var $maxRows = parseInt($(this).val());
-        var $totalRows = $($tb + ' tbody tr').length;
-        if ($maxRows <= 0) {
-            $($tb + ' tr:gt(0)').each(function () {
-                $(this).attr('display', 'block').show();
-            });
-        } else {
-            $($tb + ' tr:gt(0)').each(function () {
-                $trnum++;
-                if ($trnum > $maxRows) {
-                    $(this).attr('display', '').hide();
-                } else {
-                    $(this).attr('display', 'block').show();
-                }
-            });
-        }
-        $('.pagination').empty();
-        if ($totalRows > $maxRows && $maxRows != 0) {
-            var $pagenum = Math.ceil($totalRows / $maxRows);
-            for (var i = 1; i <= $pagenum;) {
-                $('.pagination').append('<li class="page-item" data-page="' + i + '">' + '<span class="page-link">' + i++ + '<span class="sr-only">(current)</span>' + '</span>' + '</li>').show();
-            }
-            $('.pagination li:nth-child(2)').addClass('active');
-            $('.pagination li').on('click', function () {
-                $numPage = $(this).attr('data-page');
-                var $trIndex = 0;
-                $(this).addClass('active').siblings().removeClass('active');
-                $($tb + ' tr:gt(0)').each(function () {
-                    $trIndex++;
-                    if ($trIndex <= $maxRows * $numPage - $maxRows || $trIndex > $maxRows * $numPage) {
-                        $(this).attr('display', '').hide();
-                    } else {
-                        $(this).attr('display', 'block').show();
-                    }
-                });
-            });
-        }
-    });
-}
-function call_tracking_input_search() {
-    $('#table-search').on("keyup", function () {
-        $value = change_alias($(this).val()).toLowerCase();
-        $('.table tr[display="block"]').filter(function () {
-            $index = change_alias($(this).text()).toLowerCase().indexOf($value);
-            $(this).toggle($index > -1);
-        });
-    });
-    var $table = 'table';
-    table_pagination($table);
-}
-$(document).ready(function () {
-    call_tracking_input_search();
-});
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports) {
-
-$(document).ready(function () {
-    $('body').addClass('loader');
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-        $('#content').toggleClass('active');
-    });
-
-    function loadTableClassRoom() {
-        var faculty_id = $('#choose_faculties').val();
-        $.get('getlistclassrooms', { faculty_id: faculty_id }, function (data) {
-            $('table tbody').html('');
-            $.each(data, function (key, val) {
-                $('table tbody').append('<tr><td class="text-center">' + ++key + '</td>' + '<td class="text-center">' + val.id + '</td>' + '<td class="text-center">' + '<button class="btn btn-sm btn-info open_modal_classroom_to_edit" type="button" classroom_id="' + val.id + '">Edit</button>' + '<button class="btn btn-sm btn-danger delete_classroom" type="button" classroom_id="' + val.id + '">Delete</button>' + '</td></tr>');
-            });
-            //call after loading table
-            runAfterLoadingTableClassRoom();
-            call_tracking_input_search(); //from datatable.js
-        });
-    }
-
-    $('#choose_faculties').on('change', function () {
-        loadTableClassRoom();
-    });
-    //call this function after loading table
-    function runAfterLoadingTableClassRoom() {
-        //button delete class room
-        $('button.delete_classroom').on('click', function (e) {
-            e.preventDefault();
-            if (confirm('Bạn có chắc chắn muốn xóa?')) {
-                var classroom_id = $(this).attr('classroom_id');
-                $.get("destroy", { classroom_id: classroom_id }, function (data) {
-                    alert(data);
-                    loadTableClassRoom();
-                });
-            }
-        });
-
-        //button edit class room
-        $('button.open_modal_classroom_to_edit').on('click', function (e) {
-            e.preventDefault();
-
-            var classroom_id = $(this).attr('classroom_id');
-            var faculty_id = $('#choose_faculties').val();
-
-            $('#modal_classroom .modal-title').text('Sửa lớp');
-            $.get("get_sel_faculties", { classroom_id: classroom_id, faculty_id: faculty_id }, function (data) {
-                $('#modal_classroom .modal-body').html(data);
-            });
-            $('#modal_classroom .modal-footer').html('<button type="button" id="btn_edit_classroom" class="btn btn-primary mb-2" old_classroom_id="' + classroom_id + '" style="margin:0 !important">Sửa</button>' + '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-            $('#modal_classroom').modal('show');
-
-            call_after_loading_classroom_form();
-        });
-    }
-
-    function loadTableFaculty() {
-        $.get("getlistfaculties", function (data) {
-            $('table tbody').html('');
-            $.each(data, function (key, val) {
-                $('table tbody').append('<tr><td>' + val.id + '</td>' + '<td>' + val.name + '</td>' + '<td>' + (val.note == null ? "" : val.note) + '</td>' + '<td>' + val.created_at + '</td>' + '<td>' + '<a href="/faculties/' + val.id + '/edit" class="btn btn-sm btn-info pull-left" style="margin-right: 3px;">Edit</a>' + '<button class="btn btn-sm btn-danger delete_faculty" type="button" faculty_id="' + val.id + '">Delete</button>' + '</td></tr>');
-            });
-        });
-    }
-    $('button.delete_faculty').on('click', function (e) {
-        e.preventDefault();
-        if (confirm('Bạn có chắc chắn muốn xóa?')) {
-            var faculty_id = $(this).attr('faculty_id');
-            $.get("destroy", { faculty_id: faculty_id }, function (data) {
-                alert(data);
-                loadTableFaculty();
-            });
-        }
-    });
-
-    //-------------------------------------------------------------------
-    //button add new class room
-    $('button#open_modal_classroom_to_add_new').on('click', function (e) {
-        e.preventDefault();
-
-        $('#modal_classroom .modal-title').text('Tạo mới lớp');
-        $.get("get_sel_faculties", function (data) {
-            $('#modal_classroom .modal-body').html(data);
-        });
-        $('#modal_classroom .modal-footer').html('<button type="button" id="btn_add_new_classroom" class="btn btn-primary mb-2" style="margin:0 !important">Tạo mới</button>' + '<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>');
-        $('#modal_classroom').modal('show');
-
-        call_after_loading_classroom_form();
-    });
-
-    //------------------------------------------------------------------------------------
-    function call_after_loading_classroom_form() {
-        $('#btn_add_new_classroom').on('click', function (e) {
-            e.preventDefault();
-            var new_classname = $('#form_add_new_classroom input#add_new_classroom_name').val();
-            var faculty_id = $('#choose_faculty_for_new_classroom').val();
-            if (new_classname == null || faculty_id == null) {
-                alert('Không được để trống mục nào!');
-            } else {
-                $.get('add_new_classroom', { new_classname: new_classname, faculty_id: faculty_id }, function (data) {
-                    if (data.error == null) {
-                        $('#modal_classroom').modal('hide');
-                        alert(data.success);
-                        loadTableClassRoom();
-                    } else {
-                        $('#error_add_new_classname').text(data.error);
-                        $('#error_add_new_classname').css('display', 'block');
-                        $('#add_new_classroom_name').css('border-color', 'red');
-                    }
-                });
-            }
-        });
-
-        $('#btn_edit_classroom').on('click', function (e) {
-            e.preventDefault();
-            var old_classname = $(this).attr('old_classroom_id');
-            var new_classname = $('#form_add_new_classroom input#add_new_classroom_name').val();
-            var faculty_id = $('#choose_faculty_for_new_classroom').val();
-
-            if (new_classname == null || faculty_id == null) {
-                alert('Không được để trống mục nào!');
-            } else {
-                $.get('update', { old_classname: old_classname, new_classname: new_classname, faculty_id: faculty_id }, function (data) {
-                    if (data.error == null) {
-                        $('#modal_classroom').modal('hide');
-                        alert(data.success);
-                        loadTableClassRoom();
-                    } else {
-                        $('#error_add_new_classname').text(data.error);
-                        $('#error_add_new_classname').css('display', 'block');
-                        $('#add_new_classroom_name').css('border-color', 'red');
-                    }
-                });
-            }
-        });
-    }
-});
-
-/***/ }),
-/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47155,10 +46938,10 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(39).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(37).setImmediate))
 
 /***/ }),
-/* 39 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -47214,7 +46997,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(40);
+__webpack_require__(38);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -47228,7 +47011,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 40 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -47421,15 +47204,15 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(6)))
 
 /***/ }),
-/* 41 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(42)
+var normalizeComponent = __webpack_require__(40)
 /* script */
-var __vue_script__ = __webpack_require__(43)
+var __vue_script__ = __webpack_require__(41)
 /* template */
-var __vue_template__ = __webpack_require__(44)
+var __vue_template__ = __webpack_require__(42)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47468,7 +47251,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 42 */
+/* 40 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -47577,7 +47360,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 43 */
+/* 41 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47606,7 +47389,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 44 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -47649,7 +47432,7 @@ if (false) {
 }
 
 /***/ }),
-/* 45 */
+/* 43 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

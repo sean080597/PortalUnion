@@ -66,4 +66,15 @@
   border-left: 1px solid #d1c9bf;
   border-right: 1px solid #d1c9bf; }
 
+#profile-img:hover img {
+  -webkit-filter: brightness(70%);
+  -moz-filter: brightness(70%);
+  -o-filter: brightness(70%);
+  -ms-filter: brightness(70%);
+  filter: brightness(70%);
+  border: 1px solid #ccc;
+  padding: 2px;
+  border-radius: 4px;
+  -webkit-filter: brightness(70%); }
+
 /*# sourceMappingURL=ThongTin.css.map */

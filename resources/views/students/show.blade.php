@@ -8,10 +8,14 @@
 <li class="breadcrumb-item"><a href="#">TT cá nhân</a></li>
 @endsection
 
+@section('link_js')
+    <script src="{{ asset('theme/JS/student.js') }}"></script>
+@endsection
+
 @section('content')
 <section class="row">
     <section class="col-lg-3 d-flex flex-column align-items-center">
-        <img class="img-fluid mb-3" src="{{ asset('theme/images/img_avatar1.png') }}" alt="Chania" width="120">
+        <a href="#" id="profile-img"><img class="img-fluid mb-3" src="{{ !empty(auth()->user()->image) ? asset('images/'.auth()->user()->image) : asset('theme/images/img_avatar1.png') }}" alt="Chania" width="120"></a>
         <div class="note-success">
             <p>Cập nhật gần nhất: {{ $student->updated_at->format('G\h i') }} ngày {{ $student->updated_at->format('d/m/Y') }}</p>
         </div>
@@ -167,4 +171,40 @@
         </div>
     </form>
 </section>
+
+<!-- The Modal -->
+<div class="modal fade" id="modal_change_image">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Sửa ảnh đại diện</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div class="row">
+                <div class="offset-3 col-6">
+                    <img class="img-thumbnail" id="profile-img-to-change" src="{{ !empty(auth()->user()->image) ? asset('images/'.auth()->user()->image) : asset('theme/images/img_avatar1.png') }}" alt="profile image" width="100%">
+                    <p></p>
+                </div>
+                <br>
+                <div class="col-12">
+                    <form action="" id="uploadimage_form" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="text" name="current_img" id="current_img" style="display: none" value="{{ !empty(auth()->user()->image) ? auth()->user()->image : '' }}">
+                        <input type="file" accept="image/*" name="select_file" id="select_file" class="col-6" style="margin:0 auto; display: block;">
+                        <span id="error-null-file" style="display: none; text-align:center; color: red; font-weight: 600">Hãy chọn 1 hình hoặc thoát!</span>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="btn_change_image">Sửa</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
 @endsection

@@ -1,10 +1,61 @@
 $(document).ready(function () {
-    // $('#btn_update_student').on('click', function (e) {
-    //     e.preventDefault();
-    //     $.get("update", data,
-    //         function (data, textStatus, jqXHR) {
-                
-    //         }
-    //     );
-    // });
+    var old_profile_img;
+    $('#profile-img').on('click', function (e) {
+        e.preventDefault();
+        old_profile_img = $("#profile-img-to-change").attr("src");
+        $('#profile-img-to-change').attr('src', old_profile_img);
+        $('#select_file').val(null);
+        $('#select_file').removeClass('error-input');
+        $('#error-null-file').css('display', 'none');
+        $('#modal_change_image').modal('show');
+    });
+
+    $('.modal-footer button[type="button"]').on('click', function(event){
+        event.preventDefault();
+        $('#profile-img-to-change').attr('src', old_profile_img);
+    });
+
+    $('#select_file').on('change', function (event) {
+        event.preventDefault();
+        var files = $(this)[0].files;
+		var file = files[0];
+        if($(this).val() == null || $(this).val() == ''){
+            $("#profile-img-to-change").attr("src", old_profile_img);//set null image for cropbox
+            $(this).addClass('error-input');
+            $('#error-null-file').css('display', 'block');
+        }else{
+            $("#profile-img-to-change").attr("src", window.URL.createObjectURL(file));//set image for cropbox
+            $(this).removeClass('error-input');
+            $('#error-null-file').css('display', 'none');
+        }
+    });
+
+    $('#btn_change_image').on('click', function (event) {
+        event.preventDefault();
+        if($('#select_file').val() == null || $('#select_file').val() == ''){
+            $('#select_file').addClass('error-input');
+            $('#error-null-file').css('display', 'block');
+        }else{
+            $('#uploadimage_form').submit();
+        }
+    });
+
+    $('#uploadimage_form').on('submit', function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "ajaxupload",
+            data: new FormData(this),
+            dataType: "JSON",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+                $('#layout-profile-img').attr('src', '/images/'+data.uploaded_image);
+                $('#profile-img img').attr('src', '/images/'+data.uploaded_image);
+                alert(data.message);
+                $('#modal_change_image').modal('hide');
+            }
+        });
+    });
 });

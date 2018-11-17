@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\ClassRoom;
 use App\Student;
+use File;
 
 class HomeController extends Controller
 {
@@ -53,6 +54,6 @@ class HomeController extends Controller
         $all_students = Student::all();
         $all_classrooms = ClassRoom::all();
         // return view('home')->with(['all_students' => $all_students, 'all_classrooms' => $all_classrooms]);
-        return view('home', ['all_students' => $all_students, 'classrooms' => $all_classrooms]);
+        return view('home', ['all_students' => $all_students, 'all_classrooms' => $all_classrooms]);
     }
 }
