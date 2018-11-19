@@ -39,7 +39,7 @@ Route::get('/students', ['as' => 'students.index', 'uses' => 'StudentController@
 Route::post('/students', ['as' => 'students.index', 'uses' => 'StudentController@index']);
 Route::post('/students/show', ['as' => 'students.show', 'uses' => 'StudentController@show']);
 Route::get('/students/show', ['as' => 'students.show', 'uses' => 'StudentController@show']);
-Route::post('/students/{student}', ['as' => 'students.update', 'uses' => 'StudentController@update']);
+Route::post('/students/update', ['as' => 'students.update', 'uses' => 'StudentController@update']);
 
 Route::resource('events', 'EventController');
 

@@ -174,14 +174,17 @@ class StudentController extends Controller
                 self::insert_relation($request, $dad_name, $dad_birthday, $dad_phone, $dad_job, '1');
             }
         }else{
-            if(!empty($mom_name)){
-                self::insert_relation($request, $mom_name, $mom_birthday, $mom_phone, $mom_job, '0');
-            }
             if(!empty($dad_name)){
                 self::insert_relation($request, $dad_name, $dad_birthday, $dad_phone, $dad_job, '1');
             }
+            if(!empty($mom_name)){
+                self::insert_relation($request, $mom_name, $mom_birthday, $mom_phone, $mom_job, '0');
+            }
         }
-        return "<script>history.back(); alert('Student cập nhật thành công!'); </script>";
+        // return "<script>window.history.go(-1); alert('Cập nhật thông tin thành công!'); </script>";
+        return response()->json([
+            'message' => 'Cập nhật thông tin thành công!'
+        ]);
     }
 
     /**
@@ -230,12 +233,12 @@ class StudentController extends Controller
 
             return response()->json([
                 'message' => 'Image Upload Successfully',
-                'uploaded_image' => $new_name
+                'uploaded_image' => $new_name,
             ]);
         }else{
             return response()->json([
                 'message' => $validation->errors()->all(),
-                'uploaded_image' => $new_name
+                'uploaded_image' => $new_name,
             ]);
         }
     }

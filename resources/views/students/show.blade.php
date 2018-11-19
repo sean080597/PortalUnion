@@ -33,7 +33,7 @@
             <p>Lưu ý: <span class="text-danger">(*)</span> Dữ liệu không được phép để trống</p>
         </div>
     </section>
-    <form method="POST" action="{{ route('students.update', [$student->id]) }}" class="col-lg-9 d-flex flex-column align-items-center">
+    <form method="POST" action="" class="col-lg-9 d-flex flex-column align-items-center" id="form-change-info-student">
         @csrf
         <div class="row info-section">
             <div class="col-md-6">Mã số sinh viên: <span class="font-weight-bold">{{ $student->id }}</span> </div>

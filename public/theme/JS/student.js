@@ -53,8 +53,26 @@ $(document).ready(function () {
             success: function (data) {
                 $('#layout-profile-img').attr('src', '/images/'+data.uploaded_image);
                 $('#profile-img img').attr('src', '/images/'+data.uploaded_image);
+                $('#current_img').val(data.uploaded_image);
                 alert(data.message);
                 $('#modal_change_image').modal('hide');
+            }
+        });
+    });
+
+    $('#form-change-info-student').on('submit', function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "update",
+            data: new FormData(this),
+            dataType: "JSON",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+                alert(data.message);
+                location.reload();
             }
         });
     });
