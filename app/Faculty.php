@@ -9,7 +9,7 @@ class Faculty extends Model
         'name',
         'note'
     ];
-    public function class_rooms(){
+    public function classrooms(){
         return $this->hasMany('App\ClassRoom');
     }
 }

@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\ClassRoom;
 use App\Faculty;
 use App\Student;
+use App\Role;
 use Illuminate\Http\Request;
 
 class FacultyController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth']);
+        $this->middleware(['auth', 'checkrole']);
     }
 
     public function getlistfaculties(){

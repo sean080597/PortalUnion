@@ -20,7 +20,7 @@ class Student extends Model
         'is_submit',
     ];
 
-    public function class_room(){
+    public function classroom(){
         return $this->belongsTo('App\ClassRoom');
     }
 

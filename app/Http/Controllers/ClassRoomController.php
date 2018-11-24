@@ -7,13 +7,14 @@ use Illuminate\Http\Request;
 use App\ClassRoom;
 use App\Faculty;
 use App\Student;
+
 use Carbon\Carbon;
+use Auth;
 
 class ClassRoomController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
+    public function __construct() {
+        $this->middleware(['auth', 'checkrole']);
     }
 
     public function addnewclassroom(Request $request)
@@ -81,12 +82,13 @@ class ClassRoomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($faculty_id)
     {
-        $classrooms = ClassRoom::where('faculty_id', $request->input('faculty_id'))->get();
         $all_classrooms = ClassRoom::all();
         $all_students = Student::all();
-        return view('classrooms.index', ['classrooms' => $classrooms, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
+        $classrooms = ClassRoom::where('faculty_id', $faculty_id)->get();
+
+        return view('classrooms.index', ['faculty_id' => $faculty_id, 'classrooms' => $classrooms, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
     }
 
     /**

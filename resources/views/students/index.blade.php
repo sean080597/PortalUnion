@@ -83,16 +83,10 @@
                         <td>{{ $all_users->where('id', $student->user_id)->first()->email }}</td>
                         <td>{{ $student->phone }}</td>
                         <td class="text-center text-primary">
-                            <a href="{{ action('StudentController@show') }}"
-                                onclick="event.preventDefault();
-                                document.getElementById('getdetailstudent-{{ $student->id }}').submit();"
-                            >
+                            <a href="{{ action('StudentController@show',
+                            $all_students->where('user_id', $student->user_id)->first()->id) }}">
                                 <i class="far fa-eye"></i>
                             </a>
-                            <form id="getdetailstudent-{{ $student->id }}" action="{{ action('StudentController@show') }}" method="POST" style="display: none;">
-                                @csrf
-                                <input type="text" id="student_id" name="student_id" value="{{ $student->id }}">
-                            </form>
                         </td>
                         <td class="text-center">
                             <span class="badge badge-pill badge-secondary">hello</span>

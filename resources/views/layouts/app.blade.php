@@ -68,43 +68,40 @@
                     <li>
                         <a href="#thong-tin-dv" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">Thông tin đoàn viên</a>
                         <ul class="collapse list-unstyled" id="thong-tin-dv">
+                            @if (auth()->user()->role_id == 'fac'
+                            || auth()->user()->role_id == 'cla'
+                            || auth()->user()->role_id == 'stu')
                             <li>
-                                <a href="{{ action('StudentController@show') }}"
-                                    onclick="event.preventDefault();
-                                    document.getElementById('getdetailstudent-{{ $all_students->where('user_id', Auth::user()->id)->first()->id }}').submit();"
-                                >
+                                <a href="{{ action('StudentController@show',
+                                $all_students->where('user_id', Auth::user()->id)->first()->id) }}">
                                     Thông tin cá nhân
                                 </a>
-                                <form id="getdetailstudent-{{ $all_students->where('user_id', Auth::user()->id)->first()->id }}" action="{{ action('StudentController@show') }}" method="POST" style="display: none;">
-                                    @csrf
-                                    <input type="text" id="student_id" name="student_id" value="{{ $all_students->where('user_id', Auth::user()->id)->first()->id }}">
-                                </form>
                             </li>
+                            @endif
+
+                            @if (auth()->user()->role_id == 'fac'
+                            || auth()->user()->role_id == 'cla')
                             <li>
-                                <a href="{{ action('StudentController@index') }}"
-                                    onclick="event.preventDefault();
-                                    document.getElementById('getstudents-{{ $all_students->where('user_id', Auth::user()->id)->first()->class_room_id }}').submit();"
-                                >
+                                <a href="{{ action('StudentController@index',
+                                [$all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id,
+                                $all_students->where('user_id', Auth::user()->id)->first()->class_room_id]) }}">
                                     DS Đoàn Viên
                                 </a>
-                                <form id="getstudents-{{ $all_students->where('user_id', Auth::user()->id)->first()->class_room_id }}" action="{{ action('StudentController@index') }}" method="POST" style="display: none;">
-                                    @csrf
-                                    <input type="text" id="classroom_id" name="classroom_id" value="{{ $all_students->where('user_id', Auth::user()->id)->first()->class_room_id }}">
-                                </form>
                             </li>
+                            @endif
+
+                            @if (auth()->user()->role_id == 'fac')
                             <li>
-                                <a href="{{ action('ClassRoomController@index') }}"
-                                    onclick="event.preventDefault();
-                                    document.getElementById('getclassrooms-{{ ($all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id)}}').submit();"
-                                >
+                                <a href="{{ action('ClassRoomController@index',
+                                [$all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id]) }}">
                                     DS Lớp
                                 </a>
-                                <form id="getclassrooms-{{ ($all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id)}}" action="{{ action('ClassRoomController@index') }}" method="POST" style="display: none;">
-                                    @csrf
-                                    <input type="text" id="faculty_id" name="faculty_id" value="{{ ($all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id)}}">
-                                </form>
                             </li>
+                            @endif
+
+                            @if (auth()->user()->role_id == 'sch')
                             <li><a href="{{ route('faculties.index') }}">DS khoa viện</a></li>
+                            @endif
                         </ul>
                     </li>
                     <li>

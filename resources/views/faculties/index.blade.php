@@ -78,16 +78,10 @@
                         <td>nguyenvana@gmail.com</td>
                         <td>0909090909</td>
                         <td class="text-center text-primary">
-                            <a href="{{ action('ClassRoomController@index') }}"
-                                onclick="event.preventDefault();
-                                document.getElementById('getclassrooms-{{ $faculty->id }}').submit();"
-                            >
+                            <a href="{{ action('ClassRoomController@index',
+                            [$faculty->id]) }}">
                                 <i class="far fa-eye"></i>
                             </a>
-                            <form id="getclassrooms-{{ $faculty->id }}" action="{{ action('ClassRoomController@index') }}" method="POST" style="display: none;">
-                                @csrf
-                                <input type="text" id="faculty_id" name="faculty_id" value="{{ $faculty->id }}">
-                            </form>
                         </td>
                         <td class="text-center">
                             <span class="badge badge-pill badge-secondary">hello</span>

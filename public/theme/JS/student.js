@@ -42,16 +42,18 @@ $(document).ready(function () {
 
     $('#uploadimage_form').on('submit', function (event) {
         event.preventDefault();
+        var formData = new FormData(this);
+        formData.append('student_id', $('input#student_id').val());
         $.ajax({
             type: "POST",
-            url: "ajaxupload",
-            data: new FormData(this),
+            url: "/students/ajaxupload",
+            data: formData,
             dataType: "JSON",
             contentType: false,
             cache: false,
             processData: false,
             success: function (data) {
-                $('#layout-profile-img').attr('src', '/images/'+data.uploaded_image);
+                // $('#layout-profile-img').attr('src', '/images/'+data.uploaded_image);
                 $('#profile-img img').attr('src', '/images/'+data.uploaded_image);
                 $('#current_img').val(data.uploaded_image);
                 alert(data.message);
@@ -64,7 +66,7 @@ $(document).ready(function () {
         event.preventDefault();
         $.ajax({
             type: "POST",
-            url: "update",
+            url: "/students/update",
             data: new FormData(this),
             dataType: "JSON",
             contentType: false,

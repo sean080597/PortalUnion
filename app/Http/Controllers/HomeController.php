@@ -20,6 +20,12 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    public function deniedaccess(){
+        $all_classrooms = ClassRoom::all();
+        $all_students = Student::all();
+        return view('errors.401', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
+    }
+
     /**
      * Show the application dashboard.
      *

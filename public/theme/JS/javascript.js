@@ -5,6 +5,7 @@ $(document).ready(function () {
         $('#content').toggleClass('active');
     });
 
+    //======================================================
     function loadTableClassRoom() {
         var faculty_id = $('#choose_faculties').val();
         $.get('getlistclassrooms', {faculty_id:faculty_id}, function(data){

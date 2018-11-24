@@ -15,7 +15,7 @@
 @section('content')
 <section class="row">
     <section class="col-lg-3 d-flex flex-column align-items-center">
-        <a href="#" id="profile-img"><img class="img-fluid mb-3" src="{{ !empty(auth()->user()->image) ? asset('images/'.auth()->user()->image) : asset('theme/images/img_avatar1.png') }}" alt="Chania" width="120"></a>
+        <a href="#" id="profile-img"><img class="img-fluid mb-3" src="{{ !empty($student->image) ? asset('images/'.$student->image) : asset('theme/images/img_avatar1.png') }}" alt="Chania" width="120"></a>
         <div class="note-success">
             <p>Cập nhật gần nhất: {{ $student->updated_at->format('G\h i') }} ngày {{ $student->updated_at->format('d/m/Y') }}</p>
         </div>
@@ -121,7 +121,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="tencha">Họ tên cha: <span class="text-danger">(*)</span></label>
-                        <input type="text" class="form-control" name="tencha" id="tencha" value="{{ !empty($dad->name)?$dad->name:'' }}">
+                        <input type="text" class="form-control {{ (empty($dad->name) || $dad->name == 'NO NAMED')?'text-danger border-danger':'' }}" name="tencha" id="tencha" value="{{ !empty($dad->name)?$dad->name:'' }}">
                     </div>
                     <div class="form-group">
                         <label for="ngaysinhcha">Ngày sinh: <span class="text-danger">(*)</span></label>
@@ -143,7 +143,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="tenme">Họ tên mẹ: <span class="text-danger">(*)</span></label>
-                        <input type="text" class="form-control" name="tenme" id="tenme" value="{{ !empty($mom->name)?$mom->name:'' }}">
+                        <input type="text" class="form-control {{ (empty($mom->name) || $mom->name == 'NO NAMED')?'text-danger border-danger':'' }}" name="tenme" id="tenme" value="{{ !empty($mom->name)?$mom->name:'' }}">
                     </div>
                     <div class="form-group">
                         <label for="ngaysinhme">Ngày sinh: <span class="text-danger">(*)</span></label>
@@ -185,14 +185,14 @@
         <div class="modal-body">
             <div class="row">
                 <div class="offset-3 col-6">
-                    <img class="img-thumbnail" id="profile-img-to-change" src="{{ !empty(auth()->user()->image) ? asset('images/'.auth()->user()->image) : asset('theme/images/img_avatar1.png') }}" alt="profile image" width="100%">
+                    <img class="img-thumbnail" id="profile-img-to-change" src="{{ !empty($student->image) ? asset('images/'.$student->image) : asset('theme/images/img_avatar1.png') }}" alt="profile image" width="100%">
                     <p></p>
                 </div>
                 <br>
                 <div class="col-12">
                     <form action="" id="uploadimage_form" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="current_img" id="current_img" style="display: none" value="{{ !empty(auth()->user()->image) ? auth()->user()->image : '' }}">
+                        <input type="text" name="current_img" id="current_img" style="display: none" value="{{ !empty($student->image) ? $student->image : '' }}">
                         <input type="file" accept="image/*" name="select_file" id="select_file" class="col-6" style="margin:0 auto; display: block;">
                         <span id="error-null-file" style="display: none; text-align:center; color: red; font-weight: 600">Hãy chọn 1 hình hoặc thoát!</span>
                     </form>

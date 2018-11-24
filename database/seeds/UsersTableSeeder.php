@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'administer@gmail.com',
                 'password' => bcrypt('sean080597'),
+                'role_id' => 'adm',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -25,20 +26,23 @@ class UsersTableSeeder extends Seeder
                 'name' => 'BCH đoàn trường',
                 'email' => 'doantruong@gmail.com',
                 'password' => bcrypt('sean080597'),
+                'role_id' => 'sch',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'Lưu Quốc Cường',
+                'name' => 'LQC Doan Khoa',
                 'email' => 'cuong.luusean@gmail.com',
                 'password' => bcrypt('sean080597'),
+                'role_id' => 'fac',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'Trương Quốc Cẩm',
+                'name' => 'TQC Chi Doan',
                 'email' => 'camcam1132000@gmail.com',
                 'password' => bcrypt('sean080597'),
+                'role_id' => 'cla',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -46,6 +50,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Nguyễn Thanh Đăng',
                 'email' => 'nguyenthanhdang1008@gmail.com',
                 'password' => bcrypt('sean080597'),
+                'role_id' => 'stu',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -53,6 +58,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Lê Đặng Phú',
                 'email' => 'phu250497@gmail.com',
                 'password' => bcrypt('sean080597'),
+                'role_id' => 'stu',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]

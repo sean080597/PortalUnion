@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use File;
+use Carbon\Carbon;
+use Auth;
 
 use App\Student;
 use App\ClassRoom;
@@ -12,12 +14,11 @@ use App\Faculty;
 use App\Relation;
 use App\StudentRelation;
 use App\User;
-use Carbon\Carbon;
 
 class StudentController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth']);
+        $this->middleware(['auth', 'checkrole'])->except(['update', 'ajaxupload']);
     }
 
     /**
@@ -25,12 +26,13 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($faculty_id, $classroom_id)
     {
-        $students = Student::where('class_room_id', $request->input('classroom_id'))->get();
         $all_students = Student::all();
         $all_users = User::all();
         $all_classrooms = ClassRoom::all();
+
+        $students = Student::where('class_room_id', $classroom_id)->get();
         return view('students.index', ['students' => $students, 'all_students' => $all_students, 'all_users' => $all_users, 'all_classrooms' => $all_classrooms]);
     }
 
@@ -61,20 +63,22 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show($student_id)
     {
-        if(!empty($request->input('student_id'))){
-            $student = Student::findOrFail($request->input('student_id'));
-        }else{
-            $student = Student::where('user_id', auth()->user()->id)->first();
-        }
+        $all_classrooms = ClassRoom::all();
+        $all_students = Student::all();
+        $cur_student = $all_students->where('user_id', Auth::user()->id)->first();
+
+        //get student
+        $student = Student::findOrFail($student_id);
         $user = User::where('id', $student->user_id)->first();
-        //get faculty
+
+        //get classroom & faculty
         $class = ClassRoom::findOrFail($student->class_room_id);
         $faculty = Faculty::findOrFail($class->faculty_id);
 
         //get relations
-        $list_relation = StudentRelation::where('student_id', $request->input('student_id'))->get();
+        $list_relation = StudentRelation::where('student_id', $student_id)->get();
         $dad = $mom = '';
         foreach($list_relation as $item){
             $relation = Relation::findOrFail($item->relation_id);
@@ -84,9 +88,6 @@ class StudentController extends Controller
                 $mom = $relation;
             }
         }
-
-        $all_classrooms = ClassRoom::all();
-        $all_students = Student::all();
 
         return view('students.show', ['student' => $student, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'user' => $user, 'faculty' => $faculty, 'dad' => $dad, 'mom' => $mom]);
     }
@@ -127,12 +128,20 @@ class StudentController extends Controller
         $user->save();
 
         // //get info to update table relations
-        $dad_name = $request->tencha;
+        if(!empty($request->tencha)){
+            $dad_name = $request->tencha;
+        }else{
+            $dad_name = 'NO NAMED';
+        }
         $dad_birthday = $request->ngaysinhcha;
         $dad_job = $request->nghenghiepcha;
         $dad_phone = $request->dienthoaicha;
 
-        $mom_name = $request->tenme;
+        if(!empty($request->tenme)){
+            $mom_name = $request->tenme;
+        }else{
+            $mom_name = 'NO NAMED';
+        }
         $mom_birthday = $request->ngaysinhme;
         $mom_job = $request->nghenghiepme;
         $mom_phone = $request->dienthoaime;
@@ -181,7 +190,7 @@ class StudentController extends Controller
                 self::insert_relation($request, $mom_name, $mom_birthday, $mom_phone, $mom_job, '0');
             }
         }
-        // return "<script>window.history.go(-1); alert('Cập nhật thông tin thành công!'); </script>";
+
         return response()->json([
             'message' => 'Cập nhật thông tin thành công!'
         ]);
@@ -217,7 +226,7 @@ class StudentController extends Controller
     }
 
     //handle upload profil image
-    public function action(Request $request){
+    public function ajaxupload(Request $request){
         $validation = Validator::make($request->all(), [
             'select_file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
@@ -227,12 +236,12 @@ class StudentController extends Controller
             File::delete('images/'.$request->current_img);
             $image->move(public_path('images'), $new_name);
 
-            $user = User::findOrFail(auth()->user()->id);
-            $user->image = $new_name;
-            $user->save();
+            $student = Student::findOrFail($request->student_id);
+            $student->image = $new_name;
+            $student->save();
 
             return response()->json([
-                'message' => 'Image Upload Successfully',
+                'message' => 'Cập nhật ảnh đại diện thành công',
                 'uploaded_image' => $new_name,
             ]);
         }else{
