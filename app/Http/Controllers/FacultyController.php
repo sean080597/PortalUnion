@@ -133,9 +133,9 @@ class FacultyController extends Controller
     public function update(Request $request)
     {
         $old_faculty_id = $request->old_faculty_id;
-        $new_faculty_name = $request->fac_name;
-        $new_faculty_id = $request->fac_id;
-        $new_faculty_note = $request->fac_note;
+        $new_faculty_name = $request->new_faculty_name;
+        $new_faculty_id = $request->new_faculty_id;
+        $new_faculty_note = $request->new_faculty_note;
 
         $msg = array();
         if($new_faculty_id == $old_faculty_id){

@@ -131,7 +131,7 @@ class ClassRoomController extends Controller
      */
     public function edit(ClassRoom $classRoom)
     {
-        
+
     }
 
     /**

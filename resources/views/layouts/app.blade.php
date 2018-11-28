@@ -171,5 +171,40 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('theme/JS/javascript.js') }}"></script>
     @yield('link_js')
+    <script>
+    document.onreadystatechange = function(){
+        if(document.readyState == "interactive"){
+            var allElem = $("*");
+            var length = allElem.length;
+            if($(allElem[length-1]).length == 1){
+                $("div#loader").css({
+                    opacity : 0,
+                    transition: 'all 0.3s ease-out',
+                    WebkitTransition: 'all 0.3s ease-out',
+                    MozTransition: 'all 0.3s ease-out',
+                    msTransition: 'all 0.3s ease-out',
+                    oTransition: 'all 0.3s ease-out'
+                });
+                $('#loader-wrapper').css('visibility', 'hidden');
+                $('.loader-section.section-left').css({
+                    transform: 'translateX(-100%)',
+                    transition: 'all 0.3s ease-out',
+                    WebkitTransition: 'all 0.3s ease-out',
+                    MozTransition: 'all 0.3s ease-out',
+                    msTransition: 'all 0.3s ease-out',
+                    oTransition: 'all 0.3s ease-out'
+                });
+                $('.loader-section.section-right').css({
+                    transform: 'translateX(100%)',
+                    transition: 'all 0.3s ease-out',
+                    WebkitTransition: 'all 0.3s ease-out',
+                    MozTransition: 'all 0.3s ease-out',
+                    msTransition: 'all 0.3s ease-out',
+                    oTransition: 'all 0.3s ease-out'
+                });
+            }
+        }
+    }
+    </script>
 </body>
 </html>

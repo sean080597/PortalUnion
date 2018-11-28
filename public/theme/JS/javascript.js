@@ -116,26 +116,25 @@ $(document).ready(function () {
 
         $('#form_adjust_faculty').on('submit', function(event){
             event.preventDefault();
-            var formData = new FormData(this);
-            formData.append('old_faculty_id', $("#btn_edit_faculty").attr('old_faculty_id'));
-            $.ajax({
-                type: "POST",
-                url: '/faculties/update',
-                data: formData,
-                dataType: "JSON",
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function (data) {
-                    if(data.error == null){
-                        $('#modal_adjust_faculty').modal('hide');
-                        alert(data.success);
-                        loadTableFaculty();
-                    }else{
-                        $('#error_add_new_faculty').text(data.error);
-                        $('#error_add_new_faculty').css('display', 'block');
-                        $('#fac_id').css('border-color', 'red');
-                    }
+            var old_faculty_id = $("#btn_edit_faculty").attr('old_faculty_id');
+            var new_faculty_id = $('input#fac_id').val();
+            var new_faculty_name = $('input#fac_name').val();
+            var new_faculty_note = $('input#fac_note').val();
+
+            $.get("/faculties/update", {
+                old_faculty_id:old_faculty_id,
+                new_faculty_id:new_faculty_id,
+                new_faculty_name:new_faculty_name,
+                new_faculty_note:new_faculty_note
+            }, function (data) {
+                if(data.error == null){
+                    $('#modal_adjust_faculty').modal('hide');
+                    alert(data.success);
+                    loadTableFaculty();
+                }else{
+                    $('#error_add_new_faculty').text(data.error);
+                    $('#error_add_new_faculty').css('display', 'block');
+                    $('#fac_id').css('border-color', 'red');
                 }
             });
         });
