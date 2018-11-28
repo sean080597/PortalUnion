@@ -16,10 +16,13 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('401', 'HomeController@deniedaccess')->name('deniedaccess');
 
+Route::get('/faculties/getInfoFaculty', 'FacultyController@getInfoFaculty');
 Route::get('/faculties/getlistfaculties', 'FacultyController@getlistfaculties');
 Route::get('/faculties/destroy', ['as' => 'faculties.destroy', 'uses' => 'FacultyController@destroy']);
+Route::post('/faculties/update', ['as' => 'faculties.update', 'uses' => 'FacultyController@update']);
+Route::get('/faculties/create', ['as' => 'faculties.create', 'uses' => 'FacultyController@create']);
 Route::get('/faculties/manage', ['as' => 'faculties.manage', 'uses' => 'FacultyController@manage']);
-Route::resource('faculties', 'FacultyController', ['except' => ['destroy']]);
+Route::resource('faculties', 'FacultyController', ['except' => ['create', 'update', 'destroy']]);
 
 //handle manage classroom
 Route::get('/classrooms/destroy', 'ClassRoomController@destroy');
@@ -46,7 +49,5 @@ Route::resource('criterias', 'CriteriaController');
 Route::resource('criteiontypes', 'CriterionTypeController');
 
 Route::resource('relations', 'RelationController');
-
-Route::resource('faculties', 'FacultyController');
 
 Route::resource('users', 'UserController');

@@ -5,6 +5,142 @@ $(document).ready(function () {
         $('#content').toggleClass('active');
     });
 
+    //call to delete faculty
+    runAfterLoadingTableFaculty();
+    //======================================================
+    //load table faculty
+    function loadTableFaculty(){
+        $.get("getlistfaculties", function (data) {
+            $('table tbody').html('');
+            $.each(data, function (key, val) {
+                $('table tbody')
+                .append('<tr><td class="text-center"><input type="checkbox"></td>'
+                    +'<td class="text-center">'+ ++key +'</td>'
+                    +'<td>'+ val.id +'</td>'
+                    +'<td>'+ val.name +'</td>'
+                    +'<td>'+ (val.note == null ? "" : val.note) +'</td>'
+                    +'<td class="text-center">'
+                    +  '<a href="#" class="text-primary open_modal_faculty_to_edit" data-toggle="modal" data-target="#modal_adjust_faculty" faculty_id="'+ val.id +'">'
+                    +       '<i class="fas fa-user-edit"></i>'
+                    +  '</a>'
+                    +'</td>'
+                    +'<td class="text-center">'
+                    +  '<a href="#" class="text-danger delete_faculty" faculty_id="'+ val.id +'">'
+                    +       '<i class="fas fa-trash-alt"></i>'
+                    +  '</a>'
+                    +'</td></tr>');
+            });
+            //call after loading table
+            runAfterLoadingTableFaculty();
+            call_tracking_input_search();
+        });
+    }
+
+    //to add new faculty
+    $('#open_modal_faculty_to_add_new').on('click', function(event){
+        event.preventDefault();
+        $('#modal_adjust_faculty .modal-title').text('Thêm khoa');
+        $('#modal_adjust_faculty .modal-footer').html(
+            '<button type="submit" id="btn_add_new_faculty" class="btn btn-success">Thêm mới</button>'
+        );
+        call_after_loading_modal_faculty();
+    });
+
+    function runAfterLoadingTableFaculty() {
+        //to delete faculty
+        $('.delete_faculty').on('click', function (e) {
+            e.preventDefault();
+            if(confirm('Bạn có chắc chắn muốn xóa?')){
+                var faculty_id = $(this).attr('faculty_id');
+                $.get("destroy", {faculty_id:faculty_id}, function (data) {
+                    alert(data);
+                    loadTableFaculty();
+                });
+            }
+        });
+
+        //to edit faculty
+        $('.open_modal_faculty_to_edit').on('click', function(e){
+            e.preventDefault();
+            var fac_id = $(this).attr('faculty_id');
+            $('#modal_adjust_faculty .modal-title').text('Sửa khoa');
+            $.get("getInfoFaculty", {fac_id:fac_id}, function(data){
+                $('input#fac_id').val(fac_id);
+                $('input#fac_name').val(data.fac_name);
+                $('input#fac_note').val(data.fac_note);
+            });
+            $('#modal_adjust_faculty .modal-footer').html(
+                '<button type="submit" id="btn_edit_faculty" class="btn btn-success" old_faculty_id="'+fac_id+'">Sửa khoa</button>'
+            );
+            call_after_loading_modal_faculty();
+        });
+    }
+
+    //=====================================
+    function call_after_loading_modal_faculty(){
+        //to add new faculty
+        $('#btn_add_new_faculty').on('click', function(event){
+            event.preventDefault();
+            var fac_id = $('#fac_id').val();
+            var fac_name = $('#fac_name').val();
+            var fac_note = $('#fac_note').val();
+            if(fac_id == '' || fac_name == ''){
+                alert('Không được để trống mã khoa hoặc tên khoa!');
+            }else{
+                $.get('/faculties/create', {fac_id:fac_id, fac_name:fac_name, fac_note:fac_note}, function(data){
+                    if(data.error == null){
+                        $('#modal_adjust_faculty').modal('hide');
+                        alert(data.success);
+                        loadTableFaculty();
+                    }else{
+                        $('#error_add_new_faculty').text(data.error);
+                        $('#error_add_new_faculty').css('display', 'block');
+                        $('#fac_id').css('border-color', 'red');
+                    }
+                });
+            }
+        });
+
+        //to edit faculty
+        $('#btn_edit_faculty').on('click', function (e) {
+            e.preventDefault();
+            var new_faculty_id = $('input#fac_id').val();
+            var new_faculty_name = $('input#fac_name').val();
+
+            if(new_faculty_id == '' || new_faculty_name == ''){
+                alert('Không được để trống mục nào!');
+            }else{
+                $('#form_adjust_faculty').submit();
+            }
+        });
+
+        $('#form_adjust_faculty').on('submit', function(event){
+            event.preventDefault();
+            var formData = new FormData(this);
+            formData.append('old_faculty_id', $("#btn_edit_faculty").attr('old_faculty_id'));
+            $.ajax({
+                type: "POST",
+                url: '/faculties/update',
+                data: formData,
+                dataType: "JSON",
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (data) {
+                    if(data.error == null){
+                        $('#modal_adjust_faculty').modal('hide');
+                        alert(data.success);
+                        loadTableFaculty();
+                    }else{
+                        $('#error_add_new_faculty').text(data.error);
+                        $('#error_add_new_faculty').css('display', 'block');
+                        $('#fac_id').css('border-color', 'red');
+                    }
+                }
+            });
+        });
+    }
+
     //======================================================
     function loadTableClassRoom() {
         var faculty_id = $('#choose_faculties').val();
@@ -62,34 +198,6 @@ $(document).ready(function () {
             call_after_loading_classroom_form();
         });
     }
-
-    function loadTableFaculty(){
-        $.get("getlistfaculties", function (data) {
-            $('table tbody').html('');
-            $.each(data, function (key, val) {
-                $('table tbody')
-                .append('<tr><td>'+ val.id +'</td>'
-                    +'<td>'+ val.name +'</td>'
-                    +'<td>'+ (val.note == null ? "" : val.note) +'</td>'
-                    +'<td>'+ val.created_at +'</td>'
-                    +'<td>'
-                        +'<a href="/faculties/'+ val.id +'/edit" class="btn btn-sm btn-info pull-left" style="margin-right: 3px;">Edit</a>'
-                        +'<button class="btn btn-sm btn-danger delete_faculty" type="button" faculty_id="'+val.id+'">Delete</button>'
-                    +'</td></tr>');
-            });
-        });
-    }
-    $('button.delete_faculty').on('click', function (e) {
-        e.preventDefault();
-        if(confirm('Bạn có chắc chắn muốn xóa?')){
-            var faculty_id = $(this).attr('faculty_id');
-            $.get("destroy", {faculty_id:faculty_id}, function (data) {
-                alert(data);
-                loadTableFaculty();
-            });
-        }
-    });
-
     //-------------------------------------------------------------------
     //button add new class room
     $('button#open_modal_classroom_to_add_new').on('click', function(e){

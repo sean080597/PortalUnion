@@ -7,11 +7,20 @@ use App\Faculty;
 use App\Student;
 use App\Role;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class FacultyController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth', 'checkrole']);
+        $this->middleware(['auth', 'checkrole'])->except('getlistfaculties');
+    }
+
+    public function getInfoFaculty(Request $request){
+        $faculty = Faculty::findOrFail($request->fac_id);
+        $msg = array();
+        $msg['fac_name'] = $faculty->name;
+        $msg['fac_note'] = $faculty->note;
+        return $msg;
     }
 
     public function getlistfaculties(){
@@ -44,11 +53,26 @@ class FacultyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $all_classrooms = ClassRoom::all();//
-        $all_students = Student::all();//can remove after assign permissions
-        return view('faculties.create', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
+        $fac_id = $request->fac_id;
+        $fac_name = $request->fac_name;
+        $fac_note = $request->fac_note;
+
+        $msg = array();
+        if(Faculty::where('id', $fac_id)->count() > 0){
+            $msg['error'] = 'Đã tồn tại khoa này';
+        }else{
+            Faculty::insert([
+                'id' => $fac_id,
+                'name' => $fac_name,
+                'note' =>$fac_note,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]);
+            $msg['success'] = 'Tạo khoa thành công';
+        }
+        return $msg;
     }
 
     /**
@@ -94,12 +118,9 @@ class FacultyController extends Controller
      * @param  \App\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        $all_classrooms = ClassRoom::all();//
-        $all_students = Student::all();//can remove after assign permissions
-        $faculty = Faculty::findOrFail($id);
-        return view('faculties.edit', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'faculty' => $faculty]);
+
     }
 
     /**
@@ -109,21 +130,34 @@ class FacultyController extends Controller
      * @param  \App\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $this->validate($request, [
-            'id'=>'required|max:4',
-            'name' =>'required|max:50',
-        ]);
+        $old_faculty_id = $request->old_faculty_id;
+        $new_faculty_name = $request->fac_name;
+        $new_faculty_id = $request->fac_id;
+        $new_faculty_note = $request->fac_note;
 
-        $faculty = Faculty::findOrFail($id);
-        $faculty->id = $request->input('id');
-        $faculty->name = $request->input('name');
-        $faculty->save();
-
-        return redirect()->route('faculties.manage',
-            $faculty->id)->with('flash_message',
-            'Id - '. $faculty->id.' Name - '.$faculty->name.' created');
+        $msg = array();
+        if($new_faculty_id == $old_faculty_id){
+            $f = Faculty::findOrFail($old_faculty_id);
+            $f->id = $new_faculty_id;
+            $f->name = $new_faculty_name;
+            $f->note = $new_faculty_note;
+            $f->save();
+            $msg['success'] = 'Sửa khoa thành công';
+        }else{
+            if(Faculty::where('id', $new_faculty_id)->count() > 0 ){
+                $msg['error'] = 'Đã tồn tại khoa này';
+            }else{
+                $f = Faculty::findOrFail($old_faculty_id);
+                $f->id = $new_faculty_id;
+                $f->name = $new_faculty_name;
+                $f->note = $new_faculty_note;
+                $f->save();
+                $msg['success'] = 'Sửa khoa thành công';
+            }
+        }
+        return $msg;
     }
 
     /**

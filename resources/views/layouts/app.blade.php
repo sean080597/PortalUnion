@@ -59,12 +59,20 @@
                     <li class="active">
                         <a href="/">Trang Chủ</a>
                     </li>
+
+                    @if (auth()->user()->role_id == 'adm')
                     <li>
-                        <a href="{{ route('faculties.manage') }}">QL Khoa Viện</a>
+                        <a href="#manage-admin" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">Quản lý</a>
+                        <ul class="collapse list-unstyled" id="manage-admin">
+                            <li><a href="#">Đoàn viên</a></li>
+                            <li><a href="{{ route('classrooms.manage') }}">Lớp</a></li>
+                            <li><a href="{{ route('faculties.manage') }}">Khoa</a></li>
+                            <li><a href="#">Tài khoản</a></li>
+                        </ul>
                     </li>
-                    <li>
-                        <a href="{{ route('classrooms.manage') }}">QL Lớp</a>
-                    </li>
+                    @endif
+
+                    @if (auth()->user()->role_id != 'adm')
                     <li>
                         <a href="#thong-tin-dv" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">Thông tin đoàn viên</a>
                         <ul class="collapse list-unstyled" id="thong-tin-dv">
@@ -104,6 +112,7 @@
                             @endif
                         </ul>
                     </li>
+                    @endif
                     <li>
                         <a href="#ql-dv" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">
                             ĐG đoàn viên

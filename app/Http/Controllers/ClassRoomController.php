@@ -131,8 +131,7 @@ class ClassRoomController extends Controller
      */
     public function edit(ClassRoom $classRoom)
     {
-        $classRoom = ClassRoom::findOrFail($classRoom->id);
-        return view('classrooms.edit', compact('classRoom'));
+        
     }
 
     /**
