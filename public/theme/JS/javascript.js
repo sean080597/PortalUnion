@@ -147,11 +147,18 @@ $(document).ready(function () {
             $('table tbody').html('');
             $.each(data, function (key, val) {
                 $('table tbody')
-                .append('<tr><td class="text-center">'+ ++key +'</td>'
+                .append('<tr><td class="text-center"><input type="checkbox"></td>'
+                    +'<td class="text-center">'+ ++key +'</td>'
                     +'<td class="text-center">'+ val.id +'</td>'
                     +'<td class="text-center">'
-                        +'<button class="btn btn-sm btn-info open_modal_classroom_to_edit" type="button" classroom_id="'+val.id+'" style="margin-right:5px">Edit</button>'
-                        +'<button class="btn btn-sm btn-danger delete_classroom" type="button" classroom_id="'+val.id+'">Delete</button>'
+                    +   '<a href="#" class="text-primary open_modal_classroom_to_edit" data-toggle="modal" data-target="#myModal" classroom_id="'+val.id+'">'
+                    +       '<i class="fas fa-user-edit"></i>'
+                    +   '</a>'
+                    +'</td>'
+                    +'<td class="text-center">'
+                    +   '<a href="#" class="text-danger delete_classroom" classroom_id="'+val.id+'">'
+                    +       '<i class="fas fa-trash-alt"></i>'
+                    +   '</a>'
                     +'</td></tr>');
             });
             //call after loading table
@@ -166,7 +173,7 @@ $(document).ready(function () {
     //call this function after loading table
     function runAfterLoadingTableClassRoom() {
         //button delete class room
-        $('button.delete_classroom').on('click', function (e) {
+        $('.delete_classroom').on('click', function (e) {
             e.preventDefault();
             if(confirm('Bạn có chắc chắn muốn xóa?')){
                 var classroom_id = $(this).attr('classroom_id');
@@ -178,7 +185,7 @@ $(document).ready(function () {
         });
 
         //button edit class room
-        $('button.open_modal_classroom_to_edit').on('click', function(e){
+        $('.open_modal_classroom_to_edit').on('click', function(e){
             e.preventDefault();
 
             var classroom_id = $(this).attr('classroom_id');

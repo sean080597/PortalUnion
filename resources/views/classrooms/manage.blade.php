@@ -61,9 +61,10 @@
         <table class="table table-striped table-hover table-bordered" id="table">
             <thead class="thead-light">
                 <tr>
-                    <th class="text-center">STT</th>
-                    <th class="text-center">Lớp</th>
-                    <th class="text-center">Tác vụ</th>
+                    <th style="width:10px"></th>
+                    <th class="text-center" style="width:10px">STT</th>
+                    <th class="width-100">MÃ Lớp</th>
+                    <th class="text-center" colspan="2">Tác vụ</th>
                 </tr>
             </thead>
             <tbody>
