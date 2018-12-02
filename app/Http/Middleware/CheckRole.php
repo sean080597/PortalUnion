@@ -27,7 +27,7 @@ class CheckRole
             return $next($request);
         }
 
-        if ($request->is('faculties/manage')){
+        if ($request->is(['faculties/manage', 'classrooms/manage', 'students/manage'])){
             if($user_roleid != 'adm'){
                 return redirect('401');
             }

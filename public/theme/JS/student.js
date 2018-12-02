@@ -78,4 +78,18 @@ $(document).ready(function () {
             }
         });
     });
+    //============================================================================
+    $(window).scroll(function() {
+        if($(window).scrollTop() + $(window).height() >= $(document).height()){
+            var stt_student = $('#stt_student').val();
+            $.get("/students/getMoreStudents", {stt_student: stt_student}, function (data) {
+                if(data != null && data != ''){
+                    $('tbody').append(data);
+                    stt_student = parseInt(stt_student) + 10;
+                    $('#stt_student').val(stt_student);
+                }
+            });
+        }
+      });
+
 });

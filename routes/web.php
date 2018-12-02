@@ -19,7 +19,7 @@ Route::get('401', 'HomeController@deniedaccess')->name('deniedaccess');
 Route::get('/faculties/getInfoFaculty', 'FacultyController@getInfoFaculty');
 Route::get('/faculties/getlistfaculties', 'FacultyController@getlistfaculties');
 Route::get('/faculties/destroy', ['as' => 'faculties.destroy', 'uses' => 'FacultyController@destroy']);
-Route::post('/faculties/update', ['as' => 'faculties.update', 'uses' => 'FacultyController@update']);
+Route::get('/faculties/update', ['as' => 'faculties.update', 'uses' => 'FacultyController@update']);
 Route::get('/faculties/create', ['as' => 'faculties.create', 'uses' => 'FacultyController@create']);
 Route::get('/faculties/manage', ['as' => 'faculties.manage', 'uses' => 'FacultyController@manage']);
 Route::resource('faculties', 'FacultyController', ['except' => ['create', 'update', 'destroy']]);
@@ -36,8 +36,10 @@ Route::get('/classrooms/manage', ['as' => 'classrooms.manage', 'uses' => 'ClassR
 Route::get('/classrooms/{faculty_id}', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
 
 //handle upload profile image
+Route::get('/students/getMoreStudents', 'StudentController@getMoreStudents')->name('getMoreStudents');
 Route::post('/students/ajaxupload', 'StudentController@ajaxupload')->name('ajaxupload');
 
+Route::get('/students/manage', ['as' => 'students.manage', 'uses' => 'StudentController@manage']);
 Route::get('/students/show/{student_id}', ['as' => 'students.show', 'uses' => 'StudentController@show']);
 Route::get('/students/{faculty_id}/{classroom_id}', ['as' => 'students.index', 'uses' => 'StudentController@index']);
 Route::post('/students/update', ['as' => 'students.update', 'uses' => 'StudentController@update']);

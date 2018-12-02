@@ -55,7 +55,7 @@
                     </div>
                     <h4>{{ auth()->user()->name }}</h4>
                 </section>
-                <ul class="list-unstyled components" id="test"><!--list unstyled = list style type: none | components: -->
+                <ul class="list-unstyled components" id="test">
                     <li class="active">
                         <a href="/">Trang Chủ</a>
                     </li>
@@ -64,7 +64,7 @@
                     <li>
                         <a href="#manage-admin" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">Quản lý</a>
                         <ul class="collapse list-unstyled" id="manage-admin">
-                            <li><a href="#">Đoàn viên</a></li>
+                            <li><a href="{{ route('students.manage') }}">Đoàn viên</a></li>
                             <li><a href="{{ route('classrooms.manage') }}">Lớp</a></li>
                             <li><a href="{{ route('faculties.manage') }}">Khoa</a></li>
                             <li><a href="#">Tài khoản</a></li>
@@ -161,15 +161,15 @@
     </section>
     <!-- Bootstrap core JavaScript-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" defer></script>
 
     <!-- Core plugin JavaScript-->
     {{-- <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script> --}}
 
-    <script src="{{ asset('theme/JS/datatable.js') }}"></script>
+    <script src="{{ asset('theme/JS/datatable.js') }}" async></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{ asset('theme/JS/javascript.js') }}"></script>
+    <script src="{{ asset('theme/JS/javascript.js') }}" async></script>
     @yield('link_js')
     <script>
     document.onreadystatechange = function(){

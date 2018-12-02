@@ -9,7 +9,7 @@
 @endsection
 
 @section('link_js')
-    <script src="{{ asset('theme/JS/student.js') }}"></script>
+    <script src="{{ asset('theme/JS/student.js') }}" async></script>
 @endsection
 
 @section('content')

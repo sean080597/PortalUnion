@@ -7,6 +7,7 @@ use Validator;
 use File;
 use Carbon\Carbon;
 use Auth;
+use DB;
 
 use App\Student;
 use App\ClassRoom;
@@ -19,6 +20,51 @@ class StudentController extends Controller
 {
     public function __construct() {
         $this->middleware(['auth', 'checkrole'])->except(['update', 'ajaxupload']);
+    }
+
+    public function getMoreStudents(Request $request){
+        if($request->stt_student == DB::table('students')->count()){
+            return null;
+        }
+        $next_students = [];
+        $all_faculties = Faculty::all();
+        $all_classrooms = ClassRoom::all();
+
+        $splice_students = Student::all()->splice($request->stt_student);
+        $splice_students = $splice_students->take(10);
+
+        $result = '';
+        foreach ($splice_students as $student){
+            $result .= '<tr><td class="text-center"><input type="checkbox"></td>'
+                    .'<td class="text-center">'.++$request->stt_student.'</td>'
+                    .'<td>'.$student->id.'</td>'
+                    .'<td>'.$student->name.'</td>'
+                    .'<td>'.$student->class_room_id.'</td>'
+                    .'<td>'.Faculty::where('id', ClassRoom::where('id', $student->class_room_id)->first()->faculty_id)->first()->name.'</td>'
+                    .'<td class="text-center"><a href="/students/show/'.$student->id.'" class="text-secondary"><i class="fas fa-eye"></i></a></td>'
+                    .'<td class="text-center"><a href="#" class="text-primary"><i class="fas fa-user-edit"></i></a></td>'
+                    .'<td class="text-center"><a href="#" class="text-danger"><i class="fas fa-trash-alt"></i></a></td></tr>';
+        }
+        return $result;
+    }
+
+    public function manage()
+    {
+        $info_students = [];
+        $all_faculties = Faculty::all();
+        $all_classrooms = ClassRoom::all();
+        $top_students = Student::take(10)->get();
+
+        foreach ($top_students as $student){
+            $arr = [
+                'id' => $student->id,
+                'name' => $student->name,
+                'classroom_id' => $student->class_room_id,
+                'faculty_name' => Faculty::where('id', ClassRoom::where('id', $student->class_room_id)->first()->faculty_id)->first()->name
+            ];
+            $info_students[] = $arr;
+        }
+        return view('students.manage', ['info_students' => $info_students]);
     }
 
     /**
