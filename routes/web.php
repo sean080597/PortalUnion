@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\adminFacultyController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,3 +53,13 @@ Route::resource('criteiontypes', 'CriterionTypeController');
 Route::resource('relations', 'RelationController');
 
 Route::resource('users', 'UserController');
+
+Route::prefix('admin')->group(function(){
+    Route::get('/', 'adminController@index');
+    Route::resource('student', 'adminStudentController');
+    Route::resource('class', 'adminClassController');
+    Route::resource('faculty', 'adminFacultyController');
+    Route::get('getFaculties','adminFacultyController@getFaculties');
+    Route::get('getAllClass','adminClassController@showAll');
+    Route::get('getToEdit/{id}','adminClassController@showToEdit');
+});
