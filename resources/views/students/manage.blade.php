@@ -6,6 +6,22 @@
 
 @section('link_js')
     <script src="{{ asset('theme/JS/student.js') }}" async></script>
+    <script>
+        $(window).scroll(function() {
+            if($('#maxRows').val() == 0){
+                if($(window).scrollTop() + $(window).height() >= $(document).height()){
+                    var stt_student = $('#stt_student').val();
+                    $.get("/students/getMoreStudents", {stt_student: stt_student}, function (data) {
+                        if(data != null && data != ''){
+                            $('tbody').append(data);
+                            stt_student = parseInt(stt_student) + 10;
+                            $('#stt_student').val(stt_student);
+                        }
+                    });
+                }
+            }
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -98,19 +114,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(window).scroll(function() {
-        if($(window).scrollTop() + $(window).height() >= $(document).height()){
-            var stt_student = $('#stt_student').val();
-            $.get("/students/getMoreStudents", {stt_student: stt_student}, function (data) {
-                if(data != null && data != ''){
-                    $('tbody').append(data);
-                    stt_student = parseInt(stt_student) + 10;
-                    $('#stt_student').val(stt_student);
-                }
-            });
-        }
-    });
-</script>
 @endsection

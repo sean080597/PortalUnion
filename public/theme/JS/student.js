@@ -1,5 +1,6 @@
 $(document).ready(function () {
     var old_profile_img;
+    //open modal & save current profile image
     $('#profile-img').on('click', function (e) {
         e.preventDefault();
         old_profile_img = $("#profile-img-to-change").attr("src");
@@ -9,12 +10,12 @@ $(document).ready(function () {
         $('#error-null-file').css('display', 'none');
         $('#modal_change_image').modal('show');
     });
-
+    //button close modal
     $('.modal-footer button[type="button"]').on('click', function(event){
         event.preventDefault();
         $('#profile-img-to-change').attr('src', old_profile_img);
     });
-
+    //handle when choose image
     $('#select_file').on('change', function (event) {
         event.preventDefault();
         var files = $(this)[0].files;
@@ -29,7 +30,7 @@ $(document).ready(function () {
             $('#error-null-file').css('display', 'none');
         }
     });
-
+    //check if new profile image is not null & submit upload image
     $('#btn_change_image').on('click', function (event) {
         event.preventDefault();
         if($('#select_file').val() == null || $('#select_file').val() == ''){
@@ -39,7 +40,7 @@ $(document).ready(function () {
             $('#uploadimage_form').submit();
         }
     });
-
+    //submit new profile image & student_id to change image of student
     $('#uploadimage_form').on('submit', function (event) {
         event.preventDefault();
         var formData = new FormData(this);
@@ -53,7 +54,6 @@ $(document).ready(function () {
             cache: false,
             processData: false,
             success: function (data) {
-                // $('#layout-profile-img').attr('src', '/images/'+data.uploaded_image);
                 $('#profile-img img').attr('src', '/images/'+data.uploaded_image);
                 $('#current_img').val(data.uploaded_image);
                 alert(data.message);
