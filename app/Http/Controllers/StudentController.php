@@ -7,6 +7,7 @@ use Validator;
 use File;
 use Carbon\Carbon;
 use Auth;
+use DB;
 
 use App\Student;
 use App\ClassRoom;
@@ -18,7 +19,81 @@ use App\User;
 class StudentController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth', 'checkrole'])->except(['update', 'ajaxupload']);
+        $this->middleware(['auth', 'checkrole'])->except(['getMoreStudents', 'update', 'ajaxupload']);
+    }
+
+    public function getMoreStudents(Request $request){
+        if($request->stt_student == DB::table('students')->count()){
+            return null;
+        }
+        $next_students = [];
+        $all_faculties = Faculty::all();
+        $all_classrooms = ClassRoom::all();
+
+        $splice_students = Student::all()->splice($request->stt_student);
+        $splice_students = $splice_students->take(10);
+
+        $result = '';
+        foreach ($splice_students as $student){
+            $result .= '<tr><td class="text-center"><input type="checkbox"></td>'
+                    .'<td class="text-center">'.++$request->stt_student.'</td>'
+                    .'<td>'.$student->id.'</td>'
+                    .'<td>'.$student->name.'</td>'
+                    .'<td>'.$student->class_room_id.'</td>'
+                    .'<td>'.Faculty::where('id', ClassRoom::where('id', $student->class_room_id)->first()->faculty_id)->first()->name.'</td>'
+                    .'<td class="text-center"><a href="/students/show/'.$student->id.'" class="text-secondary"><i class="fas fa-eye"></i></a></td>'
+                    .'<td class="text-center"><a href="#" class="text-primary"><i class="fas fa-user-edit"></i></a></td>'
+                    .'<td class="text-center"><a href="#" class="text-danger"><i class="fas fa-trash-alt"></i></a></td></tr>';
+        }
+        return $result;
+    }
+
+    public function manageshow($student_id)
+    {
+        $all_faculties = Faculty::all();
+        $all_classrooms = ClassRoom::all();
+        $all_students = Student::all();
+
+        //get student
+        $student = Student::findOrFail($student_id);
+        $user = User::where('id', $student->user_id)->first();
+
+        //get classroom & faculty
+        $class = ClassRoom::findOrFail($student->class_room_id);
+        $faculty = Faculty::findOrFail($class->faculty_id);
+
+        //get relations
+        $list_relation = StudentRelation::where('student_id', $student_id)->get();
+        $dad = $mom = '';
+        foreach($list_relation as $item){
+            $relation = Relation::findOrFail($item->relation_id);
+            if($relation->role == 1){
+                $dad = $relation;
+            }else{
+                $mom = $relation;
+            }
+        }
+
+        return view('students.manageshow', ['student' => $student, 'all_faculties' => $all_faculties, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'user' => $user, 'faculty' => $faculty, 'dad' => $dad, 'mom' => $mom]);
+    }
+
+    public function manage()
+    {
+        $info_students = [];
+        $all_faculties = Faculty::all();
+        $all_classrooms = ClassRoom::all();
+        $top_students = Student::take(10)->get();
+
+        foreach ($top_students as $student){
+            $arr = [
+                'id' => $student->id,
+                'name' => $student->name,
+                'classroom_id' => $student->class_room_id,
+                'faculty_name' => Faculty::where('id', ClassRoom::where('id', $student->class_room_id)->first()->faculty_id)->first()->name
+            ];
+            $info_students[] = $arr;
+        }
+        return view('students.manage', ['info_students' => $info_students]);
     }
 
     /**
@@ -67,7 +142,6 @@ class StudentController extends Controller
     {
         $all_classrooms = ClassRoom::all();
         $all_students = Student::all();
-        $cur_student = $all_students->where('user_id', Auth::user()->id)->first();
 
         //get student
         $student = Student::findOrFail($student_id);
@@ -114,12 +188,19 @@ class StudentController extends Controller
     {
         // get info to update table students
         $student = Student::findOrFail($request->student_id);
+        //check if in manage student
+        if(!empty($request->name)){
+            $student->name = $request->name;
+            $student->birthday = $request->birthday;
+            $student->class_room_id = $request->class_room;
+        }
+        $student->address = $request->address;
         $student->sex = $request->sex;
         $student->phone = $request->phonenum;
         $student->hometown = $request->hometown;
-        $student->union_date = $request->doan;
-        $student->ethnic = $request->dantoc;
-        $student->religion = $request->tongiao;
+        $student->union_date = $request->union_day;
+        $student->ethnic = $request->ethnic;
+        $student->religion = $request->religion;
         $student->save();
 
         //get info to update table users
@@ -128,23 +209,23 @@ class StudentController extends Controller
         $user->save();
 
         // //get info to update table relations
-        if(!empty($request->tencha)){
-            $dad_name = $request->tencha;
+        if(!empty($request->father_name)){
+            $dad_name = $request->father_name;
         }else{
-            $dad_name = 'NO NAMED';
+            $dad_name = '';
         }
-        $dad_birthday = $request->ngaysinhcha;
-        $dad_job = $request->nghenghiepcha;
-        $dad_phone = $request->dienthoaicha;
+        $dad_birthday = $request->father_birthday;
+        $dad_job = $request->father_job;
+        $dad_phone = $request->father_phone;
 
-        if(!empty($request->tenme)){
-            $mom_name = $request->tenme;
+        if(!empty($request->mother_name)){
+            $mom_name = $request->mother_name;
         }else{
-            $mom_name = 'NO NAMED';
+            $mom_name = '';
         }
-        $mom_birthday = $request->ngaysinhme;
-        $mom_job = $request->nghenghiepme;
-        $mom_phone = $request->dienthoaime;
+        $mom_birthday = $request->mother_birthday;
+        $mom_job = $request->mother_job;
+        $mom_phone = $request->mother_phone;
 
         if(StudentRelation::where('student_id', $request->student_id)->count() == 2){
             $stu_relations = StudentRelation::where('student_id', $request->student_id)->get();
@@ -194,6 +275,7 @@ class StudentController extends Controller
         return response()->json([
             'message' => 'Cập nhật thông tin thành công!'
         ]);
+        // return $request->all();
     }
 
     /**
@@ -250,5 +332,26 @@ class StudentController extends Controller
                 'uploaded_image' => $new_name,
             ]);
         }
+    }
+
+    //handle fetch classrooms
+    function fetchclassrooms(Request $request){
+        $faculty_id = $request->get('faculty_id');
+        $data = DB::table('class_rooms')
+                ->where("faculty_id", $faculty_id)
+                ->get();
+        $output = '<option value="0" disabled selected>=== Chọn Lớp ===</option>';
+        foreach($data as $row){
+            $output .= '<option value="'.$row->id.'">'.$row->id.'</option>';
+        }
+        echo $output;
+    }
+
+    //handle is submit union note
+    function submit_union_note(Request $request){
+        $student = Student::findOrFail($request->student_id);
+        $student->is_submit = ($request->is_submit == "true") ? 1 : 0;
+        $student->save();
+        return;
     }
 }

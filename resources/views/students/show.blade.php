@@ -9,7 +9,7 @@
 @endsection
 
 @section('link_js')
-    <script src="{{ asset('theme/JS/student.js') }}"></script>
+    <script src="{{ asset('theme/JS/student.js') }}" async></script>
 @endsection
 
 @section('content')
@@ -77,20 +77,20 @@
                     >
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="doan">Ngày vào đoàn: <span class="text-danger">(*)</span></label>
-                    <input type="date" class="form-control" name="doan" id="doan" value="{{ !empty($student->union_date) ? $student->union_date : '' }}">
+                    <label for="union_day">Ngày vào đoàn: <span class="text-danger">(*)</span></label>
+                    <input type="date" class="form-control" name="union_day" id="union_day" value="{{ !empty($student->union_date) ? $student->union_date : '' }}">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="dantoc">Dân tộc:</label>
-                    <input type="text" class="form-control" name="dantoc" id="dantoc" value="{{ !empty($student->ethnic) ? $student->ethnic : '' }}">
+                    <label for="ethnic">Dân tộc:</label>
+                    <input type="text" class="form-control" name="ethnic" id="ethnic" value="{{ !empty($student->ethnic) ? $student->ethnic : '' }}">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="tongiao">Tôn giáo:</label>
-                    <input type="text" class="form-control" name="tongiao" id="tongiao" value="{{ !empty($student->religion) ? $student->religion : '' }}">
+                    <label for="religion">Tôn giáo:</label>
+                    <input type="text" class="form-control" name="religion" id="religion" value="{{ !empty($student->religion) ? $student->religion : '' }}">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="vanhoa">Trình độ văn hóa: <span class="text-danger">(*)</span></label>
-                    <input type="text" class="form-control" name="vanhoa" id="vanhoa" value="12 / 12" disabled>
+                    <label for="culture">Trình độ văn hóa: <span class="text-danger">(*)</span></label>
+                    <input type="text" class="form-control" name="culture" id="culture" value="12 / 12" disabled>
                 </div>
             </div>
         </div>
@@ -110,8 +110,8 @@
                     </select>
                 </div>
                 <div class="form-group col-md-12">
-                    <label for="diachi">Địa chỉ <span class="text-danger">(*)</span></label>
-                    <input type="text" class="form-control" name="diachi" id="diachi" placeholder="Số nhà, đường, phường/ xã">
+                    <label for="address">Địa chỉ <span class="text-danger">(*)</span></label>
+                    <input type="text" class="form-control" name="address" id="address" placeholder="Số nhà, đường, phường/ xã">
                 </div>
             </div>
         </div>
@@ -120,44 +120,44 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="tencha">Họ tên cha: <span class="text-danger">(*)</span></label>
-                        <input type="text" class="form-control {{ (empty($dad->name) || $dad->name == 'NO NAMED')?'text-danger border-danger':'' }}" name="tencha" id="tencha" value="{{ !empty($dad->name)?$dad->name:'' }}">
+                        <label for="father_name">Họ tên cha: <span class="text-danger">(*)</span></label>
+                        <input type="text" class="form-control {{ (empty($dad->name) || $dad->name == '')?'text-danger border-danger':'' }}" name="father_name" id="father_name" value="{{ !empty($dad->name)?$dad->name:'' }}">
                     </div>
                     <div class="form-group">
-                        <label for="ngaysinhcha">Ngày sinh: <span class="text-danger">(*)</span></label>
-                        <input type="date" class="form-control" name="ngaysinhcha" id="ngaysinhcha" value="{{ !empty($dad->birthday) ? $dad->birthday : '' }}">
+                        <label for="father_birthday">Ngày sinh: <span class="text-danger">(*)</span></label>
+                        <input type="date" class="form-control" name="father_birthday" id="father_birthday" value="{{ !empty($dad->birthday) ? $dad->birthday : '' }}">
                     </div>
                     <div class="form-group">
-                        <label for="nghenghiepcha">Nghề nghiệp: </label>
-                        <input type="text" class="form-control" name="nghenghiepcha" id="nghenghiepcha" value="{{ !empty($dad->job)?$dad->job:'' }}">
+                        <label for="father_job">Nghề nghiệp: </label>
+                        <input type="text" class="form-control" name="father_job" id="father_job" value="{{ !empty($dad->job)?$dad->job:'' }}">
                     </div>
                     <div class="form-group">
-                        <label for="dienthoaicha">Điện thoại: <span class="text-danger">(*)</span></label>
-                        <input type="text" class="form-control" name="dienthoaicha" id="dienthoaicha"
+                        <label for="father_phone">Điện thoại: <span class="text-danger">(*)</span></label>
+                        <input type="text" class="form-control" name="father_phone" id="father_phone"
                         value="{{ !empty($dad->phone)?$dad->phone:'' }}" maxlength="10"
-                        onkeypress="return event.keyCode>48 && event.keyCode<57 ? true : false"
+                        onkeypress="return event.keyCode>47 && event.keyCode<58 ? true : false"
                         onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
                         >
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="tenme">Họ tên mẹ: <span class="text-danger">(*)</span></label>
-                        <input type="text" class="form-control {{ (empty($mom->name) || $mom->name == 'NO NAMED')?'text-danger border-danger':'' }}" name="tenme" id="tenme" value="{{ !empty($mom->name)?$mom->name:'' }}">
+                        <label for="mother_name">Họ tên mẹ: <span class="text-danger">(*)</span></label>
+                        <input type="text" class="form-control {{ (empty($mom->name) || $mom->name == '')?'text-danger border-danger':'' }}" name="mother_name" id="mother_name" value="{{ !empty($mom->name)?$mom->name:'' }}">
                     </div>
                     <div class="form-group">
-                        <label for="ngaysinhme">Ngày sinh: <span class="text-danger">(*)</span></label>
-                        <input type="date" class="form-control" name="ngaysinhme" id="ngaysinhme" value="{{ !empty($mom->birthday) ? $mom->birthday : '' }}">
+                        <label for="mother_birthday">Ngày sinh: <span class="text-danger">(*)</span></label>
+                        <input type="date" class="form-control" name="mother_birthday" id="mother_birthday" value="{{ !empty($mom->birthday) ? $mom->birthday : '' }}">
                     </div>
                     <div class="form-group">
-                        <label for="nghenghiepme">Nghề nghiệp: </label>
-                        <input type="text" class="form-control" name="nghenghiepme" id="nghenghiepme" value="{{ !empty($mom->job)?$mom->job:'' }}">
+                        <label for="mother_job">Nghề nghiệp: </label>
+                        <input type="text" class="form-control" name="mother_job" id="mother_job" value="{{ !empty($mom->job)?$mom->job:'' }}">
                     </div>
                     <div class="form-group">
-                        <label for="dienthoaime">Điện thoại: <span class="text-danger">(*)</span></label>
-                        <input type="text" class="form-control" name="dienthoaime" id="dienthoaime"
+                        <label for="mother_phone">Điện thoại: <span class="text-danger">(*)</span></label>
+                        <input type="text" class="form-control" name="mother_phone" id="mother_phone"
                         value="{{ !empty($mom->phone)?$mom->phone:'' }}" maxlength="10"
-                        onkeypress="return event.keyCode>48 && event.keyCode<57 ? true : false"
+                        onkeypress="return event.keyCode>47 && event.keyCode<58 ? true : false"
                         onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
                         >
                     </div>

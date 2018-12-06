@@ -132,12 +132,12 @@
     </section>
     <!-- Bootstrap core JavaScript-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" defer></script>
 
     <!-- Core plugin JavaScript-->
     {{-- <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script> --}}
 
     <!-- Custom scripts for all pages-->
-    <script src="{{ asset('theme/JS/javascript.js') }}"></script>
+    <script src="{{ asset('theme/JS/javascript.js') }}" async></script>
 </body>
 </html>
