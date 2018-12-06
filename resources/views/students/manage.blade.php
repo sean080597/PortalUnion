@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('show_tab')
-<li class="breadcrumb-item"><a href="#">QL Lớp</a></li>
+<li class="breadcrumb-item"><a href="#">DS Đoàn viên</a></li>
 @endsection
 
 @section('link_js')
@@ -67,7 +67,7 @@
                     <td>{{ $student['classroom_id'] }}</td>
                     <td>{{ $student['faculty_name'] }}</td>
                     <td class="text-center">
-                        <a href="{{ action('StudentController@show',
+                        <a href="{{ action('StudentController@manageshow',
                         [$student['id']]) }}" class="text-secondary">
                             <i class="fas fa-eye"></i>
                         </a>
@@ -98,4 +98,19 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(window).scroll(function() {
+        if($(window).scrollTop() + $(window).height() >= $(document).height()){
+            var stt_student = $('#stt_student').val();
+            $.get("/students/getMoreStudents", {stt_student: stt_student}, function (data) {
+                if(data != null && data != ''){
+                    $('tbody').append(data);
+                    stt_student = parseInt(stt_student) + 10;
+                    $('#stt_student').val(stt_student);
+                }
+            });
+        }
+    });
+</script>
 @endsection

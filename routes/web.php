@@ -32,13 +32,18 @@ Route::get('/classrooms/add_new_classroom', 'ClassRoomController@addnewclassroom
 Route::get('/classrooms/get_sel_faculties', 'ClassRoomController@getselfaculties');
 Route::get('/classrooms/getlistclassrooms', 'ClassRoomController@getlistclassrooms');
 Route::get('/classrooms/manage', ['as' => 'classrooms.manage', 'uses' => 'ClassRoomController@manage']);
-
 Route::get('/classrooms/{faculty_id}', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
 
-//handle upload profile image
+//handle is submit union note
+Route::post('/students/submit_union_note', 'StudentController@submit_union_note')->name('submit_union_note');
+//handle fetch data when change select faculty
+Route::post('/students/fetchclassrooms', 'StudentController@fetchclassrooms')->name('fetchclassrooms');
+//handle get more student when scroll to the bottom of page
 Route::get('/students/getMoreStudents', 'StudentController@getMoreStudents')->name('getMoreStudents');
+//handle upload profile image
 Route::post('/students/ajaxupload', 'StudentController@ajaxupload')->name('ajaxupload');
 
+Route::get('/students/manage/show/{student_id}', ['as' => 'students.manageshow', 'uses' => 'StudentController@manageshow']);
 Route::get('/students/manage', ['as' => 'students.manage', 'uses' => 'StudentController@manage']);
 Route::get('/students/show/{student_id}', ['as' => 'students.show', 'uses' => 'StudentController@show']);
 Route::get('/students/{faculty_id}/{classroom_id}', ['as' => 'students.index', 'uses' => 'StudentController@index']);

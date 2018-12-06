@@ -74,22 +74,34 @@ $(document).ready(function () {
             processData: false,
             success: function (data) {
                 alert(data.message);
-                location.reload();
+                //location.reload();
+                // console.log(data);
             }
         });
     });
-    //============================================================================
-    $(window).scroll(function() {
-        if($(window).scrollTop() + $(window).height() >= $(document).height()){
-            var stt_student = $('#stt_student').val();
-            $.get("/students/getMoreStudents", {stt_student: stt_student}, function (data) {
-                if(data != null && data != ''){
-                    $('tbody').append(data);
-                    stt_student = parseInt(stt_student) + 10;
-                    $('#stt_student').val(stt_student);
-                }
-            });
-        }
-      });
 
+    $('#is_submit').on('change', function (event) {
+        event.preventDefault();
+        var is_submit = $(this).is(":checked");
+        var student_id = $('#student_id').val();
+        var _token = $('input[name="_token"]').val();
+        console.log(is_submit);
+        $.post("/students/submit_union_note",
+            {_token:_token, student_id:student_id, is_submit:is_submit}
+        );
+    });
+    //============================================================================
+    $('#faculty').change(function(){
+        if($(this).val() != ''){
+            var faculty_id = $(this).val();
+            var dependent = $(this).data('dependent');
+            var _token = $('input[name="_token"]').val();
+            $.post("/students/fetchclassrooms",
+                {faculty_id:faculty_id, _token:_token, dependent:dependent},
+                function (data) {
+                    $('#class_room').html(data);
+                }
+            );
+        }
+    });
 });
