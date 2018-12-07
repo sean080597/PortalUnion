@@ -36,7 +36,11 @@ class Student extends Model
         return $this->belongsToMany('App\Event');
     }
 
-    public function criterions(){
-        return $this->belongsToMany('App\Criterion');
+    public function criteria_mandatories(){
+        return $this->belongsToMany('App\criteria_mandatory');
+    }
+
+    public function criteria_selfregis(){
+        return $this->belongsToMany('App\criteria_selfregis');
     }
 }

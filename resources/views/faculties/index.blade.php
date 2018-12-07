@@ -84,7 +84,7 @@
                             </a>
                         </td>
                         <td class="text-center">
-                            <span class="badge badge-pill badge-secondary">hello</span>
+                            <span class="badge badge-pill badge-secondary">{{ $faculty->note }}</span>
                         </td>
                     </tr>
                 @endforeach
