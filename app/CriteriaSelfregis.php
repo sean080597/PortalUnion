@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class criteria_selfregis extends Model
+class CriteriaSelfregis extends Model
 {
     protected $fillable = [
         'content',

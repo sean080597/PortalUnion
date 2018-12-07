@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class criteria_mandatory extends Model
+class CriteriaMandatory extends Model
 {
     protected $fillable = [
         'content',

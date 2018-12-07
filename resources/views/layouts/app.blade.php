@@ -118,10 +118,18 @@
                             ĐG đoàn viên
                         </a>
                         <ul class="collapse list-unstyled" id="ql-dv">
-                            <li><a href="#">ĐG cá nhân</a></li>
+                            @if (auth()->user()->role_id == 'stu')
+                            <li><a href="{{ route('criteria-evaluation.student-evaluate') }}">ĐG cá nhân</a></li>
+                            @endif
+                            @if (auth()->user()->role_id == 'cla')
                             <li><a href="#">Lớp quản lý</a></li>
+                            @endif
+                            @if (auth()->user()->role_id == 'fac')
                             <li><a href="#">Khoa quản lý</a></li>
+                            @endif
+                            @if (auth()->user()->role_id == 'sch')
                             <li><a href="#">Trường quản lý</a></li>
+                            @endif
                         </ul>
                     </li>
                     <li><a href="layout.html">Hỗ trợ</a></li>

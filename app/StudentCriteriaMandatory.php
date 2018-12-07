@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class student_criteria_mandatory extends Model
+class StudentCriteriaMandatory extends Model
 {
     protected $fillable = [
         'student_id',
