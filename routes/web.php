@@ -52,7 +52,7 @@ Route::get('/students/{faculty_id}/{classroom_id}', ['as' => 'students.index', '
 Route::post('/students/update', ['as' => 'students.update', 'uses' => 'StudentController@update']);
 
 //route for evaluate criteria
-Route::get('/criteria-evaluation/student-evaluate', ['as' => 'criteria-evaluation.student-evaluate', 'uses' => 'CriteriaManagermentController@student_evaluate']);
+Route::get('/criteria-evaluation/student-evaluate/{student_id}', ['as' => 'criteria-evaluation.student-evaluate', 'uses' => 'CriteriaManagermentController@student_evaluate']);
 
 Route::resource('events', 'EventController');
 

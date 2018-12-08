@@ -53,16 +53,45 @@
                             <span>{{ ++$key }}. </span>
                             <span>{{ $cri->content }}</span>
                         </td>
-                        <td class="text-center p-1">
-                            <input type="text" class="form-control">
+                        @if (auth()->user()->role_id == 'stu')
+                        <td class="text-center">
+                            <input type="text" class="form-control" value="">
                         </td>
-                        <td class="text-center p-1">
+                        <td class="text-center">
                             <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
                             onkeyup="return this.value > 10 ? this.value=10 : true">
                         </td>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
+                        @else
+                        <td class="text-center">Tốt</td>
+                        <td class="text-center">0</td>
+                        @endif
+
+                        @if (auth()->user()->role_id == 'cla')
+                        <td class="text-center">
+                            <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
+                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                        </td>
+                        @else
+                        <td class="text-center">0</td>
+                        @endif
+
+                        @if (auth()->user()->role_id == 'fac')
+                        <td class="text-center">
+                            <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
+                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                        </td>
+                        @else
+                        <td class="text-center">0</td>
+                        @endif
+
+                        @if (auth()->user()->role_id == 'sch')
+                        <td class="text-center">
+                            <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
+                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                        </td>
+                        @else
+                        <td class="text-center">0</td>
+                        @endif
                     </tr>
                     @endforeach
                     <tr>
@@ -75,16 +104,45 @@
                             <p></p>
                             <textarea class="form-control" rows="3" id=""></textarea>
                         </td>
-                        <td class="text-center p-1">
-                            <input type="text" class="form-control">
+                        @if (auth()->user()->role_id == 'stu')
+                        <td class="text-center">
+                            <input type="text" class="form-control" value="">
                         </td>
-                        <td class="text-center p-1">
-                                <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
-                                onkeyup="return this.value > 10 ? this.value=10 : true">
+                        <td class="text-center">
+                            <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
+                            onkeyup="return this.value > 10 ? this.value=10 : true">
                         </td>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
+                        @else
+                        <td class="text-center">Tốt</td>
+                        <td class="text-center">0</td>
+                        @endif
+
+                        @if (auth()->user()->role_id == 'cla')
+                        <td class="text-center">
+                            <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
+                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                        </td>
+                        @else
+                        <td class="text-center">0</td>
+                        @endif
+
+                        @if (auth()->user()->role_id == 'fac')
+                        <td class="text-center">
+                            <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
+                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                        </td>
+                        @else
+                        <td class="text-center">0</td>
+                        @endif
+
+                        @if (auth()->user()->role_id == 'sch')
+                        <td class="text-center">
+                            <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
+                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                        </td>
+                        @else
+                        <td class="text-center">0</td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>
