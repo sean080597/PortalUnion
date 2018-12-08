@@ -9,6 +9,10 @@
 <li class="breadcrumb-item"><a href="#">Tác vụ</a></li>
 @endsection
 
+@section('link_js')
+<script src="{{ asset('theme/JS/criteria.js') }}" async></script>
+@endsection
+
 @section('content')
 <div class="wrap-table">
     <div class="note-info">
@@ -27,7 +31,8 @@
             <div class="col-sm"><p><span>Trường: </span>Bí thư đoàn trường</p></div>
         </div>
     </div>
-    <form action="">
+    <form action="" id="form-submit-criteria-evaluation" method="POST">
+        @csrf
         <div class="table-responsive">
             <table class="table table-striped table-hover table-bordered" id="table">
                 <thead class="thead-light">
@@ -59,7 +64,8 @@
                         </td>
                         <td class="text-center">
                             <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
-                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                            onkeyup="return this.value > 10 ? this.value=10 : true"
+                            id="cri_man_{{ $cri->id }}" name="cri_man_{{ $cri->id }}">
                         </td>
                         @else
                         <td class="text-center">Tốt</td>
@@ -69,7 +75,8 @@
                         @if (auth()->user()->role_id == 'cla')
                         <td class="text-center">
                             <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
-                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                            onkeyup="return this.value > 10 ? this.value=10 : true"
+                            id="cri_man_{{ $cri->id }}" name="cri_man_{{ $cri->id }}">
                         </td>
                         @else
                         <td class="text-center">0</td>
@@ -78,7 +85,8 @@
                         @if (auth()->user()->role_id == 'fac')
                         <td class="text-center">
                             <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
-                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                            onkeyup="return this.value > 10 ? this.value=10 : true"
+                            id="cri_man_{{ $cri->id }}" name="cri_man_{{ $cri->id }}">
                         </td>
                         @else
                         <td class="text-center">0</td>
@@ -87,7 +95,8 @@
                         @if (auth()->user()->role_id == 'sch')
                         <td class="text-center">
                             <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
-                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                            onkeyup="return this.value > 10 ? this.value=10 : true"
+                            id="cri_man_{{ $cri->id }}" name="cri_man_{{ $cri->id }}">
                         </td>
                         @else
                         <td class="text-center">0</td>
@@ -102,7 +111,9 @@
                         <td class="p-1">
                             <span style="margin: 5px;">{{ ++$key }}. {{ $cri->content }}</span>
                             <p></p>
-                            <textarea class="form-control" rows="3" id=""></textarea>
+                            <textarea class="form-control" rows="3"
+                            id="cri_sel_content_{{ $cri->id }}"
+                            name="cri_sel_content_{{ $cri->id }}"></textarea>
                         </td>
                         @if (auth()->user()->role_id == 'stu')
                         <td class="text-center">
@@ -110,7 +121,8 @@
                         </td>
                         <td class="text-center">
                             <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
-                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                            onkeyup="return this.value > 10 ? this.value=10 : true"
+                            id="cri_sel_{{ $cri->id }}" name="cri_sel_{{ $cri->id }}">
                         </td>
                         @else
                         <td class="text-center">Tốt</td>
@@ -120,7 +132,8 @@
                         @if (auth()->user()->role_id == 'cla')
                         <td class="text-center">
                             <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
-                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                            onkeyup="return this.value > 10 ? this.value=10 : true"
+                            id="cri_sel_{{ $cri->id }}" name="cri_sel_{{ $cri->id }}">
                         </td>
                         @else
                         <td class="text-center">0</td>
@@ -129,7 +142,8 @@
                         @if (auth()->user()->role_id == 'fac')
                         <td class="text-center">
                             <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
-                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                            onkeyup="return this.value > 10 ? this.value=10 : true"
+                            id="cri_sel_{{ $cri->id }}" name="cri_sel_{{ $cri->id }}">
                         </td>
                         @else
                         <td class="text-center">0</td>
@@ -138,7 +152,8 @@
                         @if (auth()->user()->role_id == 'sch')
                         <td class="text-center">
                             <input type="number" value="0" style="width:55px" class="form-control" min="0" max="10"
-                            onkeyup="return this.value > 10 ? this.value=10 : true">
+                            onkeyup="return this.value > 10 ? this.value=10 : true"
+                            id="cri_sel_{{ $cri->id }}" name="cri_sel_{{ $cri->id }}">
                         </td>
                         @else
                         <td class="text-center">0</td>
@@ -148,7 +163,8 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-end">
-                <button class="btn btn-success">Xác nhận</button>
+                <input type="text" id="student_id" name="student_id" value="{{ $student->id }}" style="display: none">
+                <button class="btn btn-success" type="submit">Xác nhận</button>
             </div>
         </div>
     </form>

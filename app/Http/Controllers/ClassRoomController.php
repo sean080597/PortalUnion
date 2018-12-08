@@ -14,7 +14,8 @@ use Auth;
 class ClassRoomController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth', 'checkrole']);
+        $this->middleware(['auth', 'checkrole'])
+        ->except(['getlistclassrooms', 'get_sel_faculties', 'add_new_classroom']);
     }
 
     public function addnewclassroom(Request $request)

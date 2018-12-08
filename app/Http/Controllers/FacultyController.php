@@ -12,7 +12,8 @@ use Carbon\Carbon;
 class FacultyController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth', 'checkrole'])->except('getlistfaculties');
+        $this->middleware(['auth', 'checkrole'])
+        ->except(['getlistfaculties', 'getInfoFaculty']);
     }
 
     public function getInfoFaculty(Request $request){
