@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\criteria_mandatory;
+use App\CriteriaMandatory;
 use Illuminate\Http\Request;
 
 class CriteriaMandatoryController extends Controller
@@ -41,10 +41,10 @@ class CriteriaMandatoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\criteria_mandatory  $criteria_mandatory
+     * @param  \App\CriteriaMandatory  $criteriaMandatory
      * @return \Illuminate\Http\Response
      */
-    public function show(criteria_mandatory $criteria_mandatory)
+    public function show(CriteriaMandatory $criteriaMandatory)
     {
         //
     }
@@ -52,10 +52,10 @@ class CriteriaMandatoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\criteria_mandatory  $criteria_mandatory
+     * @param  \App\CriteriaMandatory  $criteriaMandatory
      * @return \Illuminate\Http\Response
      */
-    public function edit(criteria_mandatory $criteria_mandatory)
+    public function edit(CriteriaMandatory $criteriaMandatory)
     {
         //
     }
@@ -64,10 +64,10 @@ class CriteriaMandatoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\criteria_mandatory  $criteria_mandatory
+     * @param  \App\CriteriaMandatory  $criteriaMandatory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, criteria_mandatory $criteria_mandatory)
+    public function update(Request $request, CriteriaMandatory $criteriaMandatory)
     {
         //
     }
@@ -75,10 +75,10 @@ class CriteriaMandatoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\criteria_mandatory  $criteria_mandatory
+     * @param  \App\CriteriaMandatory  $criteriaMandatory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(criteria_mandatory $criteria_mandatory)
+    public function destroy(CriteriaMandatory $criteriaMandatory)
     {
         //
     }

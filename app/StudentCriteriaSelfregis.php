@@ -8,7 +8,7 @@ class StudentCriteriaSelfregis extends Model
 {
     protected $fillable = [
         'student_id',
-        'criterion_id',
+        'criteria_id',
         'content_regis',
         'self_assessment',
         'mark_student',

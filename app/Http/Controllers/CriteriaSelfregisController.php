@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\criteria_selfregis;
+use App\CriteriaSelfregis;
 use Illuminate\Http\Request;
 
 class CriteriaSelfregisController extends Controller
@@ -41,10 +41,10 @@ class CriteriaSelfregisController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\criteria_selfregis  $criteria_selfregis
+     * @param  \App\CriteriaSelfregis  $criteriaSelfregis
      * @return \Illuminate\Http\Response
      */
-    public function show(criteria_selfregis $criteria_selfregis)
+    public function show(CriteriaSelfregis $criteriaSelfregis)
     {
         //
     }
@@ -52,10 +52,10 @@ class CriteriaSelfregisController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\criteria_selfregis  $criteria_selfregis
+     * @param  \App\CriteriaSelfregis  $criteriaSelfregis
      * @return \Illuminate\Http\Response
      */
-    public function edit(criteria_selfregis $criteria_selfregis)
+    public function edit(CriteriaSelfregis $criteriaSelfregis)
     {
         //
     }
@@ -64,10 +64,10 @@ class CriteriaSelfregisController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\criteria_selfregis  $criteria_selfregis
+     * @param  \App\CriteriaSelfregis  $criteriaSelfregis
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, criteria_selfregis $criteria_selfregis)
+    public function update(Request $request, CriteriaSelfregis $criteriaSelfregis)
     {
         //
     }
@@ -75,10 +75,10 @@ class CriteriaSelfregisController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\criteria_selfregis  $criteria_selfregis
+     * @param  \App\CriteriaSelfregis  $criteriaSelfregis
      * @return \Illuminate\Http\Response
      */
-    public function destroy(criteria_selfregis $criteria_selfregis)
+    public function destroy(CriteriaSelfregis $criteriaSelfregis)
     {
         //
     }

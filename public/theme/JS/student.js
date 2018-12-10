@@ -74,8 +74,6 @@ $(document).ready(function () {
             processData: false,
             success: function (data) {
                 alert(data.message);
-                //location.reload();
-                // console.log(data);
             }
         });
     });

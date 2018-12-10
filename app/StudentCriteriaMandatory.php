@@ -8,7 +8,7 @@ class StudentCriteriaMandatory extends Model
 {
     protected $fillable = [
         'student_id',
-        'criterion_id',
+        'criteria_id',
         'self_assessment',
         'mark_student',
         'mark_classroom',
