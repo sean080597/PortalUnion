@@ -75,8 +75,8 @@
                             id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center">Tốt</td>
-                        <td class="text-center">0</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
                         @endif
 
                         @if (auth()->user()->role_id == 'cla')
@@ -87,7 +87,7 @@
                             id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center">0</td>
+                        <td class="text-center"></td>
                         @endif
 
                         @if (auth()->user()->role_id == 'fac')
@@ -98,7 +98,7 @@
                             id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center">0</td>
+                        <td class="text-center"></td>
                         @endif
 
                         @if (auth()->user()->role_id == 'sch')
@@ -109,7 +109,7 @@
                             id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center">0</td>
+                        <td class="text-center"></td>
                         @endif
                     </tr>
                     @php
@@ -133,6 +133,7 @@
                             id="cri_sel_content_{{ $cri->id }}"
                             name="cri_sel_content_{{ $cri->id }}" required>{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->content_regis : '' }}</textarea>
                         </td>
+
                         @if (auth()->user()->role_id == 'stu')
                         <td class="text-center">
                             <input type="text" class="form-control"
@@ -146,8 +147,8 @@
                             id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center">Tốt</td>
-                        <td class="text-center">0</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
                         @endif
 
                         @if (auth()->user()->role_id == 'cla')
@@ -158,7 +159,7 @@
                             id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center">0</td>
+                        <td class="text-center"></td>
                         @endif
 
                         @if (auth()->user()->role_id == 'fac')
@@ -169,7 +170,7 @@
                             id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center">0</td>
+                        <td class="text-center"></td>
                         @endif
 
                         @if (auth()->user()->role_id == 'sch')
@@ -180,7 +181,7 @@
                             id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center">0</td>
+                        <td class="text-center"></td>
                         @endif
                     </tr>
                     @php

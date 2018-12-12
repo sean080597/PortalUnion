@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 use App\ClassRoom;
 use App\Faculty;
 use App\Student;
 use App\Role;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\User;
 
 class FacultyController extends Controller
 {
@@ -46,7 +47,8 @@ class FacultyController extends Controller
         $all_classrooms = ClassRoom::all();
         $all_students = Student::all();
         $faculties = Faculty::orderby('name', 'asc')->get();
-        return view('faculties.index', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'faculties' => $faculties]);
+        $all_users = User::all();
+        return view('faculties.index', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'faculties' => $faculties, 'all_users' => $all_users]);
     }
 
     /**

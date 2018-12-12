@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Auth;
 
 use App\ClassRoom;
 use App\Faculty;
 use App\Student;
-
-use Carbon\Carbon;
-use Auth;
+use App\User;
 
 class ClassRoomController extends Controller
 {
@@ -88,8 +88,10 @@ class ClassRoomController extends Controller
         $all_classrooms = ClassRoom::all();
         $all_students = Student::all();
         $classrooms = ClassRoom::where('faculty_id', $faculty_id)->get();
-
-        return view('classrooms.index', ['faculty_id' => $faculty_id, 'classrooms' => $classrooms, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
+        //$cur_faculty to get all info in blade view
+        $cur_faculty = Faculty::findOrFail($faculty_id);
+        $all_users = User::all();
+        return view('classrooms.index', ['cur_faculty' => $cur_faculty, 'classrooms' => $classrooms, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'all_users' => $all_users]);
     }
 
     /**
