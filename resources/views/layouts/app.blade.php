@@ -113,6 +113,7 @@
                         </ul>
                     </li>
                     @endif
+                    @if (auth()->user()->role_id != 'adm')
                     <li>
                         <a href="#ql-dv" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">
                             ĐG đoàn viên
@@ -136,6 +137,7 @@
                             @endif
                         </ul>
                     </li>
+                    @endif
                     <li><a href="layout.html">Hỗ trợ</a></li>
                 </ul>
             </nav><!-- End nav sidebar -->
