@@ -62,8 +62,8 @@
                             <span id="cri_man_id_{{ $cri->id }}" criman_id="{{ $cri->id }}">{{ $cri->content }}</span>
                         </td>
                         @if (auth()->user()->role_id == 'stu'
-                        || (auth()->user()->role_id == 'cla' && $logged_student->id == $showed_student->id)
-                        || (auth()->user()->role_id == 'fac' && $logged_student->id == $showed_student->id))
+                        || (auth()->user()->role_id == 'cla' && $showed_student->id == $logged_student->id)
+                        || (auth()->user()->role_id == 'fac' && $showed_student->id == $logged_student->id))
                         <td class="text-center">
                             <input type="text" class="form-control"
                             value="{{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->self_assessment : '' }}"
@@ -74,7 +74,7 @@
                             <input type="number" style="width:55px" class="form-control" min="0" max="10"
                             value="{{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->mark_student : '0'}}"
                             onkeyup="return this.value > 10 ? this.value=10 : true"
-                            id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
+                            id="cri_man_markstu_{{ $cri->id }}" name="cri_man_markstu_{{ $cri->id }}" required>
                         </td>
                         @else
                         <td class="text-center">
@@ -85,13 +85,12 @@
                         </td>
                         @endif
 
-                        @if (auth()->user()->role_id == 'cla'
-                        || (auth()->user()->role_id == 'fac' && $logged_student->id == $showed_student->id))
+                        @if (auth()->user()->role_id == 'cla')
                         <td class="text-center">
                             <input type="number" style="width:55px" class="form-control" min="0" max="10"
                             value="{{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->mark_classroom : '0'}}"
                             onkeyup="return this.value > 10 ? this.value=10 : true"
-                            id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
+                            id="cri_man_markcla_{{ $cri->id }}" name="cri_man_markcla_{{ $cri->id }}" required>
                         </td>
                         @else
                         <td class="text-center">
@@ -102,9 +101,9 @@
                         @if (auth()->user()->role_id == 'fac')
                         <td class="text-center">
                             <input type="number" style="width:55px" class="form-control" min="0" max="10"
-                            value="{{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->mark_classroom : '0'}}"
+                            value="{{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->mark_faculty : '0'}}"
                             onkeyup="return this.value > 10 ? this.value=10 : true"
-                            id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
+                            id="cri_man_markfac_{{ $cri->id }}" name="cri_man_markfac_{{ $cri->id }}" required>
                         </td>
                         @else
                         <td class="text-center">
@@ -115,9 +114,9 @@
                         @if (auth()->user()->role_id == 'sch')
                         <td class="text-center">
                             <input type="number" style="width:55px" class="form-control" min="0" max="10"
-                            value="{{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->mark_classroom : '0'}}"
+                            value="{{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->mark_school : '0'}}"
                             onkeyup="return this.value > 10 ? this.value=10 : true"
-                            id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
+                            id="cri_man_marksch_{{ $cri->id }}" name="cri_man_marksch_{{ $cri->id }}" required>
                         </td>
                         @else
                         <td class="text-center">
@@ -142,14 +141,20 @@
                                 {{ ++$key }}. {{ $cri->content }}
                             </span>
                             <p></p>
+                            @if (auth()->user()->role_id == 'stu'
+                            || (auth()->user()->role_id == 'cla' && $showed_student->id == $logged_student->id)
+                            || (auth()->user()->role_id == 'fac' && $showed_student->id == $logged_student->id))
                             <textarea class="form-control" rows="3"
                             id="cri_sel_content_{{ $cri->id }}"
                             name="cri_sel_content_{{ $cri->id }}" required>{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->content_regis : '' }}</textarea>
+                            @else
+                            <span>{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->content_regis : '' }}</span>
+                            @endif
                         </td>
 
                         @if (auth()->user()->role_id == 'stu'
-                        || (auth()->user()->role_id == 'cla' && $logged_student->id == $showed_student->id)
-                        || (auth()->user()->role_id == 'fac' && $logged_student->id == $showed_student->id))
+                        || (auth()->user()->role_id == 'cla' && $showed_student->id == $logged_student->id)
+                        || (auth()->user()->role_id == 'fac' && $showed_student->id == $logged_student->id))
                         <td class="text-center">
                             <input type="text" class="form-control"
                             value="{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->self_assessment : ''}}"
@@ -159,7 +164,7 @@
                             <input type="number" style="width:55px" class="form-control" min="0" max="10"
                             value="{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_student : '0'}}"
                             onkeyup="return this.value > 10 ? this.value=10 : (this.value == '' ? this.value=0 : true)"
-                            id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
+                            id="cri_sel_markstu_{{ $cri->id }}" name="cri_sel_markstu_{{ $cri->id }}" required>
                         </td>
                         @else
                         <td class="text-center">
@@ -170,13 +175,12 @@
                         </td>
                         @endif
 
-                        @if (auth()->user()->role_id == 'cla'
-                        || (auth()->user()->role_id == 'fac' && $logged_student->id == $showed_student->id))
+                        @if (auth()->user()->role_id == 'cla')
                         <td class="text-center">
                             <input type="number" style="width:55px" class="form-control" min="0" max="10"
-                            value="{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_student : '0'}}"
+                            value="{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_classroom : '0'}}"
                             onkeyup="return this.value > 10 ? this.value=10 : (this.value == '' ? this.value=0 : true)"
-                            id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
+                            id="cri_sel_markcla_{{ $cri->id }}" name="cri_sel_markcla_{{ $cri->id }}" required>
                         </td>
                         @else
                         <td class="text-center">
@@ -187,9 +191,9 @@
                         @if (auth()->user()->role_id == 'fac')
                         <td class="text-center">
                             <input type="number" style="width:55px" class="form-control" min="0" max="10"
-                            value="{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_student : '0'}}"
+                            value="{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_faculty : '0'}}"
                             onkeyup="return this.value > 10 ? this.value=10 : (this.value == '' ? this.value=0 : true)"
-                            id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
+                            id="cri_sel_markfac_{{ $cri->id }}" name="cri_sel_markfac_{{ $cri->id }}" required>
                         </td>
                         @else
                         <td class="text-center">
@@ -200,9 +204,9 @@
                         @if (auth()->user()->role_id == 'sch')
                         <td class="text-center">
                             <input type="number" style="width:55px" class="form-control" min="0" max="10"
-                            value="{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_student : '0'}}"
+                            value="{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_school : '0'}}"
                             onkeyup="return this.value > 10 ? this.value=10 : (this.value == '' ? this.value=0 : true)"
-                            id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
+                            id="cri_sel_marksch_{{ $cri->id }}" name="cri_sel_marksch_{{ $cri->id }}" required>
                         </td>
                         @else
                         <td class="text-center">
@@ -217,6 +221,7 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-end">
+                <input type="text" id="role_id" name="role_id" value="{{ auth()->user()->role_id }}" style="display: none">
                 <input type="text" id="student_id" name="student_id" value="{{ $showed_student->id }}" style="display: none">
                 <button class="btn btn-success" type="submit">Xác nhận</button>
             </div>
