@@ -174,6 +174,8 @@
                             '</tr>'
                         );
                     });
+                    call_tracking_input_search();
+                    call_tracking_select_all();
                     edit();
                     deleteOne();
                     deleteAll();

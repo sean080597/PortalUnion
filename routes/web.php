@@ -63,10 +63,31 @@ Route::resource('users', 'UserController');
 
 Route::prefix('admin')->group(function(){
     Route::get('/', 'adminController@index');
-    Route::resource('student', 'adminStudentController');
+
+    //Route::resource('student', 'adminStudentController');
+    Route::get('student/','adminStudentController@index');  
+    Route::get('showAll','adminStudentController@showAll');
+    Route::get('student/create','adminStudentController@createStudent');
+    Route::get('student/{id}','adminStudentController@setStudent');
+    Route::get('student/{id}/{idF}','adminFacultyController@showAllExcept');
+    Route::get('student/{id}/getClass/{idF}','adminClassController@getClassesFollowFac');
+    Route::post('student/{id}/update','adminStudentController@update');
+    Route::post('student/create/store','adminStudentController@store');
+    Route::post('student/create/get','adminFacultyController@showAllFac');
+    Route::delete('student/{id}','adminStudentController@destroy');
+
     Route::resource('class', 'adminClassController');
-    Route::resource('faculty', 'adminFacultyController');
-    Route::get('getFaculties','adminFacultyController@getFaculties');
     Route::get('getAllClass','adminClassController@showAll');
     Route::get('getToEdit/{id}','adminClassController@showToEdit');
+
+    Route::resource('faculty', 'adminFacultyController');
+    Route::get('getFaculties','adminFacultyController@getFaculties');
+    
+    Route::get('user/','adminUserController@index');
+    Route::get('user/showAll','adminUserController@showAll');
+    Route::get('user/{id}','adminUserController@show');
+    Route::post('user/create','adminUserController@store');
+    Route::put('user/{id}','adminUserController@update');
+    Route::delete('user/{id}','adminUserController@destroy');
+    Route::get('role/showAll','RoleController@showAll');
 });

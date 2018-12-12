@@ -13,7 +13,7 @@ use App\Http\Resources\FacultyResource;
 class adminFacultyController extends Controller
 {
     public function __construct() {
-        //$this->middleware(['auth', 'checkrole']);
+        $this->middleware(['auth', 'checkrole']);
     }
     /**
      * Display a listing of the resource.
@@ -72,7 +72,22 @@ class adminFacultyController extends Controller
         $faculty = Faculty::findOrFail($id);
         return $faculty;
     }
-
+    public function showAllExcept($id,$idC){
+        $class = ClassRoom::where('id',$idC)->first();
+        $classes = ClassRoom::where('faculty_id',$class->faculty_id)->orderBy('id','asc')->get();
+        $fac = Faculty::where('id',$class->faculty_id)->first();
+        $faculties = Faculty::all()->except($fac->id);
+        return [
+            'class'=>$class,
+            'classes'=>$classes,
+            'fac'=>$fac,
+            'faculties'=>$faculties
+        ];
+    }
+    public function showAllFac(){
+        $faculties = Faculty::all();
+        return ['faculties'=>$faculties];
+    }
     /**
      * Show the form for editing the specified resource.
      *

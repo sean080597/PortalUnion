@@ -62,7 +62,7 @@
                     <li>
                         <a href="#thong-tin-dv" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">Quản lý</a>
                         <ul class="collapse list-unstyled" id="thong-tin-dv">
-                            <li><a href="#">Đoàn viên</a></li>
+                            <li><a href="{{url('/admin/student')}}">Đoàn viên</a></li>
                             <li><a href="{{url('/admin/class')}}">Lớp</a></li>
                             <li><a href="{{url('/admin/faculty')}}">Khoa</a></li>
                             <li><a href="#">Tài khoản</a></li>

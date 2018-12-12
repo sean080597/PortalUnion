@@ -48,7 +48,9 @@ class RoleController extends Controller
     {
         //
     }
-
+    public function showAll(){
+        return Role::orderBy('id','asc')->get();
+    }
     /**
      * Show the form for editing the specified resource.
      *

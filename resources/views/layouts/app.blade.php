@@ -12,6 +12,7 @@
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @yield('link_css')
+    @yield('style_css')
 </head>
 <body>
     <section class="container-fluid">
@@ -163,6 +164,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" defer></script>
 
+    @yield('link_js_2')
     <!-- Core plugin JavaScript-->
     {{-- <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script> --}}
 

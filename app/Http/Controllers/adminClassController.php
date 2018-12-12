@@ -10,6 +10,9 @@ use App\Student;
 
 class adminClassController extends Controller
 {
+    public function __construct() {
+        $this->middleware(['auth', 'checkrole']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -77,6 +80,12 @@ class adminClassController extends Controller
             'class'=>$classes,
             'faculties'=>$faculties
         ];//Resource chuyen classes thanh data:
+    }
+    public function getClassesFollowFac($idF){
+        $classes = ClassRoom::where('faculty_id',$idF)->get();
+        return [
+            'classes'=>$classes
+        ];
     }
     /**
      * Show the form for editing the specified resource.

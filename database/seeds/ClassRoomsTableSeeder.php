@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class ClassRoomsTableSeeder extends Seeder
 {
@@ -11,14 +12,16 @@ class ClassRoomsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('faculties')->insert([
+        DB::table('class_rooms')->insert([
             [
                 'id' => '15DTH12',
+                'faculty_id'=>'DTH',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
                 'id' => '15DTH11',
+                'faculty_id'=>'DTH',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]

@@ -89,7 +89,7 @@ function call_tracking_select_all(){
             $(this).removeAttr('checked');
             $('.table input[type="checkbox"]').removeAttr('checked');
         }else{
-            $(this).attr('checked','checked')
+            $(this).attr('checked','checked');
             $('.table input[type="checkbox"]').attr('checked','checked');
         }
     });
