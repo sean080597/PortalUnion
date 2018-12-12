@@ -45,7 +45,7 @@
                     <div class="d-flex flex-column align-items-center">
                         <section class="container-fluid congtt">
                             <div class="d-flex flex-column align-items-start">
-                                <h4 class="text-danger mt-4">Cổng thông tin đoàn khoa</h4>
+                                <h4 class="text-danger mt-4">CỔNG THÔNG TIN ĐOÀN-HỘI HUTECH</h4>
                                 <p class="mt-4">Kênh thông tin dành cho tất cả đoàn viên</p>
                                 <div class="d-inline mt-custom">
                                     <a href="https://www.hutech.edu.vn/" class="btn btn-customize btn-sm" target="_blank">Trang chủ HUTECH</a>

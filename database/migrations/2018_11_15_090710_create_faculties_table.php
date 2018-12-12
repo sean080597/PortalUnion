@@ -17,7 +17,13 @@ class CreateFacultiesTable extends Migration
             $table->string('id', 4);
             $table->string('name', 50);
             $table->string('note', 20)->nullable();
+            $table->integer('uid_secretary')->unsigned()->nullable();
+            $table->integer('uid_deputysecre1')->unsigned()->nullable();
+            $table->integer('uid_deputysecre2')->unsigned()->nullable();
             $table->primary('id');
+            $table->foreign('uid_secretary')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('uid_deputysecre1')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('uid_deputysecre2')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

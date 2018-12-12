@@ -114,17 +114,31 @@
                         </ul>
                     </li>
                     @endif
+                    @if (auth()->user()->role_id != 'adm')
                     <li>
                         <a href="#ql-dv" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">
                             ĐG đoàn viên
                         </a>
                         <ul class="collapse list-unstyled" id="ql-dv">
-                            <li><a href="#">ĐG cá nhân</a></li>
+                            @if (auth()->user()->role_id == 'stu'
+                            || auth()->user()->role_id == 'cla'
+                            || auth()->user()->role_id == 'fac')
+                            <li><a href="{{ action('CriteriaManagermentController@student_evaluate',
+                            [$all_students->where('user_id', auth()->user()->id)->first()->id]) }}">ĐG cá nhân</a></li>
+                            @endif
+                            @if (auth()->user()->role_id == 'cla'
+                            || auth()->user()->role_id == 'fac')
                             <li><a href="#">Lớp quản lý</a></li>
+                            @endif
+                            @if (auth()->user()->role_id == 'fac')
                             <li><a href="#">Khoa quản lý</a></li>
+                            @endif
+                            @if (auth()->user()->role_id == 'sch')
                             <li><a href="#">Trường quản lý</a></li>
+                            @endif
                         </ul>
                     </li>
+                    @endif
                     <li><a href="layout.html">Hỗ trợ</a></li>
                 </ul>
             </nav><!-- End nav sidebar -->

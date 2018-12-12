@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Criteria;
+use App\student_criteria_selfregis;
 use Illuminate\Http\Request;
 
-class CriteriaController extends Controller
+class StudentCriteriaSelfregisController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CriteriaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Criteria  $criteria
+     * @param  \App\student_criteria_selfregis  $student_criteria_selfregis
      * @return \Illuminate\Http\Response
      */
-    public function show(Criteria $criteria)
+    public function show(student_criteria_selfregis $student_criteria_selfregis)
     {
         //
     }
@@ -52,10 +52,10 @@ class CriteriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Criteria  $criteria
+     * @param  \App\student_criteria_selfregis  $student_criteria_selfregis
      * @return \Illuminate\Http\Response
      */
-    public function edit(Criteria $criteria)
+    public function edit(student_criteria_selfregis $student_criteria_selfregis)
     {
         //
     }
@@ -64,10 +64,10 @@ class CriteriaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Criteria  $criteria
+     * @param  \App\student_criteria_selfregis  $student_criteria_selfregis
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Criteria $criteria)
+    public function update(Request $request, student_criteria_selfregis $student_criteria_selfregis)
     {
         //
     }
@@ -75,10 +75,10 @@ class CriteriaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Criteria  $criteria
+     * @param  \App\student_criteria_selfregis  $student_criteria_selfregis
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Criteria $criteria)
+    public function destroy(student_criteria_selfregis $student_criteria_selfregis)
     {
         //
     }

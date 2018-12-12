@@ -26,6 +26,12 @@ class HomeController extends Controller
         return view('errors.401', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
     }
 
+    public function notfound(){
+        $all_classrooms = ClassRoom::all();
+        $all_students = Student::all();
+        return view('errors.not_found', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
+    }
+
     /**
      * Show the application dashboard.
      *

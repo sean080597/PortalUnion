@@ -106,9 +106,11 @@ class StudentController extends Controller
         $all_students = Student::all();
         $all_users = User::all();
         $all_classrooms = ClassRoom::all();
+        $cur_classroom = ClassRoom::findOrFail($classroom_id);
 
         $students = Student::where('class_room_id', $classroom_id)->get();
-        return view('students.index', ['students' => $students, 'all_students' => $all_students, 'all_users' => $all_users, 'all_classrooms' => $all_classrooms]);
+        return view('students.index', ['students' => $students, 'all_students' => $all_students,
+        'all_users' => $all_users, 'all_classrooms' => $all_classrooms, 'cur_classroom' => $cur_classroom]);
     }
 
     /**
@@ -196,7 +198,6 @@ class StudentController extends Controller
         }
         $student->address = $request->address;
         $student->sex = $request->sex;
-        $student->phone = $request->phonenum;
         $student->hometown = $request->hometown;
         $student->union_date = $request->union_day;
         $student->ethnic = $request->ethnic;
@@ -205,6 +206,7 @@ class StudentController extends Controller
 
         //get info to update table users
         $user = User::findOrFail($request->user_id);
+        $user->phone = $request->phonenum;
         $user->email = $request->email;
         $user->save();
 

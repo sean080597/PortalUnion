@@ -12,26 +12,44 @@
 <div class="wrap-table">
     <div class="note-info">
         <div class="row">
-            <p class="col-sm-4"><span>Bí thư: </span>Nguyễn Văn A</p>
+            <p class="col-sm-4">
+                <span>Bí thư: </span>{{ $all_users->where('id', $cur_faculty->uid_secretary)->first()->name }}
+            </p>
             <div class="col-sm-8 row">
-                <p class="col-5"><span>ĐT: </span>0909090909</p>
-                <p class="col-7 px-0"><span>Email: </span>nguyenvana@gmail.com</p>
+                <p class="col-5">
+                    <span>ĐT: </span>{{ $all_users->where('id', $cur_faculty->uid_secretary)->first()->phone }}
+                </p>
+                <p class="col-7 px-0">
+                    <span>Email: </span>{{ $all_users->where('id', $cur_faculty->uid_secretary)->first()->email }}
+                </p>
             </div>
         </div>
         <div class="row">
-            <p class="col-sm-4"><span>Phó bí thư: </span>Nguyễn Văn B</p>
+            <p class="col-sm-4">
+                <span>Phó bí thư: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->name }}
+            </p>
             <div class="col-sm-8 row">
-                <p class="col-5"><span>ĐT: </span>0909090909</p>
-                <p class="col-7 px-0"><span>Email: </span>nguyenvanb@gmail.com</p>
+                <p class="col-5">
+                    <span>ĐT: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->phone }}
+                </p>
+                <p class="col-7 px-0">
+                    <span>Email: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->email }}
+                </p>
             </div>
         </div>
         <div class="row">
-            <p class="col-sm-4"><span>Phó bí thư: </span>Nguyễn Văn C</p>
+            <p class="col-sm-4">
+                <span>Phó bí thư: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->name }}
+            </p>
             <div class="col-sm-8 row">
-                <p class="col-5"><span>ĐT: </span>0909090909</p>
-                <p class="col-7 px-0"><span>Email: </span>nguyenvanc@gmail.com</p>
+                <p class="col-5">
+                    <span>ĐT: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->phone }}
+                </p>
+                <p class="col-7 px-0">
+                    <span>Email: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->email }}
+                </p>
             </div>
-        </div>
+    </div>
     </div>
 
     <div class="row">
@@ -74,11 +92,11 @@
                     <tr>
                         <td>{{ ++$key }}</td>
                         <td>{{ $classroom->id }}</td>
-                        <td>Nguyễn Văn A</td>
-                        <td>nguyenvana@gmail.com</td>
-                        <td>0909090909</td>
+                        <td>{{ $all_users->where('id', $classroom->uid_secretary)->first()->name }}</td>
+                        <td>{{ $all_users->where('id', $classroom->uid_secretary)->first()->email }}</td>
+                        <td>{{ $all_users->where('id', $classroom->uid_secretary)->first()->phone }}</td>
                         <td class="text-center text-primary">
-                            <a href="{{ action('StudentController@index', [$faculty_id, $classroom->id]) }}">
+                            <a href="{{ action('StudentController@index', [$cur_faculty->id, $classroom->id]) }}">
                                 <i class="far fa-eye"></i>
                             </a>
                         </td>

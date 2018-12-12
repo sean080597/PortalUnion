@@ -12,24 +12,42 @@
 <div class="wrap-table">
     <div class="note-info">
         <div class="row">
-            <p class="col-sm-4"><span>Bí thư: </span>Nguyễn Văn A</p>
+            <p class="col-sm-4">
+                <span>Bí thư: </span>{{ $all_users->where('role_id', 'sec')->first()->name }}
+            </p>
             <div class="col-sm-8 row">
-                <p class="col-5"><span>ĐT: </span>0909090909</p>
-                <p class="col-7 px-0"><span>Email: </span>nguyenvana@gmail.com</p>
+                <p class="col-5">
+                    <span>ĐT: </span>{{ $all_users->where('role_id', 'sec')->first()->phone }}
+                </p>
+                <p class="col-7 px-0">
+                    <span>Email: </span>{{ $all_users->where('role_id', 'sec')->first()->email }}
+                </p>
             </div>
         </div>
         <div class="row">
-            <p class="col-sm-4"><span>Phó bí thư: </span>Nguyễn Văn B</p>
+            <p class="col-sm-4">
+                <span>Phó bí thư: </span>{{ $all_users->where('role_id', 'de1')->first()->name }}
+            </p>
             <div class="col-sm-8 row">
-                <p class="col-5"><span>ĐT: </span>0909090909</p>
-                <p class="col-7 px-0"><span>Email: </span>nguyenvanb@gmail.com</p>
+                <p class="col-5">
+                    <span>ĐT: </span>{{ $all_users->where('role_id', 'de1')->first()->phone }}
+                </p>
+                <p class="col-7 px-0">
+                    <span>Email: </span>{{ $all_users->where('role_id', 'de1')->first()->email }}
+                </p>
             </div>
         </div>
         <div class="row">
-            <p class="col-sm-4"><span>Phó bí thư: </span>Nguyễn Văn C</p>
+            <p class="col-sm-4">
+                <span>Phó bí thư: </span>{{ $all_users->where('role_id', 'de2')->first()->name }}
+            </p>
             <div class="col-sm-8 row">
-                <p class="col-5"><span>ĐT: </span>0909090909</p>
-                <p class="col-7 px-0"><span>Email: </span>nguyenvanc@gmail.com</p>
+                <p class="col-5">
+                    <span>ĐT: </span>{{ $all_users->where('role_id', 'de2')->first()->phone }}
+                </p>
+                <p class="col-7 px-0">
+                    <span>Email: </span>{{ $all_users->where('role_id', 'de2')->first()->email }}
+                </p>
             </div>
         </div>
     </div>
@@ -74,9 +92,9 @@
                     <tr>
                         <td>{{ ++$key }}</td>
                         <td>{{ $faculty->name }}</td>
-                        <td>Nguyễn Văn A</td>
-                        <td>nguyenvana@gmail.com</td>
-                        <td>0909090909</td>
+                        <td>{{ $all_users->where('id', $faculty->uid_secretary)->first()->name }}</td>
+                        <td>{{ $all_users->where('id', $faculty->uid_secretary)->first()->email }}</td>
+                        <td>{{ $all_users->where('id', $faculty->uid_secretary)->first()->phone }}</td>
                         <td class="text-center text-primary">
                             <a href="{{ action('ClassRoomController@index',
                             [$faculty->id]) }}">
@@ -84,7 +102,7 @@
                             </a>
                         </td>
                         <td class="text-center">
-                            <span class="badge badge-pill badge-secondary">hello</span>
+                            <span class="badge badge-pill badge-secondary">{{ $faculty->note }}</span>
                         </td>
                     </tr>
                 @endforeach

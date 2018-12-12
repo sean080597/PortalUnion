@@ -71,7 +71,7 @@
                 <div class="form-group col-md-6">
                     <label for="phonenum">Điện thoại: <span class="text-danger">(*)</span></label>
                     <input type="tel" class="form-control" name="phonenum" id="phonenum"
-                    value="{{ $student->phone }}" maxlength="10"
+                    value="{{ $user->phone }}" maxlength="10"
                     onkeypress="return event.keyCode>48 && event.keyCode<57 ? true : false"
                     onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
                     >

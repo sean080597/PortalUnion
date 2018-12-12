@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCriterionTypesTable extends Migration
+class CreateCriteriaSelfregisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateCriterionTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('criterion_types', function (Blueprint $table) {
+        Schema::create('criteria_selfregis', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('content');
-            $table->tinyInteger('max_grade');
+            $table->text('content');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateCriterionTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('criterion_types');
+        Schema::dropIfExists('criteria_selfregis');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCriteriasTable extends Migration
+class CreateCriteriaMandatoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateCriteriasTable extends Migration
      */
     public function up()
     {
-        Schema::create('criterias', function (Blueprint $table) {
+        Schema::create('criteria_mandatories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('content');
-            $table->tinyInteger('max_grade');
-            $table->integer('type_id')->unsigned();
-            $table->foreign('type_id')->references('id')->on('criterion_types')->onDelete('cascade')->onUpdate('cascade');
+            $table->text('content');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateCriteriasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('criterions');
+        Schema::dropIfExists('criteria_mandatories');
     }
 }

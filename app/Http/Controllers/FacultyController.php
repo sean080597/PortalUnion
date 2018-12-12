@@ -1,18 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 use App\ClassRoom;
 use App\Faculty;
 use App\Student;
 use App\Role;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\User;
 
 class FacultyController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth', 'checkrole'])->except('getlistfaculties');
+        $this->middleware(['auth', 'checkrole'])
+        ->except(['getlistfaculties', 'getInfoFaculty']);
     }
 
     public function getInfoFaculty(Request $request){
@@ -45,7 +47,8 @@ class FacultyController extends Controller
         $all_classrooms = ClassRoom::all();
         $all_students = Student::all();
         $faculties = Faculty::orderby('name', 'asc')->get();
-        return view('faculties.index', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'faculties' => $faculties]);
+        $all_users = User::all();
+        return view('faculties.index', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'faculties' => $faculties, 'all_users' => $all_users]);
     }
 
     /**

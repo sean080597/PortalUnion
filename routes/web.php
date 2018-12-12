@@ -17,6 +17,7 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('401', 'HomeController@deniedaccess')->name('deniedaccess');
+Route::get('notfound', 'HomeController@notfound')->name('notfound');
 
 Route::get('/faculties/getInfoFaculty', 'FacultyController@getInfoFaculty');
 Route::get('/faculties/getlistfaculties', 'FacultyController@getlistfaculties');
@@ -51,11 +52,11 @@ Route::get('/students/show/{student_id}', ['as' => 'students.show', 'uses' => 'S
 Route::get('/students/{faculty_id}/{classroom_id}', ['as' => 'students.index', 'uses' => 'StudentController@index']);
 Route::post('/students/update', ['as' => 'students.update', 'uses' => 'StudentController@update']);
 
+//route for evaluate criteria
+Route::post('/criteria-evaluation/submit-evaluation', ['as' => 'criteria-evaluation.submit-evaluation', 'uses' => 'CriteriaManagermentController@submit_evaluation']);
+Route::get('/criteria-evaluation/student-evaluate/{student_id}', ['as' => 'criteria-evaluation.student-evaluate', 'uses' => 'CriteriaManagermentController@student_evaluate']);
+
 Route::resource('events', 'EventController');
-
-Route::resource('criterias', 'CriteriaController');
-
-Route::resource('criteiontypes', 'CriterionTypeController');
 
 Route::resource('relations', 'RelationController');
 

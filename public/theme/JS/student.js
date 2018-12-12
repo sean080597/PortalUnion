@@ -74,8 +74,6 @@ $(document).ready(function () {
             processData: false,
             success: function (data) {
                 alert(data.message);
-                //location.reload();
-                // console.log(data);
             }
         });
     });
@@ -85,7 +83,6 @@ $(document).ready(function () {
         var is_submit = $(this).is(":checked");
         var student_id = $('#student_id').val();
         var _token = $('input[name="_token"]').val();
-        console.log(is_submit);
         $.post("/students/submit_union_note",
             {_token:_token, student_id:student_id, is_submit:is_submit}
         );

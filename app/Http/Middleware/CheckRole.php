@@ -27,7 +27,11 @@ class CheckRole
             return $next($request);
         }
 
+<<<<<<< HEAD
         if ($request->is(['faculties/manage', 'classrooms/manage', 'students/manage','admin/'])){
+=======
+        if ($request->is(['faculties/manage', 'classrooms/manage', 'students/manage', 'students/manage/show/*'])){
+>>>>>>> 25dd129c583280bf440d40282f7b92c14c5dc5b0
             if($user_roleid != 'adm'){
                 return redirect('401');
             }
@@ -45,10 +49,6 @@ class CheckRole
         //check if redirecting to the classroom page
         if ($request->is('classrooms/*'))
         {
-            if ($user_roleid == 'sch')
-            {
-                return $next($request);
-            }
             if($user_roleid == 'fac'){
                 $cur_student = $all_students->where('user_id', auth()->user()->id)->first();
                 $user_faculty_id = $all_classrooms->where('id', $cur_student->class_room_id)->first()->faculty_id;
@@ -56,47 +56,122 @@ class CheckRole
                     return $next($request);
                 }
             }
-        }
 
-        if ($request->is('students/show/*')){
-            if($user_roleid != 'stu'){
+            if ($user_roleid == 'sch')
+            {
                 return $next($request);
-            }else{
-                $cur_student = $all_students->where('user_id', auth()->user()->id)->first();
-                if($request->route('student_id') == $cur_student->id){
-                    return $next($request);
-                }
             }
         }
 
         //check if redirecting to the student page
         if ($request->is('students/*/*'))
         {
-            if ($user_roleid == 'sch')
-            {
-                return $next($request);
-            }
-            //check faculty
-            if($user_roleid == 'fac'){
-                $cur_student = $all_students->where('user_id', auth()->user()->id)->first();
-                $user_faculty_id = $all_classrooms->where('id', $cur_student->class_room_id)->first()->faculty_id;
-                if($request->route('faculty_id') == $user_faculty_id){
+            if($user_roleid == 'stu' && $request->is('students/show/*')){
+                //get logged student
+                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
+                if($request->route('student_id') == $logged_student->id){
                     return $next($request);
                 }
             }
 
             if($user_roleid == 'cla'){
-                $students = Student::where('class_room_id', $request->route('classroom_id'))->get();
-                $cur_student = $all_students->where('user_id', auth()->user()->id)->first();
-                //check faculty
-                $user_faculty_id = $all_classrooms->where('id', $cur_student->class_room_id)->first()->faculty_id;
-                if($request->route('faculty_id') == $user_faculty_id){
-                    //check classroom
-                    $user_classroom_id = $cur_student->class_room_id;
-                    if(strtolower($request->route('classroom_id')) == $user_classroom_id){
+                //get logged student
+                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
+                $user_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                //check if the request is students/show/*
+                if(!empty($request->route('student_id'))){
+                    $showed_student = $all_students->where('id', $request->route('student_id'))->first();
+                    if(strtolower($showed_student->class_room_id) == strtolower($logged_student->class_room_id)){
                         return $next($request);
                     }
                 }
+                //check if the request is students/faculty_id/classroom_id
+                else{
+                    $logged_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                    if(strtolower($request->route('faculty_id')) == strtolower($logged_faculty_id)){
+                        if(strtolower($request->route('classroom_id')) == strtolower($logged_student->class_room_id)){
+                            return $next($request);
+                        }
+                    }
+                }
+            }
+
+            if($user_roleid == 'fac'){
+                //get logged student
+                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
+                $user_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                //check if the request is students/show/*
+                if(!empty($request->route('student_id'))){
+                    $showed_student = $all_students->where('id', $request->route('student_id'))->first();
+                    if(empty($showed_student)){
+                        return redirect('notfound');
+                    }else{
+                        $showed_faculty_id = $all_classrooms->where('id', $showed_student->class_room_id)->first()->faculty_id;
+                        if(strtolower($showed_faculty_id) == strtolower($user_faculty_id)){
+                            return $next($request);
+                        }
+                    }
+                }
+                //check if the request is students/faculty_id/classroom_id
+                else{
+                    if($request->route('faculty_id') == $user_faculty_id){
+                        $classroom = $all_classrooms->where('id', $request->route('classroom_id'))->first();
+                        if(empty($classroom)){
+                            return redirect('notfound');
+                        }else{
+                            return $next($request);
+                        }
+                    }
+                }
+            }
+
+            if ($user_roleid == 'sch')
+            {
+                return $next($request);
+            }
+        }
+
+        if ($request->is('criteria-evaluation/student-evaluate/*')){
+            if($user_roleid == 'stu'){
+                //get logged student
+                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
+                if($request->route('student_id') == $logged_student->id){
+                    return $next($request);
+                }
+            }
+
+            if ($user_roleid == 'cla')
+            {
+                //get logged student
+                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
+                $user_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                //get showed student
+                $showed_student = $all_students->where('id', $request->route('student_id'))->first();
+                if(strtolower($showed_student->class_room_id) == strtolower($logged_student->class_room_id)){
+                    return $next($request);
+                }
+            }
+
+            if ($user_roleid == 'fac')
+            {
+                //get logged student
+                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
+                $user_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                //get showed student
+                $showed_student = $all_students->where('id', $request->route('student_id'))->first();
+                if(empty($showed_student)){
+                    return redirect('notfound');
+                }else{
+                    $showed_faculty_id = $all_classrooms->where('id', $showed_student->class_room_id)->first()->faculty_id;
+                    if(strtolower($showed_faculty_id) == strtolower($user_faculty_id)){
+                        return $next($request);
+                    }
+                }
+            }
+
+            if ($user_roleid == 'sch')
+            {
+                return $next($request);
             }
         }
 

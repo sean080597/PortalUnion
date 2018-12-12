@@ -43,7 +43,26 @@ class RolesTableSeeder extends Seeder
                 'name' => 'AccStudent',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ]
+            ],
+            //=======================================================
+            [
+                'id' => 'sec',
+                'name' => 'Secretary',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'id' => 'de1',
+                'name' => 'Deputy Secretary 1',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'id' => 'de2',
+                'name' => 'Deputy Secretary 2',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
         ]);
     }
 }
