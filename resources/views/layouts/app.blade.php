@@ -119,11 +119,13 @@
                         </a>
                         <ul class="collapse list-unstyled" id="ql-dv">
                             @if (auth()->user()->role_id == 'stu'
-                            || auth()->user()->role_id == 'cla')
+                            || auth()->user()->role_id == 'cla'
+                            || auth()->user()->role_id == 'fac')
                             <li><a href="{{ action('CriteriaManagermentController@student_evaluate',
                             [$all_students->where('user_id', auth()->user()->id)->first()->id]) }}">ĐG cá nhân</a></li>
                             @endif
-                            @if (auth()->user()->role_id == 'cla')
+                            @if (auth()->user()->role_id == 'cla'
+                            || auth()->user()->role_id == 'fac')
                             <li><a href="#">Lớp quản lý</a></li>
                             @endif
                             @if (auth()->user()->role_id == 'fac')

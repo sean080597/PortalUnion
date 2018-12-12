@@ -30,12 +30,14 @@ class CriteriaManagermentController extends Controller
         $ls_stu_criman = StudentCriteriaMandatory::where('student_id', $student_id)->get();
         $ls_stu_crisel = StudentCriteriaSelfregis::where('student_id', $student_id)->get();
 
-        $cur_student = Student::where('id', $student_id)->first();
+        $logged_student = Student::where('user_id', auth()->user()->id)->first();
+        $showed_student = Student::where('id', $student_id)->first();
         //get classroom & faculty
-        $class = ClassRoom::findOrFail($cur_student->class_room_id);
+        $class = ClassRoom::findOrFail($showed_student->class_room_id);
         $faculty = Faculty::findOrFail($class->faculty_id);
         return view('criteria-evaluation.student_evaluate',
-        ['all_students' => $all_students, 'student' => $cur_student, 'faculty' => $faculty,
+        ['all_students' => $all_students, 'showed_student' => $showed_student,
+        'logged_student' => $logged_student, 'faculty' => $faculty,
         'all_classrooms' => $all_classrooms, 'cri_mandatory' => $cri_mandatory,
         'cri_selfregis' => $cri_selfregis, 'ls_stu_criman' => $ls_stu_criman,
         'ls_stu_crisel' => $ls_stu_crisel]);

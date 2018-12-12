@@ -93,7 +93,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Nguyễn Thanh Đăng',
                 'email' => 'nguyenthanhdang1008@gmail.com',
                 'password' => bcrypt('sean080597'),
-                'role_id' => 'fac',
+                'role_id' => 'stu',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -102,7 +102,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Lê Đặng Phú',
                 'email' => 'phu250497@gmail.com',
                 'password' => bcrypt('sean080597'),
-                'role_id' => 'cla',
+                'role_id' => 'stu',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],

@@ -17,9 +17,9 @@
 <div class="wrap-table">
     <div class="note-info">
         <div class="row">
-            <div class="col-sm-6"><p><span>Tên: </span>{{ $student->name }}</p></div>
-            <div class="col-sm-6"><p><span>MSSV: </span>{{ $student->id }}</p></div>
-            <div class="col-sm-6"><p><span>Chi đoàn: </span>{{ $student->class_room_id }}</p></div>
+            <div class="col-sm-6"><p><span>Tên: </span>{{ $showed_student->name }}</p></div>
+            <div class="col-sm-6"><p><span>MSSV: </span>{{ $showed_student->id }}</p></div>
+            <div class="col-sm-6"><p><span>Chi đoàn: </span>{{ $showed_student->class_room_id }}</p></div>
             <div class="col-sm-6"><p><span>Khoa: </span>{{ $faculty->name }}</p></div>
         </div>
     </div>
@@ -61,7 +61,9 @@
                             <span>{{ ++$key }}. </span>
                             <span id="cri_man_id_{{ $cri->id }}" criman_id="{{ $cri->id }}">{{ $cri->content }}</span>
                         </td>
-                        @if (auth()->user()->role_id == 'stu')
+                        @if (auth()->user()->role_id == 'stu'
+                        || (auth()->user()->role_id == 'cla' && $logged_student->id == $showed_student->id)
+                        || (auth()->user()->role_id == 'fac' && $logged_student->id == $showed_student->id))
                         <td class="text-center">
                             <input type="text" class="form-control"
                             value="{{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->self_assessment : '' }}"
@@ -75,11 +77,16 @@
                             id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
+                        <td class="text-center">
+                            {{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->self_assessment : ''}}
+                        </td>
+                        <td class="text-center">
+                            {{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->mark_student : '0'}}
+                        </td>
                         @endif
 
-                        @if (auth()->user()->role_id == 'cla')
+                        @if (auth()->user()->role_id == 'cla'
+                        || (auth()->user()->role_id == 'fac' && $logged_student->id == $showed_student->id))
                         <td class="text-center">
                             <input type="number" style="width:55px" class="form-control" min="0" max="10"
                             value="{{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->mark_classroom : '0'}}"
@@ -87,7 +94,9 @@
                             id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center"></td>
+                        <td class="text-center">
+                            {{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->mark_classroom : '0'}}
+                        </td>
                         @endif
 
                         @if (auth()->user()->role_id == 'fac')
@@ -98,7 +107,9 @@
                             id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center"></td>
+                        <td class="text-center">
+                            {{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->mark_faculty : '0'}}
+                        </td>
                         @endif
 
                         @if (auth()->user()->role_id == 'sch')
@@ -109,7 +120,9 @@
                             id="cri_man_mark_{{ $cri->id }}" name="cri_man_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center"></td>
+                        <td class="text-center">
+                            {{ !empty($ls_stu_criman[$count]) ? $ls_stu_criman[$count]->mark_school : '0'}}
+                        </td>
                         @endif
                     </tr>
                     @php
@@ -117,7 +130,7 @@
                     @endphp
                     @endforeach
                     <tr>
-                        <td colspan="6" style="font-weight:700"><span>II. </span> Nội dung đoàn viên tự đăng ký thực hiên<span> (Tối đa: 30đ)</span></td>
+                        <td colspan="6" style="font-weight:700"><span>II. </span> Nội dung đoàn viên tự đăng ký thực hiện<span> (Tối đa: 30đ)</span></td>
                     </tr>
                     @php
                         $count = 0;
@@ -134,7 +147,9 @@
                             name="cri_sel_content_{{ $cri->id }}" required>{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->content_regis : '' }}</textarea>
                         </td>
 
-                        @if (auth()->user()->role_id == 'stu')
+                        @if (auth()->user()->role_id == 'stu'
+                        || (auth()->user()->role_id == 'cla' && $logged_student->id == $showed_student->id)
+                        || (auth()->user()->role_id == 'fac' && $logged_student->id == $showed_student->id))
                         <td class="text-center">
                             <input type="text" class="form-control"
                             value="{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->self_assessment : ''}}"
@@ -147,11 +162,16 @@
                             id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
+                        <td class="text-center">
+                            {{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->self_assessment : ''}}
+                        </td>
+                        <td class="text-center">
+                            {{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_student : '0'}}
+                        </td>
                         @endif
 
-                        @if (auth()->user()->role_id == 'cla')
+                        @if (auth()->user()->role_id == 'cla'
+                        || (auth()->user()->role_id == 'fac' && $logged_student->id == $showed_student->id))
                         <td class="text-center">
                             <input type="number" style="width:55px" class="form-control" min="0" max="10"
                             value="{{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_student : '0'}}"
@@ -159,7 +179,9 @@
                             id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center"></td>
+                        <td class="text-center">
+                            {{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_classroom : '0'}}
+                        </td>
                         @endif
 
                         @if (auth()->user()->role_id == 'fac')
@@ -170,7 +192,9 @@
                             id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center"></td>
+                        <td class="text-center">
+                            {{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_faculty : '0'}}
+                        </td>
                         @endif
 
                         @if (auth()->user()->role_id == 'sch')
@@ -181,7 +205,9 @@
                             id="cri_sel_mark_{{ $cri->id }}" name="cri_sel_mark_{{ $cri->id }}" required>
                         </td>
                         @else
-                        <td class="text-center"></td>
+                        <td class="text-center">
+                            {{ !empty($ls_stu_crisel[$count]) ? $ls_stu_crisel[$count]->mark_school : '0'}}
+                        </td>
                         @endif
                     </tr>
                     @php
@@ -191,7 +217,7 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-end">
-                <input type="text" id="student_id" name="student_id" value="{{ $student->id }}" style="display: none">
+                <input type="text" id="student_id" name="student_id" value="{{ $showed_student->id }}" style="display: none">
                 <button class="btn btn-success" type="submit">Xác nhận</button>
             </div>
         </div>
