@@ -15,18 +15,14 @@ class StudentsTableSeeder extends Seeder
      */
 
     public function insert_stu($stu_id, $n, $count){
-        $arr_classroom = array();
-        $all_classrooms = ClassRoom::all();
-        foreach($all_classrooms as $key => $classroom){
-            $arr_classroom[$key] = $classroom->id;
-        }
+        $all_classrooms = ClassRoom::all()->pluck('id');
         $faker = Faker::create();
         DB::table('students')->insert([
             'id' => $stu_id,
             'name' => $n,
             'address' => $faker->address,
             'birthday' => Carbon::createFromTimeStamp($faker->dateTimeBetween('-30 days', '+30 days')->getTimestamp()),
-            'class_room_id' => $arr_classroom[rand(0, count($arr_classroom) - 1)],
+            'class_room_id' => $all_classrooms[rand(0, count($all_classrooms) - 1)],
             'user_id' => $count,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')

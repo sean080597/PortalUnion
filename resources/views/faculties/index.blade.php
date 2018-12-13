@@ -92,9 +92,9 @@
                     <tr>
                         <td>{{ ++$key }}</td>
                         <td>{{ $faculty->name }}</td>
-                        <td>{{ $all_users->where('id', $faculty->uid_secretary)->first()->name }}</td>
-                        <td>{{ $all_users->where('id', $faculty->uid_secretary)->first()->email }}</td>
-                        <td>{{ $all_users->where('id', $faculty->uid_secretary)->first()->phone }}</td>
+                        <td>{{ !empty($faculty->uid_secretary) ? $all_users->where('id', $faculty->uid_secretary)->first()->name : '' }}</td>
+                        <td>{{ !empty($faculty->uid_secretary) ? $all_users->where('id', $faculty->uid_secretary)->first()->email : '' }}</td>
+                        <td>{{ !empty($faculty->uid_secretary) ? $all_users->where('id', $faculty->uid_secretary)->first()->phone : '' }}</td>
                         <td class="text-center text-primary">
                             <a href="{{ action('ClassRoomController@index',
                             [$faculty->id]) }}">

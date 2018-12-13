@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use App\User;
 
 class ClassRoomsTableSeeder extends Seeder
 {
@@ -10,598 +11,300 @@ class ClassRoomsTableSeeder extends Seeder
      *
      * @return void
      */
+    public function insert_class($id, $faculty_id){
+        DB::table('class_rooms')->insert([
+            'id' => $id,
+            'faculty_id' => $faculty_id,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
+    }
+
     public function run()
     {
-        DB::table('class_rooms')->insert([
-            [
-<<<<<<< HEAD
-                'id' => '15DTH12',
-                'faculty_id'=>'DTH',
-=======
-                'id' => '15DTH01',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 47,
-                'uid_deputysecre1' => 48,
-                'uid_deputysecre2' => 49,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH02',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 40,
-                'uid_deputysecre1' => 41,
-                'uid_deputysecre2' => 42,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH03',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 8,
-                'uid_deputysecre1' => 9,
-                'uid_deputysecre2' => 10,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH04',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 44,
-                'uid_deputysecre1' => 45,
-                'uid_deputysecre2' => 46,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH05',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 9,
-                'uid_deputysecre1' => 10,
-                'uid_deputysecre2' => 11,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH06',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 10,
-                'uid_deputysecre1' => 11,
-                'uid_deputysecre2' => 12,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH07',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 11,
-                'uid_deputysecre1' => 12,
-                'uid_deputysecre2' => 13,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH08',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 12,
-                'uid_deputysecre1' => 13,
-                'uid_deputysecre2' => 14,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH09',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 13,
-                'uid_deputysecre1' => 14,
-                'uid_deputysecre2' => 15,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH10',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 14,
-                'uid_deputysecre1' => 15,
-                'uid_deputysecre2' => 16,
->>>>>>> 25dd129c583280bf440d40282f7b92c14c5dc5b0
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH11',
-<<<<<<< HEAD
-                'faculty_id'=>'DTH',
-=======
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 15,
-                'uid_deputysecre1' => 16,
-                'uid_deputysecre2' => 17,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH12',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 16,
-                'uid_deputysecre1' => 17,
-                'uid_deputysecre2' => 18,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH13',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 17,
-                'uid_deputysecre1' => 18,
-                'uid_deputysecre2' => 19,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH14',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 18,
-                'uid_deputysecre1' => 19,
-                'uid_deputysecre2' => 20,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH15',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 19,
-                'uid_deputysecre1' => 20,
-                'uid_deputysecre2' => 21,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '15DTH16',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 20,
-                'uid_deputysecre1' => 21,
-                'uid_deputysecre2' => 22,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            //=======================================================
-            [
-                'id' => '16DTHA1',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 21,
-                'uid_deputysecre1' => 22,
-                'uid_deputysecre2' => 23,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DTHA2',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 22,
-                'uid_deputysecre1' => 23,
-                'uid_deputysecre2' => 24,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DTHA3',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 23,
-                'uid_deputysecre1' => 24,
-                'uid_deputysecre2' => 25,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DTHA4',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 24,
-                'uid_deputysecre1' => 25,
-                'uid_deputysecre2' => 26,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DTHA5',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 25,
-                'uid_deputysecre1' => 26,
-                'uid_deputysecre2' => 27,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DTHA6',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 26,
-                'uid_deputysecre1' => 27,
-                'uid_deputysecre2' => 28,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DTHB1',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 27,
-                'uid_deputysecre1' => 28,
-                'uid_deputysecre2' => 29,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DTHB2',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 28,
-                'uid_deputysecre1' => 29,
-                'uid_deputysecre2' => 30,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DTHB3',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 29,
-                'uid_deputysecre1' => 30,
-                'uid_deputysecre2' => 31,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DTHB4',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 30,
-                'uid_deputysecre1' => 31,
-                'uid_deputysecre2' => 32,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DTHB5',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 31,
-                'uid_deputysecre1' => 32,
-                'uid_deputysecre2' => 33,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DTHB6',
-                'faculty_id' => 'DTH',
-                'uid_secretary' => 32,
-                'uid_deputysecre1' => 33,
-                'uid_deputysecre2' => 34,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            //=======================================================
-            [
-                'id' => '16DDUA1',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 35,
-                'uid_deputysecre1' => 36,
-                'uid_deputysecre2' => 37,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DDUA2',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 36,
-                'uid_deputysecre1' => 37,
-                'uid_deputysecre2' => 38,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DDUA3',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 37,
-                'uid_deputysecre1' => 38,
-                'uid_deputysecre2' => 39,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DDUA4',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 38,
-                'uid_deputysecre1' => 39,
-                'uid_deputysecre2' => 40,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DDUA5',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 7,
-                'uid_deputysecre2' => 9,
->>>>>>> 25dd129c583280bf440d40282f7b92c14c5dc5b0
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DDUA6',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 6,
-                'uid_deputysecre1' => 8,
-                'uid_deputysecre2' => 10,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DDUB1',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 11,
-                'uid_deputysecre1' => 13,
-                'uid_deputysecre2' => 15,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DDUB2',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 12,
-                'uid_deputysecre1' => 14,
-                'uid_deputysecre2' => 16,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DDUB3',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 17,
-                'uid_deputysecre1' => 19,
-                'uid_deputysecre2' => 21,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DDUB4',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 18,
-                'uid_deputysecre1' => 20,
-                'uid_deputysecre2' => 22,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DDUB5',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 23,
-                'uid_deputysecre1' => 25,
-                'uid_deputysecre2' => 27,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DDUB6',
-                'faculty_id' => 'DDU',
-                'uid_secretary' => 24,
-                'uid_deputysecre1' => 26,
-                'uid_deputysecre2' => 28,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            //=======================================================
-            [
-                'id' => '16DQTA1',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DQTA2',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DQTA3',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DQTA4',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DQTA5',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DQTA6',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DQTB1',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DQTB2',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DQTB3',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DQTB4',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DQTB5',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DQTB6',
-                'faculty_id' => 'DQT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            //=======================================================
-            [
-                'id' => '16DKTA1',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DKTA2',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DKTA3',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DKTA4',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DKTA5',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DKTA6',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DKTB1',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DKTB2',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DKTB3',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DKTB4',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DKTB5',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '16DKTB6',
-                'faculty_id' => 'DKT',
-                'uid_secretary' => 5,
-                'uid_deputysecre1' => 6,
-                'uid_deputysecre2' => 7,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-        ]);
+        //DTH
+        self::insert_class('15DTH01', 'DTH');
+        self::insert_class('15DTH02', 'DTH');
+        self::insert_class('15DTH03', 'DTH');
+        self::insert_class('15DTH04', 'DTH');
+        self::insert_class('15DTH05', 'DTH');
+        self::insert_class('15DTH06', 'DTH');
+        self::insert_class('15DTH07', 'DTH');
+        self::insert_class('15DTH08', 'DTH');
+        self::insert_class('15DTH09', 'DTH');
+        self::insert_class('15DTH10', 'DTH');
+        self::insert_class('15DTH11', 'DTH');
+        self::insert_class('15DTH12', 'DTH');
+        self::insert_class('15DTH13', 'DTH');
+        self::insert_class('15DTH14', 'DTH');
+        self::insert_class('15DTH15', 'DTH');
+        self::insert_class('15DTH16', 'DTH');
+
+        self::insert_class('16DTHA1', 'DTH');
+        self::insert_class('16DTHA2', 'DTH');
+        self::insert_class('16DTHA3', 'DTH');
+        self::insert_class('16DTHA4', 'DTH');
+        self::insert_class('16DTHA5', 'DTH');
+        self::insert_class('16DTHA6', 'DTH');
+        self::insert_class('16DTHB1', 'DTH');
+        self::insert_class('16DTHB2', 'DTH');
+        self::insert_class('16DTHB3', 'DTH');
+        self::insert_class('16DTHB4', 'DTH');
+        self::insert_class('16DTHB5', 'DTH');
+        self::insert_class('16DTHB6', 'DTH');
+        self::insert_class('16DTHC1', 'DTH');
+        self::insert_class('16DTHC2', 'DTH');
+        self::insert_class('16DTHC3', 'DTH');
+        self::insert_class('16DTHC4', 'DTH');
+        self::insert_class('16DTHC5', 'DTH');
+        self::insert_class('16DTHC6', 'DTH');
+        self::insert_class('16DTHD1', 'DTH');
+        self::insert_class('16DTHD2', 'DTH');
+        self::insert_class('16DTHD3', 'DTH');
+        self::insert_class('16DTHD4', 'DTH');
+        self::insert_class('16DTHD5', 'DTH');
+        self::insert_class('16DTHD6', 'DTH');
+        //DAT
+        self::insert_class('15DAT01', 'DAT');
+        self::insert_class('15DAT02', 'DAT');
+        self::insert_class('15DAT03', 'DAT');
+        self::insert_class('15DAT04', 'DAT');
+        self::insert_class('15DAT05', 'DAT');
+        self::insert_class('15DAT06', 'DAT');
+        self::insert_class('15DAT07', 'DAT');
+        self::insert_class('15DAT08', 'DAT');
+        self::insert_class('15DAT09', 'DAT');
+        self::insert_class('15DAT10', 'DAT');
+        self::insert_class('15DAT11', 'DAT');
+        self::insert_class('15DAT12', 'DAT');
+        self::insert_class('15DAT13', 'DAT');
+        self::insert_class('15DAT14', 'DAT');
+        self::insert_class('15DAT15', 'DAT');
+        self::insert_class('15DAT16', 'DAT');
+        //DDU
+        self::insert_class('16DDUA1', 'DDU');
+        self::insert_class('16DDUA2', 'DDU');
+        self::insert_class('16DDUA3', 'DDU');
+        self::insert_class('16DDUA4', 'DDU');
+        self::insert_class('16DDUA5', 'DDU');
+        self::insert_class('16DDUA6', 'DDU');
+        self::insert_class('16DDUB1', 'DDU');
+        self::insert_class('16DDUB2', 'DDU');
+        self::insert_class('16DDUB3', 'DDU');
+        self::insert_class('16DDUB4', 'DDU');
+        self::insert_class('16DDUB5', 'DDU');
+        self::insert_class('16DDUB6', 'DDU');
+        self::insert_class('16DDUC1', 'DDU');
+        self::insert_class('16DDUC2', 'DDU');
+        self::insert_class('16DDUC3', 'DDU');
+        self::insert_class('16DDUC4', 'DDU');
+        self::insert_class('16DDUC5', 'DDU');
+        self::insert_class('16DDUC6', 'DDU');
+        self::insert_class('16DDUD1', 'DDU');
+        self::insert_class('16DDUD2', 'DDU');
+        self::insert_class('16DDUD3', 'DDU');
+        self::insert_class('16DDUD4', 'DDU');
+        self::insert_class('16DDUD5', 'DDU');
+        self::insert_class('16DDUD6', 'DDU');
+        //DKT
+        self::insert_class('16DKTA1', 'DKT');
+        self::insert_class('16DKTA2', 'DKT');
+        self::insert_class('16DKTA3', 'DKT');
+        self::insert_class('16DKTA4', 'DKT');
+        self::insert_class('16DKTA5', 'DKT');
+        self::insert_class('16DKTA6', 'DKT');
+        self::insert_class('16DKTB1', 'DKT');
+        self::insert_class('16DKTB2', 'DKT');
+        self::insert_class('16DKTB3', 'DKT');
+        self::insert_class('16DKTB4', 'DKT');
+        self::insert_class('16DKTB5', 'DKT');
+        self::insert_class('16DKTB6', 'DKT');
+        self::insert_class('16DKTC1', 'DKT');
+        self::insert_class('16DKTC2', 'DKT');
+        self::insert_class('16DKTC3', 'DKT');
+        self::insert_class('16DKTC4', 'DKT');
+        self::insert_class('16DKTC5', 'DKT');
+        self::insert_class('16DKTC6', 'DKT');
+        self::insert_class('16DKTD1', 'DKT');
+        self::insert_class('16DKTD2', 'DKT');
+        self::insert_class('16DKTD3', 'DKT');
+        self::insert_class('16DKTD4', 'DKT');
+        self::insert_class('16DKTD5', 'DKT');
+        self::insert_class('16DKTD6', 'DKT');
+        //DQT
+        self::insert_class('16DQTA1', 'DQT');
+        self::insert_class('16DQTA2', 'DQT');
+        self::insert_class('16DQTA3', 'DQT');
+        self::insert_class('16DQTA4', 'DQT');
+        self::insert_class('16DQTA5', 'DQT');
+        self::insert_class('16DQTA6', 'DQT');
+        self::insert_class('16DQTB1', 'DQT');
+        self::insert_class('16DQTB2', 'DQT');
+        self::insert_class('16DQTB3', 'DQT');
+        self::insert_class('16DQTB4', 'DQT');
+        self::insert_class('16DQTB5', 'DQT');
+        self::insert_class('16DQTB6', 'DQT');
+        self::insert_class('16DQTC1', 'DQT');
+        self::insert_class('16DQTC2', 'DQT');
+        self::insert_class('16DQTC3', 'DQT');
+        self::insert_class('16DQTC4', 'DQT');
+        self::insert_class('16DQTC5', 'DQT');
+        self::insert_class('16DQTC6', 'DQT');
+        self::insert_class('16DQTD1', 'DQT');
+        self::insert_class('16DQTD2', 'DQT');
+        self::insert_class('16DQTD3', 'DQT');
+        self::insert_class('16DQTD4', 'DQT');
+        self::insert_class('16DQTD5', 'DQT');
+        self::insert_class('16DQTD6', 'DQT');
+        //DXD
+        self::insert_class('16DXDA1', 'DXD');
+        self::insert_class('16DXDA2', 'DXD');
+        self::insert_class('16DXDA3', 'DXD');
+        self::insert_class('16DXDA4', 'DXD');
+        self::insert_class('16DXDA5', 'DXD');
+        self::insert_class('16DXDA6', 'DXD');
+        self::insert_class('16DXDB1', 'DXD');
+        self::insert_class('16DXDB2', 'DXD');
+        self::insert_class('16DXDB3', 'DXD');
+        self::insert_class('16DXDB4', 'DXD');
+        self::insert_class('16DXDB5', 'DXD');
+        self::insert_class('16DXDB6', 'DXD');
+        self::insert_class('16DXDC1', 'DXD');
+        self::insert_class('16DXDC2', 'DXD');
+        self::insert_class('16DXDC3', 'DXD');
+        self::insert_class('16DXDC4', 'DXD');
+        self::insert_class('16DXDC5', 'DXD');
+        self::insert_class('16DXDC6', 'DXD');
+        self::insert_class('16DXDD1', 'DXD');
+        self::insert_class('16DXDD2', 'DXD');
+        self::insert_class('16DXDD3', 'DXD');
+        self::insert_class('16DXDD4', 'DXD');
+        self::insert_class('16DXDD5', 'DXD');
+        self::insert_class('16DXDD6', 'DXD');
+        //DLU
+        self::insert_class('16DLUA1', 'DLU');
+        self::insert_class('16DLUA2', 'DLU');
+        self::insert_class('16DLUA3', 'DLU');
+        self::insert_class('16DLUA4', 'DLU');
+        self::insert_class('16DLUA5', 'DLU');
+        self::insert_class('16DLUA6', 'DLU');
+        self::insert_class('16DLUB1', 'DLU');
+        self::insert_class('16DLUB2', 'DLU');
+        self::insert_class('16DLUB3', 'DLU');
+        self::insert_class('16DLUB4', 'DLU');
+        self::insert_class('16DLUB5', 'DLU');
+        self::insert_class('16DLUB6', 'DLU');
+        self::insert_class('16DLUC1', 'DLU');
+        self::insert_class('16DLUC2', 'DLU');
+        self::insert_class('16DLUC3', 'DLU');
+        self::insert_class('16DLUC4', 'DLU');
+        self::insert_class('16DLUC5', 'DLU');
+        self::insert_class('16DLUC6', 'DLU');
+        self::insert_class('16DLUD1', 'DLU');
+        self::insert_class('16DLUD2', 'DLU');
+        self::insert_class('16DLUD3', 'DLU');
+        self::insert_class('16DLUD4', 'DLU');
+        self::insert_class('16DLUD5', 'DLU');
+        self::insert_class('16DLUD6', 'DLU');
+        //DKS
+        self::insert_class('16DKSA1', 'DKS');
+        self::insert_class('16DKSA2', 'DKS');
+        self::insert_class('16DKSA3', 'DKS');
+        self::insert_class('16DKSA4', 'DKS');
+        self::insert_class('16DKSA5', 'DKS');
+        self::insert_class('16DKSA6', 'DKS');
+        self::insert_class('16DKSB1', 'DKS');
+        self::insert_class('16DKSB2', 'DKS');
+        self::insert_class('16DKSB3', 'DKS');
+        self::insert_class('16DKSB4', 'DKS');
+        self::insert_class('16DKSB5', 'DKS');
+        self::insert_class('16DKSB6', 'DKS');
+        self::insert_class('16DKSC1', 'DKS');
+        self::insert_class('16DKSC2', 'DKS');
+        self::insert_class('16DKSC3', 'DKS');
+        self::insert_class('16DKSC4', 'DKS');
+        self::insert_class('16DKSC5', 'DKS');
+        self::insert_class('16DKSC6', 'DKS');
+        self::insert_class('16DKSD1', 'DKS');
+        self::insert_class('16DKSD2', 'DKS');
+        self::insert_class('16DKSD3', 'DKS');
+        self::insert_class('16DKSD4', 'DKS');
+        self::insert_class('16DKSD5', 'DKS');
+        self::insert_class('16DKSD6', 'DKS');
+        //DLH
+        self::insert_class('16DLHA1', 'DLH');
+        self::insert_class('16DLHA2', 'DLH');
+        self::insert_class('16DLHA3', 'DLH');
+        self::insert_class('16DLHA4', 'DLH');
+        self::insert_class('16DLHA5', 'DLH');
+        self::insert_class('16DLHA6', 'DLH');
+        self::insert_class('16DLHB1', 'DLH');
+        self::insert_class('16DLHB2', 'DLH');
+        self::insert_class('16DLHB3', 'DLH');
+        self::insert_class('16DLHB4', 'DLH');
+        self::insert_class('16DLHB5', 'DLH');
+        self::insert_class('16DLHB6', 'DLH');
+        self::insert_class('16DLHC1', 'DLH');
+        self::insert_class('16DLHC2', 'DLH');
+        self::insert_class('16DLHC3', 'DLH');
+        self::insert_class('16DLHC4', 'DLH');
+        self::insert_class('16DLHC5', 'DLH');
+        self::insert_class('16DLHC6', 'DLH');
+        self::insert_class('16DLHD1', 'DLH');
+        self::insert_class('16DLHD2', 'DLH');
+        self::insert_class('16DLHD3', 'DLH');
+        self::insert_class('16DLHD4', 'DLH');
+        self::insert_class('16DLHD5', 'DLH');
+        self::insert_class('16DLHD6', 'DLH');
+        //DNH
+        self::insert_class('16DNHA1', 'DNH');
+        self::insert_class('16DNHA2', 'DNH');
+        self::insert_class('16DNHA3', 'DNH');
+        self::insert_class('16DNHA4', 'DNH');
+        self::insert_class('16DNHA5', 'DNH');
+        self::insert_class('16DNHA6', 'DNH');
+        self::insert_class('16DNHB1', 'DNH');
+        self::insert_class('16DNHB2', 'DNH');
+        self::insert_class('16DNHB3', 'DNH');
+        self::insert_class('16DNHB4', 'DNH');
+        self::insert_class('16DNHB5', 'DNH');
+        self::insert_class('16DNHB6', 'DNH');
+        self::insert_class('16DNHC1', 'DNH');
+        self::insert_class('16DNHC2', 'DNH');
+        self::insert_class('16DNHC3', 'DNH');
+        self::insert_class('16DNHC4', 'DNH');
+        self::insert_class('16DNHC5', 'DNH');
+        self::insert_class('16DNHC6', 'DNH');
+        self::insert_class('16DNHD1', 'DNH');
+        self::insert_class('16DNHD2', 'DNH');
+        self::insert_class('16DNHD3', 'DNH');
+        self::insert_class('16DNHD4', 'DNH');
+        self::insert_class('16DNHD5', 'DNH');
+        self::insert_class('16DNHD6', 'DNH');
+        //DTA
+        self::insert_class('16DTAA1', 'DTA');
+        self::insert_class('16DTAA2', 'DTA');
+        self::insert_class('16DTAA3', 'DTA');
+        self::insert_class('16DTAA4', 'DTA');
+        self::insert_class('16DTAA5', 'DTA');
+        self::insert_class('16DTAA6', 'DTA');
+        self::insert_class('16DTAB1', 'DTA');
+        self::insert_class('16DTAB2', 'DTA');
+        self::insert_class('16DTAB3', 'DTA');
+        self::insert_class('16DTAB4', 'DTA');
+        self::insert_class('16DTAB5', 'DTA');
+        self::insert_class('16DTAB6', 'DTA');
+        self::insert_class('16DTAC1', 'DTA');
+        self::insert_class('16DTAC2', 'DTA');
+        self::insert_class('16DTAC3', 'DTA');
+        self::insert_class('16DTAC4', 'DTA');
+        self::insert_class('16DTAC5', 'DTA');
+        self::insert_class('16DTAC6', 'DTA');
+        self::insert_class('16DTAD1', 'DTA');
+        self::insert_class('16DTAD2', 'DTA');
+        self::insert_class('16DTAD3', 'DTA');
+        self::insert_class('16DTAD4', 'DTA');
+        self::insert_class('16DTAD5', 'DTA');
+        self::insert_class('16DTAD6', 'DTA');
     }
 }

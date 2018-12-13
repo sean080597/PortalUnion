@@ -13,40 +13,40 @@
     <div class="note-info">
         <div class="row">
             <p class="col-sm-4">
-                <span>Bí thư: </span>{{ $all_users->where('id', $cur_faculty->uid_secretary)->first()->name }}
+                <span>Bí thư: </span>{{ !empty($cur_faculty->uid_secretary) ? $all_users->where('id', $cur_faculty->uid_secretary)->first()->name : '' }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ $all_users->where('id', $cur_faculty->uid_secretary)->first()->phone }}
+                    <span>ĐT: </span>{{ !empty($cur_faculty->uid_secretary) ? $all_users->where('id', $cur_faculty->uid_secretary)->first()->phone : '' }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ $all_users->where('id', $cur_faculty->uid_secretary)->first()->email }}
+                    <span>Email: </span>{{ !empty($cur_faculty->uid_secretary) ? $all_users->where('id', $cur_faculty->uid_secretary)->first()->email : '' }}
                 </p>
             </div>
         </div>
         <div class="row">
             <p class="col-sm-4">
-                <span>Phó bí thư: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->name }}
+                <span>Phó bí thư: </span>{{ !empty($cur_faculty->uid_deputysecre1) ? $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->name : '' }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->phone }}
+                    <span>ĐT: </span>{{ !empty($cur_faculty->uid_deputysecre1) ? $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->phone : '' }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->email }}
+                    <span>Email: </span>{{ !empty($cur_faculty->uid_deputysecre1) ? $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->email : '' }}
                 </p>
             </div>
         </div>
         <div class="row">
             <p class="col-sm-4">
-                <span>Phó bí thư: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->name }}
+                <span>Phó bí thư: </span>{{ !empty($cur_faculty->uid_deputysecre2) ? $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->name : '' }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->phone }}
+                    <span>ĐT: </span>{{ !empty($cur_faculty->uid_deputysecre2) ? $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->phone : '' }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->email }}
+                    <span>Email: </span>{{ !empty($cur_faculty->uid_deputysecre2) ? $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->email : '' }}
                 </p>
             </div>
     </div>
@@ -92,9 +92,9 @@
                     <tr>
                         <td>{{ ++$key }}</td>
                         <td>{{ $classroom->id }}</td>
-                        <td>{{ $all_users->where('id', $classroom->uid_secretary)->first()->name }}</td>
-                        <td>{{ $all_users->where('id', $classroom->uid_secretary)->first()->email }}</td>
-                        <td>{{ $all_users->where('id', $classroom->uid_secretary)->first()->phone }}</td>
+                        <td>{{ !empty($classroom->uid_secretary) ? $all_users->where('id', $classroom->uid_secretary)->first()->name : '' }}</td>
+                        <td>{{ !empty($classroom->uid_secretary) ? $all_users->where('id', $classroom->uid_secretary)->first()->email : '' }}</td>
+                        <td>{{ !empty($classroom->uid_secretary) ? $all_users->where('id', $classroom->uid_secretary)->first()->phone : '' }}</td>
                         <td class="text-center text-primary">
                             <a href="{{ action('StudentController@index', [$cur_faculty->id, $classroom->id]) }}">
                                 <i class="far fa-eye"></i>
