@@ -49,8 +49,8 @@
                     <th class="text-center" style="width:10px">STT</th>
                     <th class="width-100">MÃ Khoa</th>
                     <th class="width-200">Tên Khoa</th>
+                    <th>Nhánh</th>
                     <th class="width-100">Cập nhật</th>
-                    <th>Note</th>
                     <th class="text-center" colspan="2">Tác vụ</th>
                 </tr>
             </thead>
