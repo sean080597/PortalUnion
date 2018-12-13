@@ -65,7 +65,7 @@
                             <li><a href="{{url('/admin/student')}}">Đoàn viên</a></li>
                             <li><a href="{{url('/admin/class')}}">Lớp</a></li>
                             <li><a href="{{url('/admin/faculty')}}">Khoa</a></li>
-                            <li><a href="#">Tài khoản</a></li>
+                            <li><a href="{{url('/admin/user')}}">Tài khoản</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Phân quyền</a></li>

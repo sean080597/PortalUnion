@@ -46,7 +46,9 @@
                     });
                     $('.delete').on('click',function(){
                         var id = $(this).attr('pid');
-                        deleteUser(id);
+                        if(confirm("Bạn có muốn xóa tài khoản này không?")){
+                            deleteUser(id);
+                        }
                     });
                 }
             });
@@ -88,7 +90,6 @@
                 type:'GET',
                 url:'role/showAll',
                 success:function(data){
-                    console.log(data);
                     var $string = "";
                     $.each(data,function(key,value){
                         $string = $string + '<option value="'+value.id+'">'+value.name+'</option>'
