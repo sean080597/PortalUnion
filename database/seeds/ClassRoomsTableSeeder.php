@@ -23,64 +23,82 @@ class ClassRoomsTableSeeder extends Seeder
     public function run()
     {
         //DTH
-        self::insert_class('15DTH01', 'DTH');
-        self::insert_class('15DTH02', 'DTH');
         self::insert_class('15DTH03', 'DTH');
         self::insert_class('15DTH04', 'DTH');
         self::insert_class('15DTH05', 'DTH');
         self::insert_class('15DTH06', 'DTH');
         self::insert_class('15DTH07', 'DTH');
-        self::insert_class('15DTH08', 'DTH');
         self::insert_class('15DTH09', 'DTH');
-        self::insert_class('15DTH10', 'DTH');
         self::insert_class('15DTH11', 'DTH');
         self::insert_class('15DTH12', 'DTH');
         self::insert_class('15DTH13', 'DTH');
         self::insert_class('15DTH14', 'DTH');
-        self::insert_class('15DTH15', 'DTH');
-        self::insert_class('15DTH16', 'DTH');
 
+        self::insert_class('16CTHA1', 'DTH');
         self::insert_class('16DTHA1', 'DTH');
         self::insert_class('16DTHA2', 'DTH');
         self::insert_class('16DTHA3', 'DTH');
-        self::insert_class('16DTHA4', 'DTH');
-        self::insert_class('16DTHA5', 'DTH');
-        self::insert_class('16DTHA6', 'DTH');
         self::insert_class('16DTHB1', 'DTH');
-        self::insert_class('16DTHB2', 'DTH');
         self::insert_class('16DTHB3', 'DTH');
         self::insert_class('16DTHB4', 'DTH');
         self::insert_class('16DTHB5', 'DTH');
         self::insert_class('16DTHB6', 'DTH');
         self::insert_class('16DTHC1', 'DTH');
         self::insert_class('16DTHC2', 'DTH');
-        self::insert_class('16DTHC3', 'DTH');
-        self::insert_class('16DTHC4', 'DTH');
-        self::insert_class('16DTHC5', 'DTH');
         self::insert_class('16DTHC6', 'DTH');
-        self::insert_class('16DTHD1', 'DTH');
-        self::insert_class('16DTHD2', 'DTH');
-        self::insert_class('16DTHD3', 'DTH');
-        self::insert_class('16DTHD4', 'DTH');
-        self::insert_class('16DTHD5', 'DTH');
-        self::insert_class('16DTHD6', 'DTH');
-        //DAT
-        self::insert_class('15DAT01', 'DAT');
-        self::insert_class('15DAT02', 'DAT');
-        self::insert_class('15DAT03', 'DAT');
-        self::insert_class('15DAT04', 'DAT');
-        self::insert_class('15DAT05', 'DAT');
-        self::insert_class('15DAT06', 'DAT');
-        self::insert_class('15DAT07', 'DAT');
-        self::insert_class('15DAT08', 'DAT');
-        self::insert_class('15DAT09', 'DAT');
-        self::insert_class('15DAT10', 'DAT');
-        self::insert_class('15DAT11', 'DAT');
-        self::insert_class('15DAT12', 'DAT');
-        self::insert_class('15DAT13', 'DAT');
-        self::insert_class('15DAT14', 'DAT');
-        self::insert_class('15DAT15', 'DAT');
-        self::insert_class('15DAT16', 'DAT');
+        self::insert_class('16DTHC7', 'DTH');
+
+        self::insert_class('17DATA1', 'DTH');//DAT
+        self::insert_class('17DTHA1', 'DTH');
+        self::insert_class('17DTHA2', 'DTH');
+        self::insert_class('17DTHA3', 'DTH');
+        self::insert_class('17DTHA4', 'DTH');
+        self::insert_class('17DTHA5', 'DTH');
+        self::insert_class('17DTHA6', 'DTH');
+        self::insert_class('17DTHB1', 'DTH');
+        self::insert_class('17DTHB2', 'DTH');
+        self::insert_class('17DTHB3', 'DTH');
+        self::insert_class('17DTHB4', 'DTH');
+        self::insert_class('17DTHB5', 'DTH');
+        self::insert_class('17DTHC1', 'DTH');
+        self::insert_class('17DTHC2', 'DTH');
+        self::insert_class('17DTHC3', 'DTH');
+        self::insert_class('17DTHC4', 'DTH');
+        self::insert_class('17DTHC5', 'DTH');
+        self::insert_class('17DTHC6', 'DTH');
+        self::insert_class('17DTHD1', 'DTH');
+        self::insert_class('17DTHD2', 'DTH');
+        self::insert_class('17DTHD3', 'DTH');
+
+        self::insert_class('18DATA1', 'DTH');//DAT
+        self::insert_class('18DTHA1', 'DTH');
+        self::insert_class('18DTHA2', 'DTH');
+        self::insert_class('18DTHA3', 'DTH');
+        self::insert_class('18DTHA4', 'DTH');
+        self::insert_class('18DTHA5', 'DTH');
+        self::insert_class('18DTHA6', 'DTH');
+        self::insert_class('18DTHB1', 'DTH');
+        self::insert_class('18DTHB2', 'DTH');
+        self::insert_class('18DTHB3', 'DTH');
+        self::insert_class('18DTHB4', 'DTH');
+        self::insert_class('18DTHB5', 'DTH');
+        self::insert_class('18DTHB6', 'DTH');
+        self::insert_class('18DTHC1', 'DTH');
+        self::insert_class('18DTHC2', 'DTH');
+        self::insert_class('18DTHC3', 'DTH');
+        self::insert_class('18DTHC4', 'DTH');
+        self::insert_class('18DTHC5', 'DTH');
+        self::insert_class('18DTHC6', 'DTH');
+        self::insert_class('18DTHD1', 'DTH');
+        self::insert_class('18DTHD2', 'DTH');
+        self::insert_class('18DTHD3', 'DTH');
+        self::insert_class('18DTHD4', 'DTH');
+        self::insert_class('18DTHD5', 'DTH');
+        self::insert_class('18DTHD6', 'DTH');
+        self::insert_class('18DTHE1', 'DTH');
+        self::insert_class('18DTHE2', 'DTH');
+        self::insert_class('18DTHE3', 'DTH');
+
         //DDU
         self::insert_class('16DDUA1', 'DDU');
         self::insert_class('16DDUA2', 'DDU');

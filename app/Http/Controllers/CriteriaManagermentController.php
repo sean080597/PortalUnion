@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Carbon\Carbon;
 
+use App\User;
 use App\Faculty;
 use App\ClassRoom;
 use App\Student;
@@ -18,6 +19,21 @@ class CriteriaManagermentController extends Controller
 {
     public function __construct() {
         $this->middleware(['auth', 'checkrole'])->except('submit_evaluation');
+    }
+
+    public function classroom_evaluate($faculty_id, $classroom_id)
+    {
+        $all_students = Student::all();
+        $all_users = User::all();
+        $all_classrooms = ClassRoom::all();
+        //current classroom
+        $cur_classroom = ClassRoom::findOrFail($classroom_id);
+        //students of classroom_id
+        $students = Student::where('class_room_id', $classroom_id)->get();
+
+        return view('criteria-evaluation.classroom_evaluate', ['students' => $students,
+        'all_students' => $all_students, 'all_users' => $all_users,
+        'all_classrooms' => $all_classrooms, 'cur_classroom' => $cur_classroom]);
     }
 
     public function student_evaluate($student_id)

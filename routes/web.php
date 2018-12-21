@@ -55,6 +55,7 @@ Route::post('/students/update', ['as' => 'students.update', 'uses' => 'StudentCo
 //route for evaluate criteria
 Route::post('/criteria-evaluation/submit-evaluation', ['as' => 'criteria-evaluation.submit-evaluation', 'uses' => 'CriteriaManagermentController@submit_evaluation']);
 Route::get('/criteria-evaluation/student-evaluate/{student_id}', ['as' => 'criteria-evaluation.student-evaluate', 'uses' => 'CriteriaManagermentController@student_evaluate']);
+Route::get('/criteria-evaluation/{faculty_id}/{classroom_id}', ['as' => 'criteria-evaluation.classroom_evaluate', 'uses' => 'CriteriaManagermentController@classroom_evaluate']);
 
 Route::resource('events', 'EventController');
 
@@ -66,7 +67,7 @@ Route::prefix('admin')->group(function(){
     Route::get('/', 'adminController@index');
 
     //Route::resource('student', 'adminStudentController');
-    Route::get('student/','adminStudentController@index');  
+    Route::get('student/','adminStudentController@index');
     Route::get('showAll','adminStudentController@showAll');
     Route::get('student/create','adminStudentController@createStudent');
     Route::get('student/{id}','adminStudentController@setStudent');
@@ -83,7 +84,7 @@ Route::prefix('admin')->group(function(){
 
     Route::resource('faculty', 'adminFacultyController');
     Route::get('getFaculties','adminFacultyController@getFaculties');
-    
+
     Route::get('user/','adminUserController@index');
     Route::get('user/showAll','adminUserController@showAll');
     Route::get('user/{id}','adminUserController@show');

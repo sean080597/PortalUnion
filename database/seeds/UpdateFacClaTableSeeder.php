@@ -18,7 +18,7 @@ class UpdateFacClaTableSeeder extends Seeder
         foreach ($all_faculties as $key => $value) {
             $arr_classrooms = ClassRoom::where('faculty_id', $value->id)->pluck('id');
             $arr_users_of_fac = DB::table('students')->whereIn('class_room_id', $arr_classrooms)->get();
-            if(count($arr_classrooms) != 0){
+            if(count($arr_classrooms) != 0 && count($arr_users_of_fac) != 0){
                 $fac = Faculty::where('id', $value->id)->first();
                 $fac->update([
                     'uid_secretary' => $arr_users_of_fac[rand(0, count($arr_users_of_fac) - 1)]->user_id,

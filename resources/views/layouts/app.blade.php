@@ -124,15 +124,19 @@
                             || auth()->user()->role_id == 'cla'
                             || auth()->user()->role_id == 'fac')
                             <li><a href="{{ action('CriteriaManagermentController@student_evaluate',
-                            [$all_students->where('user_id', auth()->user()->id)->first()->id]) }}">ĐG cá nhân</a></li>
+                                [$all_students->where('user_id', auth()->user()->id)->first()->id]) }}">ĐG cá nhân</a></li>
                             @endif
                             @if (auth()->user()->role_id == 'cla'
                             || auth()->user()->role_id == 'fac')
-                            <li><a href="#">Lớp quản lý</a></li>
+                            <li><a href={{ action('CriteriaManagermentController@classroom_evaluate',
+                                [$all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id,
+                                $all_students->where('user_id', Auth::user()->id)->first()->class_room_id]) }}>Lớp quản lý</a></li>
                             @endif
-                            @if (auth()->user()->role_id == 'fac')
-                            <li><a href="#">Khoa quản lý</a></li>
-                            @endif
+                            {{-- @if (auth()->user()->role_id == 'fac')
+                            <li><a href="{{ action('CriteriaManagermentController@faculty_evaluate',
+                                [$all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id]) }}">Khoa quản lý</a>
+                            </li>
+                            @endif --}}
                             @if (auth()->user()->role_id == 'sch')
                             <li><a href="#">Trường quản lý</a></li>
                             @endif

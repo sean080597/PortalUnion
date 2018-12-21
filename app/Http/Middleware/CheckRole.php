@@ -128,8 +128,8 @@ class CheckRole
             }
         }
 
-        if ($request->is('criteria-evaluation/student-evaluate/*')){
-            if($user_roleid == 'stu'){
+        if ($request->is('criteria-evaluation/*/*')){
+            if($user_roleid == 'stu' && $request->is('criteria-evaluation/student-evaluate/*')){
                 //get logged student
                 $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
                 if($request->route('student_id') == $logged_student->id){
@@ -142,10 +142,21 @@ class CheckRole
                 //get logged student
                 $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
                 $user_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
-                //get showed student
-                $showed_student = $all_students->where('id', $request->route('student_id'))->first();
-                if(strtolower($showed_student->class_room_id) == strtolower($logged_student->class_room_id)){
-                    return $next($request);
+                //check if the request is criteria-evaluation/show/*
+                if(!empty($request->route('student_id'))){
+                    //get showed student
+                    $showed_student = $all_students->where('id', $request->route('student_id'))->first();
+                    if(strtolower($showed_student->class_room_id) == strtolower($logged_student->class_room_id)){
+                        return $next($request);
+                    }
+                }//check if the request is criteria-evaluation/faculty_id/classroom_id
+                else{
+                    $logged_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                    if(strtolower($request->route('faculty_id')) == strtolower($logged_faculty_id)){
+                        if(strtolower($request->route('classroom_id')) == strtolower($logged_student->class_room_id)){
+                            return $next($request);
+                        }
+                    }
                 }
             }
 
@@ -154,14 +165,27 @@ class CheckRole
                 //get logged student
                 $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
                 $user_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
-                //get showed student
-                $showed_student = $all_students->where('id', $request->route('student_id'))->first();
-                if(empty($showed_student)){
-                    return redirect('notfound');
-                }else{
-                    $showed_faculty_id = $all_classrooms->where('id', $showed_student->class_room_id)->first()->faculty_id;
-                    if(strtolower($showed_faculty_id) == strtolower($user_faculty_id)){
-                        return $next($request);
+                //check if the request is criteria-evaluation/show/*
+                if(!empty($request->route('student_id'))){
+                    //get showed student
+                    $showed_student = $all_students->where('id', $request->route('student_id'))->first();
+                    if(empty($showed_student)){
+                        return redirect('notfound');
+                    }else{
+                        $showed_faculty_id = $all_classrooms->where('id', $showed_student->class_room_id)->first()->faculty_id;
+                        if(strtolower($showed_faculty_id) == strtolower($user_faculty_id)){
+                            return $next($request);
+                        }
+                    }
+                }//check if the request is criteria-evaluation/faculty_id/classroom_id
+                else{
+                    if($request->route('faculty_id') == $user_faculty_id){
+                        $classroom = $all_classrooms->where('id', $request->route('classroom_id'))->first();
+                        if(empty($classroom)){
+                            return redirect('notfound');
+                        }else{
+                            return $next($request);
+                        }
                     }
                 }
             }
