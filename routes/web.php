@@ -85,7 +85,7 @@ Route::prefix('admin')->group(function(){
     Route::resource('faculty', 'adminFacultyController');
     Route::get('getFaculties','adminFacultyController@getFaculties');
 
-    Route::get('user/','adminUserController@index');
+    Route::get('user/','adminUserController@index')->name('admin.user_index');
     Route::get('user/showAll','adminUserController@showAll');
     Route::get('user/{id}','adminUserController@show');
     Route::post('user/create','adminUserController@store');

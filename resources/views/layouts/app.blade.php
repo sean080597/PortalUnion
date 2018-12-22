@@ -68,7 +68,7 @@
                             <li><a href="{{ route('students.manage') }}">Đoàn viên</a></li>
                             <li><a href="{{ route('classrooms.manage') }}">Lớp</a></li>
                             <li><a href="{{ route('faculties.manage') }}">Khoa</a></li>
-                            <li><a href="#">Tài khoản</a></li>
+                            <li><a href="{{ route('admin.user_index') }}">Tài khoản</a></li>
                         </ul>
                     </li>
                     @endif

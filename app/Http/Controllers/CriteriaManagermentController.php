@@ -61,16 +61,17 @@ class CriteriaManagermentController extends Controller
 
     public function submit_evaluation(Request $request){
         $stu_criman = StudentCriteriaMandatory::where('student_id', $request->student_id)->first();
+        $stu_crisel = StudentCriteriaSelfregis::where('student_id', $request->student_id)->first();
 
         //check if exists student
         if(empty($stu_criman)){
             $count = 0;
             foreach($request->arr_criman_id as $criman_id){
-                $self_ass = empty($request->arr_criman_selfassess)?'':$request->arr_criman_selfassess[$count];
-                $mark_stu = empty($request->arr_criman_markstu)?'0':$request->arr_criman_markstu[$count];
-                $mark_cla = empty($request->arr_criman_markcla)?'0':$request->arr_criman_markcla[$count];
-                $mark_fac = empty($request->arr_criman_markfac)?'0':$request->arr_criman_markfac[$count];
-                $mark_sch = empty($request->arr_criman_marksch)?'0':$request->arr_criman_marksch[$count];
+                $self_ass = ($request->arr_criman_selfassess==null)?'':$request->arr_criman_selfassess[$count];
+                $mark_stu = ($request->arr_criman_markstu==null)?'0':$request->arr_criman_markstu[$count];
+                $mark_cla = ($request->arr_criman_markcla==null)?'0':$request->arr_criman_markcla[$count];
+                $mark_fac = ($request->arr_criman_markfac==null)?'0':$request->arr_criman_markfac[$count];
+                $mark_sch = ($request->arr_criman_marksch==null)?'0':$request->arr_criman_marksch[$count];
                 $cri = StudentCriteriaMandatory::insert([
                     'student_id' => $request->student_id,
                     'criteria_id' => $criman_id,
@@ -86,12 +87,12 @@ class CriteriaManagermentController extends Controller
             }
             $count = 0;
             foreach($request->arr_crisel_id as $crisel_id){
-                $cont_reg = empty($request->arr_crisel_content)?'':$request->arr_crisel_content[$count];
-                $self_ass = empty($request->arr_criman_selfassess)?'':$request->arr_criman_selfassess[$count];
-                $mark_stu = empty($request->arr_crisel_markstu)?'0':$request->arr_crisel_markstu[$count];
-                $mark_cla = empty($request->arr_crisel_markcla)?'0':$request->arr_crisel_markcla[$count];
-                $mark_fac = empty($request->arr_crisel_markfac)?'0':$request->arr_crisel_markfac[$count];
-                $mark_sch = empty($request->arr_crisel_marksch)?'0':$request->arr_crisel_marksch[$count];
+                $cont_reg = ($request->arr_crisel_content==null)?'':$request->arr_crisel_content[$count];
+                $self_ass = ($request->arr_criman_selfassess==null)?'':$request->arr_criman_selfassess[$count];
+                $mark_stu = ($request->arr_crisel_markstu==null)?'0':$request->arr_crisel_markstu[$count];
+                $mark_cla = ($request->arr_crisel_markcla==null)?'0':$request->arr_crisel_markcla[$count];
+                $mark_fac = ($request->arr_crisel_markfac==null)?'0':$request->arr_crisel_markfac[$count];
+                $mark_sch = ($request->arr_crisel_marksch==null)?'0':$request->arr_crisel_marksch[$count];
                 $cri = StudentCriteriaSelfregis::insert([
                     'student_id' => $request->student_id,
                     'criteria_id' => $crisel_id,
@@ -109,11 +110,11 @@ class CriteriaManagermentController extends Controller
         }else{
             $count = 0;
             foreach($request->arr_criman_id as $criman_id){
-                $self_ass = empty($request->arr_criman_selfassess)?'':$request->arr_criman_selfassess[$count];
-                $mark_stu = empty($request->arr_criman_markstu)?'0':$request->arr_criman_markstu[$count];
-                $mark_cla = empty($request->arr_criman_markcla)?'0':$request->arr_criman_markcla[$count];
-                $mark_fac = empty($request->arr_criman_markfac)?'0':$request->arr_criman_markfac[$count];
-                $mark_sch = empty($request->arr_criman_marksch)?'0':$request->arr_criman_marksch[$count];
+                $self_ass = ($request->arr_criman_selfassess==null)?$stu_criman->self_assessment:$request->arr_criman_selfassess[$count];
+                $mark_stu = ($request->arr_criman_markstu==null)?$stu_criman->mark_student:$request->arr_criman_markstu[$count];
+                $mark_cla = ($request->arr_criman_markcla==null)?$stu_criman->mark_classroom:$request->arr_criman_markcla[$count];
+                $mark_fac = ($request->arr_criman_markfac==null)?$stu_criman->mark_faculty:$request->arr_criman_markfac[$count];
+                $mark_sch = ($request->arr_criman_marksch==null)?$stu_criman->mark_school:$request->arr_criman_marksch[$count];
                 StudentCriteriaMandatory::where('student_id', $request->student_id)
                 ->where('criteria_id', $criman_id)
                 ->update([
@@ -128,12 +129,12 @@ class CriteriaManagermentController extends Controller
 
             $count = 0;
             foreach($request->arr_crisel_id as $crisel_id){
-                $cont_reg = empty($request->arr_crisel_content)?'':$request->arr_crisel_content[$count];
-                $self_ass = empty($request->arr_criman_selfassess)?'':$request->arr_criman_selfassess[$count];
-                $mark_stu = empty($request->arr_crisel_markstu)?'0':$request->arr_crisel_markstu[$count];
-                $mark_cla = empty($request->arr_crisel_markcla)?'0':$request->arr_crisel_markcla[$count];
-                $mark_fac = empty($request->arr_crisel_markfac)?'0':$request->arr_crisel_markfac[$count];
-                $mark_sch = empty($request->arr_crisel_marksch)?'0':$request->arr_crisel_marksch[$count];
+                $cont_reg = ($request->arr_crisel_content==null)?$stu_crisel->content_regis:$request->arr_crisel_content[$count];
+                $self_ass = ($request->arr_criman_selfassess==null)?$stu_crisel->self_assessment:$request->arr_criman_selfassess[$count];
+                $mark_stu = ($request->arr_crisel_markstu==null)?$stu_crisel->mark_student:$request->arr_crisel_markstu[$count];
+                $mark_cla = ($request->arr_crisel_markcla==null)?$stu_crisel->mark_classroom:$request->arr_crisel_markcla[$count];
+                $mark_fac = ($request->arr_crisel_markfac==null)?$stu_crisel->mark_faculty:$request->arr_crisel_markfac[$count];
+                $mark_sch = ($request->arr_crisel_marksch==null)?$stu_crisel->mark_school:$request->arr_crisel_marksch[$count];
                 StudentCriteriaSelfregis::where('student_id', $request->student_id)
                 ->where('criteria_id', $crisel_id)
                 ->update([
