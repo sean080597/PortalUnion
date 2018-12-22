@@ -5,6 +5,25 @@ $(document).ready(function () {
         $('#content').toggleClass('active');
     });
 
+    loadTrackingPaginate();
+    function loadTrackingPaginate(){
+        $(document).on('click', '.pagination a', function(event){
+            event.preventDefault();
+            $('.loading_ani_img').show();
+            var page = $(this).attr('href').split('page=')[1];
+            var faculty_id = $('#faculty_id').val();
+            fetch_data_classrooms(page, faculty_id);
+        });
+        function fetch_data_classrooms(page, faculty_id){
+            $.get("/getPaginateClassrooms?page="+page+"&faculty_id="+faculty_id,
+                function (data) {
+                    $('#load_table_classrooms').html(data);
+                    $('.loading_ani_img').hide();
+                }
+            );
+        }
+    }
+
     //call to delete faculty
     runAfterLoadingTableFaculty();
     //======================================================
@@ -268,6 +287,7 @@ $(document).ready(function () {
             }
         });
     }
+    //=============================================================================
 
 });
 

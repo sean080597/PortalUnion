@@ -13,40 +13,40 @@
     <div class="note-info">
         <div class="row">
             <p class="col-sm-4">
-                <span>Bí thư: </span>{{ $all_users->where('role_id', 'sec')->first()->name }}
+                <span>Bí thư: </span>{{ $user_sec->name }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ $all_users->where('role_id', 'sec')->first()->phone }}
+                    <span>ĐT: </span>{{ $user_sec->phone }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ $all_users->where('role_id', 'sec')->first()->email }}
+                    <span>Email: </span>{{ $user_sec->email }}
                 </p>
             </div>
         </div>
         <div class="row">
             <p class="col-sm-4">
-                <span>Phó bí thư: </span>{{ $all_users->where('role_id', 'de1')->first()->name }}
+                <span>Phó bí thư: </span>{{ $user_de1->name }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ $all_users->where('role_id', 'de1')->first()->phone }}
+                    <span>ĐT: </span>{{ $user_de1->phone }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ $all_users->where('role_id', 'de1')->first()->email }}
+                    <span>Email: </span>{{ $user_de1->email }}
                 </p>
             </div>
         </div>
         <div class="row">
             <p class="col-sm-4">
-                <span>Phó bí thư: </span>{{ $all_users->where('role_id', 'de2')->first()->name }}
+                <span>Phó bí thư: </span>{{ $user_de2->name }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ $all_users->where('role_id', 'de2')->first()->phone }}
+                    <span>ĐT: </span>{{ $user_de2->phone }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ $all_users->where('role_id', 'de2')->first()->email }}
+                    <span>Email: </span>{{ $user_de2->email }}
                 </p>
             </div>
         </div>
@@ -90,11 +90,11 @@
             <tbody>
                 @foreach ($faculties as $key => $faculty)
                     <tr>
-                        <td>{{ ++$key }}</td>
+                        <td>{{ $key+1 }}</td>
                         <td>{{ $faculty->name }}</td>
-                        <td>{{ !empty($faculty->uid_secretary) ? $all_users->where('id', $faculty->uid_secretary)->first()->name : '' }}</td>
-                        <td>{{ !empty($faculty->uid_secretary) ? $all_users->where('id', $faculty->uid_secretary)->first()->email : '' }}</td>
-                        <td>{{ !empty($faculty->uid_secretary) ? $all_users->where('id', $faculty->uid_secretary)->first()->phone : '' }}</td>
+                        <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->name : '' }}</td>
+                        <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->email : '' }}</td>
+                        <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->phone : '' }}</td>
                         <td class="text-center text-primary">
                             <a href="{{ action('ClassRoomController@index',
                             [$faculty->id]) }}">

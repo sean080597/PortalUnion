@@ -15,6 +15,9 @@
     @yield('style_css')
 </head>
 <body>
+    <div class="loading_ani_img">
+        <img src="{{ asset('theme/images/loadinganimation.gif') }}" id="ani_img">
+    </div>
     <section class="container-fluid">
         <div id="loader-wrapper">
             <div id="loader"></div>
@@ -82,7 +85,7 @@
                             || auth()->user()->role_id == 'stu')
                             <li>
                                 <a href="{{ action('StudentController@show',
-                                $all_students->where('user_id', Auth::user()->id)->first()->id) }}">
+                                $cur_student->id) }}">
                                     Thông tin cá nhân
                                 </a>
                             </li>
@@ -92,8 +95,8 @@
                             || auth()->user()->role_id == 'cla')
                             <li>
                                 <a href="{{ action('StudentController@index',
-                                [$all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id,
-                                $all_students->where('user_id', Auth::user()->id)->first()->class_room_id]) }}">
+                                [$cur_classroom->faculty_id,
+                                $cur_student->class_room_id]) }}">
                                     DS Đoàn Viên
                                 </a>
                             </li>
@@ -102,7 +105,7 @@
                             @if (auth()->user()->role_id == 'fac')
                             <li>
                                 <a href="{{ action('ClassRoomController@index',
-                                [$all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id]) }}">
+                                [$cur_classroom->faculty_id]) }}">
                                     DS Lớp
                                 </a>
                             </li>
@@ -124,17 +127,17 @@
                             || auth()->user()->role_id == 'cla'
                             || auth()->user()->role_id == 'fac')
                             <li><a href="{{ action('CriteriaManagermentController@student_evaluate',
-                                [$all_students->where('user_id', auth()->user()->id)->first()->id]) }}">ĐG cá nhân</a></li>
+                                [$cur_student->id]) }}">ĐG cá nhân</a></li>
                             @endif
                             @if (auth()->user()->role_id == 'cla'
                             || auth()->user()->role_id == 'fac')
                             <li><a href={{ action('CriteriaManagermentController@classroom_evaluate',
-                                [$all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id,
-                                $all_students->where('user_id', Auth::user()->id)->first()->class_room_id]) }}>Lớp quản lý</a></li>
+                                [$cur_classroom->faculty_id,
+                                $cur_student->class_room_id]) }}>Lớp quản lý</a></li>
                             @endif
                             {{-- @if (auth()->user()->role_id == 'fac')
                             <li><a href="{{ action('CriteriaManagermentController@faculty_evaluate',
-                                [$all_classrooms->where('id', $all_students->where('user_id', Auth::user()->id)->first()->class_room_id)->first()->faculty_id]) }}">Khoa quản lý</a>
+                                [$cur_classroom->faculty_id]) }}">Khoa quản lý</a>
                             </li>
                             @endif --}}
                             @if (auth()->user()->role_id == 'sch')
@@ -147,8 +150,8 @@
                 </ul>
             </nav><!-- End nav sidebar -->
             <div id="content" class="container-fluid">
-               <!-- Setting -------------------------------------------------->
-               <section class="d-flex" id="nav-setting">
+            <!-- Setting -------------------------------------------------->
+            <section class="d-flex" id="nav-setting">
                     <!-- Btn Collapse for sidebar -->
                     <button class="btn btn-primary" type="button" id="sidebarCollapse">
                         <i class="fas fa-align-left"></i>
@@ -184,7 +187,7 @@
 
     @yield('link_js_2')
     <!-- Core plugin JavaScript-->
-    {{-- <script src="{{ asset('theme/vendor/jquery-easing/jquery.easing.min.js') }}"></script> --}}
+    <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
 
     <script src="{{ asset('theme/JS/datatable.js') }}" async></script>
 

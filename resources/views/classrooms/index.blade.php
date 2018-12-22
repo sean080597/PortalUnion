@@ -13,40 +13,40 @@
     <div class="note-info">
         <div class="row">
             <p class="col-sm-4">
-                <span>Bí thư: </span>{{ !empty($cur_faculty->uid_secretary) ? $all_users->where('id', $cur_faculty->uid_secretary)->first()->name : '' }}
+                <span>Bí thư: </span>{{ !empty($user_sec) ? $user_sec->name : '' }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ !empty($cur_faculty->uid_secretary) ? $all_users->where('id', $cur_faculty->uid_secretary)->first()->phone : '' }}
+                    <span>ĐT: </span>{{ !empty($user_sec) ? $user_sec->phone : '' }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ !empty($cur_faculty->uid_secretary) ? $all_users->where('id', $cur_faculty->uid_secretary)->first()->email : '' }}
+                    <span>Email: </span>{{ !empty($user_sec) ? $user_sec->email : '' }}
                 </p>
             </div>
         </div>
         <div class="row">
             <p class="col-sm-4">
-                <span>Phó bí thư: </span>{{ !empty($cur_faculty->uid_deputysecre1) ? $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->name : '' }}
+                <span>Phó bí thư: </span>{{ !empty($user_de1) ? $user_de1->name : '' }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ !empty($cur_faculty->uid_deputysecre1) ? $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->phone : '' }}
+                    <span>ĐT: </span>{{ !empty($user_de1) ? $user_de1->phone : '' }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ !empty($cur_faculty->uid_deputysecre1) ? $all_users->where('id', $cur_faculty->uid_deputysecre1)->first()->email : '' }}
+                    <span>Email: </span>{{ !empty($user_de1) ? $user_de1->email : '' }}
                 </p>
             </div>
         </div>
         <div class="row">
             <p class="col-sm-4">
-                <span>Phó bí thư: </span>{{ !empty($cur_faculty->uid_deputysecre2) ? $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->name : '' }}
+                <span>Phó bí thư: </span>{{ !empty($user_de2) ? $user_de2->name : '' }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ !empty($cur_faculty->uid_deputysecre2) ? $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->phone : '' }}
+                    <span>ĐT: </span>{{ !empty($user_de2) ? $user_de2->phone : '' }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ !empty($cur_faculty->uid_deputysecre2) ? $all_users->where('id', $cur_faculty->uid_deputysecre2)->first()->email : '' }}
+                    <span>Email: </span>{{ !empty($user_de2) ? $user_de2->email : '' }}
                 </p>
             </div>
     </div>
@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive" id="load_table_classrooms">
         <table class="table table-striped table-hover table-bordered" id="table">
             <thead class="thead-light">
                 <tr>
@@ -90,11 +90,11 @@
             <tbody>
                 @foreach ($classrooms as $key=>$classroom)
                     <tr>
-                        <td>{{ ++$key }}</td>
+                        <td>{{ $key+1 }}</td>
                         <td>{{ $classroom->id }}</td>
-                        <td>{{ !empty($classroom->uid_secretary) ? $all_users->where('id', $classroom->uid_secretary)->first()->name : '' }}</td>
-                        <td>{{ !empty($classroom->uid_secretary) ? $all_users->where('id', $classroom->uid_secretary)->first()->email : '' }}</td>
-                        <td>{{ !empty($classroom->uid_secretary) ? $all_users->where('id', $classroom->uid_secretary)->first()->phone : '' }}</td>
+                        <td>{{ $classroom->name }}</td>
+                        <td>{{ $classroom->email }}</td>
+                        <td>{{ $classroom->phone }}</td>
                         <td class="text-center text-primary">
                             <a href="{{ action('StudentController@index', [$cur_faculty->id, $classroom->id]) }}">
                                 <i class="far fa-eye"></i>
@@ -108,10 +108,10 @@
             </tbody>
         </table>
         <div class="pagination-container">
-            <nav>
-                <ul class="pagination justify-content-end"></ul>
-            </nav>
+            {!! $classrooms->links() !!}
         </div>
     </div>
+    {{-- input to store faculty_id --}}
+    <input type="hidden" id="faculty_id" name="faculty_id" value="{{ $cur_faculty->id }}">
 </div>
 @endsection

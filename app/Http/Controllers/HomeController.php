@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\ClassRoom;
 use App\Student;
+use Auth;
 use File;
 
 class HomeController extends Controller
@@ -63,9 +64,11 @@ class HomeController extends Controller
         // auth()->user()->givePermissionTo('admin');
         // return User::role('writer')->get();
 
-        $all_students = Student::all();
-        $all_classrooms = ClassRoom::all();
-        // return view('home')->with(['all_students' => $all_students, 'all_classrooms' => $all_classrooms]);
-        return view('home', ['all_students' => $all_students, 'all_classrooms' => $all_classrooms]);
+        $cur_student = Student::where('user_id', Auth::user()->id)->first();
+        if($cur_student != null){
+            $cur_classroom = ClassRoom::where('id', $cur_student->class_room_id)->first();
+            return view('home', ['cur_student' => $cur_student, 'cur_classroom' => $cur_classroom]);
+        }
+        return view('home');
     }
 }

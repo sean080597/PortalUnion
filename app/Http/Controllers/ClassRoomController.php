@@ -15,7 +15,7 @@ class ClassRoomController extends Controller
 {
     public function __construct() {
         $this->middleware(['auth', 'checkrole'])
-        ->except(['getlistclassrooms', 'get_sel_faculties', 'add_new_classroom']);
+        ->except(['getlistclassrooms', 'get_sel_faculties', 'add_new_classroom', 'getPaginateClassrooms']);
     }
 
     public function addnewclassroom(Request $request)
@@ -83,15 +83,18 @@ class ClassRoomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($faculty_id)
+    public function index(Request $request, $faculty_id)
     {
-        $all_classrooms = ClassRoom::all();
-        $all_students = Student::all();
-        $classrooms = ClassRoom::where('faculty_id', $faculty_id)->get();
         //$cur_faculty to get all info in blade view
         $cur_faculty = Faculty::findOrFail($faculty_id);
-        $all_users = User::all();
-        return view('classrooms.index', ['cur_faculty' => $cur_faculty, 'classrooms' => $classrooms, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'all_users' => $all_users]);
+        $user_sec = User::where('id', $cur_faculty->uid_secretary)->first();
+        $user_de1 = User::where('id', $cur_faculty->uid_deputysecre1)->first();
+        $user_de2 = User::where('id', $cur_faculty->uid_deputysecre2)->first();
+
+        $classrooms = ClassRoom::where('faculty_id', $faculty_id)->paginate(20);
+        return view('classrooms.index', ['cur_faculty' => $cur_faculty, 'classrooms' => $classrooms,
+        'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2
+        ]);
     }
 
     /**
@@ -181,5 +184,14 @@ class ClassRoomController extends Controller
         $classRoom = ClassRoom::findOrFail($request->classroom_id);
         $classRoom->delete();
         return 'ClassRoom with name - '.$request->classroom_id.' has been deleted';
+    }
+    //getPaginateClassrooms
+    public function getPaginateClassrooms(Request $request)
+    {
+        if($request->ajax()){
+            $faculty_id = $request->faculty_id;
+            $classrooms = ClassRoom::where('faculty_id', $request->faculty_id)->paginate(20);
+            return view('partials.pagination_classrooms', compact(['classrooms', 'faculty_id']))->render();
+        }
     }
 }

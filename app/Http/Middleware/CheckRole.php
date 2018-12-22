@@ -19,8 +19,11 @@ class CheckRole
     {
         $user_roleid = auth()->user()->role_id;
         //get faculty_id of user
-        $all_classrooms = ClassRoom::all();
-        $all_students = Student::all();
+        $cur_student = Student::where('user_id', auth()->user()->id)->first();
+        $cur_classroom = null;
+        if($cur_student != null){
+            $cur_classroom = ClassRoom::where('id', $cur_student->class_room_id)->first();
+        }
 
         //check if the user is admin
         if($user_roleid == 'adm'){
@@ -47,8 +50,7 @@ class CheckRole
         if ($request->is('classrooms/*'))
         {
             if($user_roleid == 'fac'){
-                $cur_student = $all_students->where('user_id', auth()->user()->id)->first();
-                $user_faculty_id = $all_classrooms->where('id', $cur_student->class_room_id)->first()->faculty_id;
+                $user_faculty_id = $cur_classroom->faculty_id;
                 if($request->route('faculty_id') == $user_faculty_id){
                     return $next($request);
                 }
@@ -65,28 +67,26 @@ class CheckRole
         {
             if($user_roleid == 'stu' && $request->is('students/show/*')){
                 //get logged student
-                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
-                if($request->route('student_id') == $logged_student->id){
+                if($request->route('student_id') == $cur_student->id){
                     return $next($request);
                 }
             }
 
             if($user_roleid == 'cla'){
                 //get logged student
-                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
-                $user_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                $user_faculty_id = $cur_classroom->faculty_id;
                 //check if the request is students/show/*
                 if(!empty($request->route('student_id'))){
                     $showed_student = $all_students->where('id', $request->route('student_id'))->first();
-                    if(strtolower($showed_student->class_room_id) == strtolower($logged_student->class_room_id)){
+                    if(strtolower($showed_student->class_room_id) == strtolower($cur_student->class_room_id)){
                         return $next($request);
                     }
                 }
                 //check if the request is students/faculty_id/classroom_id
                 else{
-                    $logged_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                    $logged_faculty_id = $cur_classroom->faculty_id;
                     if(strtolower($request->route('faculty_id')) == strtolower($logged_faculty_id)){
-                        if(strtolower($request->route('classroom_id')) == strtolower($logged_student->class_room_id)){
+                        if(strtolower($request->route('classroom_id')) == strtolower($cur_student->class_room_id)){
                             return $next($request);
                         }
                     }
@@ -95,8 +95,7 @@ class CheckRole
 
             if($user_roleid == 'fac'){
                 //get logged student
-                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
-                $user_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                $user_faculty_id = $cur_classroom->faculty_id;
                 //check if the request is students/show/*
                 if(!empty($request->route('student_id'))){
                     $showed_student = $all_students->where('id', $request->route('student_id'))->first();
@@ -131,8 +130,7 @@ class CheckRole
         if ($request->is('criteria-evaluation/*/*')){
             if($user_roleid == 'stu' && $request->is('criteria-evaluation/student-evaluate/*')){
                 //get logged student
-                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
-                if($request->route('student_id') == $logged_student->id){
+                if($request->route('student_id') == $cur_student->id){
                     return $next($request);
                 }
             }
@@ -140,20 +138,19 @@ class CheckRole
             if ($user_roleid == 'cla')
             {
                 //get logged student
-                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
-                $user_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                $user_faculty_id = $cur_classroom->faculty_id;
                 //check if the request is criteria-evaluation/show/*
                 if(!empty($request->route('student_id'))){
                     //get showed student
                     $showed_student = $all_students->where('id', $request->route('student_id'))->first();
-                    if(strtolower($showed_student->class_room_id) == strtolower($logged_student->class_room_id)){
+                    if(strtolower($showed_student->class_room_id) == strtolower($cur_student->class_room_id)){
                         return $next($request);
                     }
                 }//check if the request is criteria-evaluation/faculty_id/classroom_id
                 else{
-                    $logged_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                    $logged_faculty_id = $cur_classroom->faculty_id;
                     if(strtolower($request->route('faculty_id')) == strtolower($logged_faculty_id)){
-                        if(strtolower($request->route('classroom_id')) == strtolower($logged_student->class_room_id)){
+                        if(strtolower($request->route('classroom_id')) == strtolower($cur_student->class_room_id)){
                             return $next($request);
                         }
                     }
@@ -163,8 +160,7 @@ class CheckRole
             if ($user_roleid == 'fac')
             {
                 //get logged student
-                $logged_student = $all_students->where('user_id', auth()->user()->id)->first();
-                $user_faculty_id = $all_classrooms->where('id', $logged_student->class_room_id)->first()->faculty_id;
+                $user_faculty_id = $cur_classroom->faculty_id;
                 //check if the request is criteria-evaluation/show/*
                 if(!empty($request->route('student_id'))){
                     //get showed student

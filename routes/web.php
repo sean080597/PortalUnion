@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\adminFacultyController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,3 +94,5 @@ Route::prefix('admin')->group(function(){
     Route::delete('user/{id}','adminUserController@destroy');
     Route::get('role/showAll','RoleController@showAll');
 });
+
+Route::get('/getPaginateClassrooms', 'ClassRoomController@getPaginateClassrooms');

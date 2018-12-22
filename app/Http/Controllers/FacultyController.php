@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Auth;
 
 use App\ClassRoom;
 use App\Faculty;
@@ -44,11 +45,26 @@ class FacultyController extends Controller
      */
     public function index()
     {
-        $all_classrooms = ClassRoom::all();
-        $all_students = Student::all();
         $faculties = Faculty::orderby('name', 'asc')->get();
-        $all_users = User::all();
-        return view('faculties.index', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'faculties' => $faculties, 'all_users' => $all_users]);
+        $user_sec = User::where('role_id', 'sec')->first();
+        $user_de1 = User::where('role_id', 'de1')->first();
+        $user_de2 = User::where('role_id', 'de2')->first();
+        $cur_student = Student::where('user_id', Auth::user()->id)->first();
+        //ls users which is secretary, deputy secretary
+        $ls_secs = $faculties->load('secretary');
+        $lsToShow_secs = array();
+        foreach($ls_secs as $key => $fa){
+            $lsToShow_secs[$key] = User::where('id', $fa->uid_secretary)->first();
+        }
+        // dd($lsToShow_secs[1]->name);
+        if($cur_student != null){
+            $cur_classroom = ClassRoom::where('id', $cur_student->class_room_id)->first();
+            return view('faculties.index', ['cur_classroom' => $cur_classroom,
+            'cur_student' => $cur_student, 'faculties' => $faculties, 'lsToShow_secs' => $lsToShow_secs,
+            'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2]);
+        }
+        return view('faculties.index', ['faculties' => $faculties, 'lsToShow_secs' => $lsToShow_secs,
+        'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2]);
     }
 
     /**
