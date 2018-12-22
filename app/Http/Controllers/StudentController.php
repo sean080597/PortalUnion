@@ -206,7 +206,9 @@ class StudentController extends Controller
 
         //get info to update table users
         $user = User::findOrFail($request->user_id);
-        $user->phone = $request->phonenum;
+        if(!empty($request->phonenum)){
+            $user->phone = $request->phonenum;
+        }
         $user->email = $request->email;
         $user->save();
 

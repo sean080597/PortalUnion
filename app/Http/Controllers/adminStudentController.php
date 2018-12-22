@@ -37,18 +37,16 @@
         public function setStudent($id){
             $student = Student::where('id',$id)->first();
             $relations = StudentRelation::where('student_id',$id)->get();
-            foreach ($relations as $key => $value) {
-                $f = Relation::where('role',1)->where('id',$value->relation_id)->get();
-                if($f->isNotEmpty()){
-                    $father = $f[0];
+            $dad = $mom = '';
+            foreach($relations as $item){
+                $relation = Relation::findOrFail($item->relation_id);
+                if($relation->role == 1){
+                    $dad = $relation;
                 }else{
-                    $m = Relation::where('role',0)->where('id',$value->relation_id)->get();
-                    if($m->isNotEmpty()){
-                        $mother = $m[0];
-                    }
+                    $mom = $relation;
                 }
             }
-            return view('admin.updateStudent',['student'=>$student,'dad'=>$father, 'mom'=>$mother]);
+            return view('admin.updateStudent',['student'=>$student,'dad'=>$dad, 'mom'=>$mom]);
             //return ['student'=>$student,'dad'=>$father, 'mom'=>$mother];
         }
 
