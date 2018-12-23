@@ -82,7 +82,6 @@ class ClassRoomsTableSeeder extends Seeder
         self::insert_class('18DTHB3', 'DTH');
         self::insert_class('18DTHB4', 'DTH');
         self::insert_class('18DTHB5', 'DTH');
-        self::insert_class('18DTHB6', 'DTH');
         self::insert_class('18DTHC1', 'DTH');
         self::insert_class('18DTHC2', 'DTH');
         self::insert_class('18DTHC3', 'DTH');

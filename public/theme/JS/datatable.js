@@ -13,73 +13,6 @@ function change_alias(alias) {
     str = str.trim();
     return str;
 }
-function table_pagination($table){
-    var $tb = '#'+$table;
-    $($tb+' tr:gt(0)').each(function(){
-        $(this).attr('state','show');
-    });
-    $('#maxRows').on('change',function(){
-        $('.pagination').html();
-        var $trnum = 0;
-        var $maxRows = parseInt($(this).val());
-        var $totalRows = $($tb + ' tbody tr').length;
-        if($maxRows <= 0){
-            $($tb+' tr:gt(0)').each(function(){
-                $(this).attr('state','show').show();
-            });
-        }else{
-            $($tb+' tr:gt(0)').each(function(){
-                $trnum++;
-                if($trnum > $maxRows){
-                    $(this).attr('state','').hide();
-                }
-                else{
-                    $(this).attr('state','show').show();
-                }
-            });
-        }
-        $('.pagination').empty();
-        if($totalRows >$maxRows && $maxRows != 0){
-            var $pagenum = Math.ceil($totalRows/$maxRows);
-            for(var i=1;i<=$pagenum;){
-                $('.pagination').append(
-                    '<li class="page-item" data-page="'+ i +'">'+
-                        '<span class="page-link">'+ i++ +
-                            '<span class="sr-only">(current)</span>'+
-                        '</span>'+
-                    '</li>'
-                ).show();
-            }
-            $('.pagination li:nth-child(1)').addClass('active');
-            $('.pagination li').on('click',function(){
-                $numPage = $(this).attr('data-page');
-                var $trIndex = 0;
-                $(this).addClass('active').siblings().removeClass('active');
-                $($tb+ ' tr:gt(0)').each(function(){
-                    $trIndex++;
-                    if($trIndex <= (($maxRows*$numPage)-$maxRows) || $trIndex > $maxRows*$numPage){
-                        $(this).attr('state','').hide();
-                    }
-                    else{
-                        $(this).attr('state','show').show();
-                    }
-                });
-            });
-        }
-    });
-}
-
-function call_tracking_input_search(){
-    $('#table-search').on("keyup",function(){
-        $value = change_alias($(this).val()).toLowerCase();
-        $('.table tr[state="show"]').filter(function(){
-           $index = change_alias($(this).text()).toLowerCase().indexOf($value);
-            $(this).toggle($index > -1);
-        });
-    });
-    var $table = 'table';
-    table_pagination($table);
-}
 
 function call_tracking_select_all(){
     $('#select-all').on("click",function(){
@@ -94,8 +27,48 @@ function call_tracking_select_all(){
         }
     });
 }
+//=========================================================================
+//handle query
+function loadTrackingPaginate(){
+    $(document).on('click', '.pagination a', function(event){
+        event.preventDefault();
+        $('.loading_ani_img').show();
+        var page = $(this).attr('href').split('page=')[1];
+        var faculty_id = $('#faculty_id').val();
+        var query = change_alias($('#table-search').val()).toLowerCase();
+        fetch_data_classrooms(page, faculty_id, query);
+    });
+    function fetch_data_classrooms(page, faculty_id, query){
+        $.get("/getPaginateClassrooms?page="+page+"&faculty_id="+faculty_id+"&query="+query,
+            function (data) {
+                $('#load_table_classrooms').html(data);
+                $('.loading_ani_img').hide();
+            }
+        );
+    }
+}
+//-------------------------------------------------------------------------
+function call_search_classrooms(query, faculty_id){
+    $.get("/getPaginateClassrooms?faculty_id="+faculty_id+"&query="+query,
+        function (data) {
+            $('#load_table_classrooms').html(data);
+            $('#total_found_result').val($('#return_found_results').val());
+            $('.loading_ani_img').hide();
+        }
+    );
+}
+//detect when click button search & run fetch_search_classrooms()
+function call_tracking_input_search(){
+    $('.cus-btn-search').on("click",function(){
+        $('.loading_ani_img').show();
+        var query = change_alias($('#table-search').val()).toLowerCase();
+        var faculty_id = $('#faculty_id').val();
+        call_search_classrooms(query, faculty_id);
+    });
+}
 
 $(document).ready(function () {
+    // call_tracking_select_all();
+    loadTrackingPaginate();
     call_tracking_input_search();
-    call_tracking_select_all();
 });

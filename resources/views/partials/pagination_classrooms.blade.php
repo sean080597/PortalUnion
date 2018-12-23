@@ -1,3 +1,4 @@
+<input type="hidden" id="return_found_results" value="{{ $total_row }}">
 <table class="table table-striped table-hover table-bordered" id="table">
         <thead class="thead-light">
             <tr>
@@ -15,9 +16,9 @@
                 <tr>
                     <td>{{ $key+1 }}</td>
                     <td>{{ $classroom->id }}</td>
-                    <td>{{ $classroom->name }}</td>
-                    <td>{{ $classroom->email }}</td>
-                    <td>{{ $classroom->phone }}</td>
+                    <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->name : ''  }}</td>
+                    <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->email : '' }}</td>
+                    <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->phone : '' }}</td>
                     <td class="text-center text-primary">
                         <a href="{{ action('StudentController@index', [$faculty_id, $classroom->id]) }}">
                             <i class="far fa-eye"></i>

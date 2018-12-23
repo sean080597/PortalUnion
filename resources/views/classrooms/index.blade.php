@@ -53,7 +53,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-3 mb-2">
+        {{-- <div class="col-md-3 mb-2">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text bg-danger text-white">Lọc</span>
@@ -63,17 +63,28 @@
                     <option value="0" selected>Tất cả</option>
                 </select>
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-9">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text bg-info text-white">Tìm kiếm</span>
                 </div>
                 <input type="text" class="form-control" id="table-search" />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary cus-btn-search" type="button">Tìm</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-2">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-danger text-white">Tìm thấy</span>
+                </div>
+                <input type="text" class="form-control" id="total_found_result" disabled>
             </div>
         </div>
     </div>
-
+    <p></p>
     <div class="table-responsive" id="load_table_classrooms">
         <table class="table table-striped table-hover table-bordered" id="table">
             <thead class="thead-light">
@@ -92,9 +103,9 @@
                     <tr>
                         <td>{{ $key+1 }}</td>
                         <td>{{ $classroom->id }}</td>
-                        <td>{{ $classroom->name }}</td>
-                        <td>{{ $classroom->email }}</td>
-                        <td>{{ $classroom->phone }}</td>
+                        <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->name : ''  }}</td>
+                        <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->email : '' }}</td>
+                        <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->phone : '' }}</td>
                         <td class="text-center text-primary">
                             <a href="{{ action('StudentController@index', [$cur_faculty->id, $classroom->id]) }}">
                                 <i class="far fa-eye"></i>

@@ -15,7 +15,8 @@ class ClassRoomController extends Controller
 {
     public function __construct() {
         $this->middleware(['auth', 'checkrole'])
-        ->except(['getlistclassrooms', 'get_sel_faculties', 'add_new_classroom', 'getPaginateClassrooms']);
+        ->except(['getlistclassrooms', 'get_sel_faculties', 'add_new_classroom',
+        'getPaginateClassrooms']);
     }
 
     public function addnewclassroom(Request $request)
@@ -92,8 +93,14 @@ class ClassRoomController extends Controller
         $user_de2 = User::where('id', $cur_faculty->uid_deputysecre2)->first();
 
         $classrooms = ClassRoom::where('faculty_id', $faculty_id)->paginate(20);
+
+        $lsToShow_secs = array();
+        foreach($classrooms as $key => $cla){
+            $lsToShow_secs[$key] = User::where('id', $cla->uid_secretary)->first();
+        }
         return view('classrooms.index', ['cur_faculty' => $cur_faculty, 'classrooms' => $classrooms,
-        'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2
+        'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2,
+        'lsToShow_secs' => $lsToShow_secs
         ]);
     }
 
@@ -185,13 +192,31 @@ class ClassRoomController extends Controller
         $classRoom->delete();
         return 'ClassRoom with name - '.$request->classroom_id.' has been deleted';
     }
+
     //getPaginateClassrooms
     public function getPaginateClassrooms(Request $request)
     {
         if($request->ajax()){
-            $faculty_id = $request->faculty_id;
-            $classrooms = ClassRoom::where('faculty_id', $request->faculty_id)->paginate(20);
-            return view('partials.pagination_classrooms', compact(['classrooms', 'faculty_id']))->render();
+            $faculty_id = $request->get('faculty_id');
+            $query = $request->get('query');
+            if($query != null){
+                $classrooms = ClassRoom::where('id', 'like', '%'.$query.'%')
+                ->Where('faculty_id', $faculty_id)->paginate(20);
+                $lsToShow_secs = array();
+                foreach($classrooms as $key => $cla){
+                    $lsToShow_secs[$key] = User::where('id', $cla->uid_secretary)->first();
+                }
+            }else{
+                $classrooms = ClassRoom::where('faculty_id', $request->faculty_id)->paginate(20);
+                $lsToShow_secs = array();
+                foreach($classrooms as $key => $cla){
+                    $lsToShow_secs[$key] = User::where('id', $cla->uid_secretary)->first();
+                }
+            }
+            $total_row = $classrooms->total();
+            return view('partials.pagination_classrooms', compact(['classrooms', 'faculty_id',
+            'lsToShow_secs', 'total_row']))
+            ->render();
         }
     }
 }

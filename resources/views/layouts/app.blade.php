@@ -16,7 +16,9 @@
 </head>
 <body>
     <div class="loading_ani_img">
-        <img src="{{ asset('theme/images/loadinganimation.gif') }}" id="ani_img">
+        <div class="preloader_svg">
+            @include('partials.preloader_svg')
+        </div>
     </div>
     <section class="container-fluid">
         <div id="loader-wrapper">

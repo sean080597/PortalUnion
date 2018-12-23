@@ -94,6 +94,23 @@
   }
 }
 
+.loading_ani_img {
+  display: none;
+  position: fixed;
+  width: 100%;
+  z-index: 9998;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+}
+
+.loading_ani_img .preloader_svg {
+  width: 10%;
+  position: fixed;
+  z-index: 9999;
+  top: 30%;
+  left: 50%;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background: #efefef;
@@ -128,6 +145,15 @@ h4 {
 h5 {
   font-size: 1.1rem;
   text-transform: uppercase;
+}
+
+.cus-btn-search {
+  color: #efefef;
+  background-color: #17A2B8;
+}
+
+.cus-btn-search :hover {
+  color: #999;
 }
 
 .container-fluid {

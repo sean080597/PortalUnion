@@ -38,6 +38,8 @@ Route::get('/classrooms/getlistclassrooms', 'ClassRoomController@getlistclassroo
 Route::get('/classrooms/manage', ['as' => 'classrooms.manage', 'uses' => 'ClassRoomController@manage']);
 Route::get('/classrooms/{faculty_id}', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
 
+Route::get('/getPaginateClassrooms', 'ClassRoomController@getPaginateClassrooms');
+
 //handle is submit union note
 Route::post('/students/submit_union_note', 'StudentController@submit_union_note')->name('submit_union_note');
 //handle fetch data when change select faculty
@@ -94,5 +96,3 @@ Route::prefix('admin')->group(function(){
     Route::delete('user/{id}','adminUserController@destroy');
     Route::get('role/showAll','RoleController@showAll');
 });
-
-Route::get('/getPaginateClassrooms', 'ClassRoomController@getPaginateClassrooms');
