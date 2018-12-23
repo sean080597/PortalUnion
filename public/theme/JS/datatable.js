@@ -34,14 +34,29 @@ function loadTrackingPaginate(){
         event.preventDefault();
         $('.loading_ani_img').show();
         var page = $(this).attr('href').split('page=')[1];
-        var faculty_id = $('#faculty_id').val();
         var query = change_alias($('#table-search').val()).toLowerCase();
-        fetch_data_classrooms(page, faculty_id, query);
+        //check if fetching classrooms or students
+        var isFetchingStudents = change_alias($(this).attr('href')).includes('students');
+        if(isFetchingStudents){
+            var classroom_id = $('#classroom_id').val();
+            fetch_data_students(page, classroom_id, query);
+        }else{
+            var faculty_id = $('#faculty_id').val();
+            fetch_data_classrooms(page, faculty_id, query);
+        }
     });
     function fetch_data_classrooms(page, faculty_id, query){
         $.get("/getPaginateClassrooms?page="+page+"&faculty_id="+faculty_id+"&query="+query,
             function (data) {
                 $('#load_table_classrooms').html(data);
+                $('.loading_ani_img').hide();
+            }
+        );
+    }
+    function fetch_data_students(page, classroom_id, query){
+        $.get("/getPaginateStudents?page="+page+"&classroom_id="+classroom_id+"&query="+query,
+            function (data) {
+                $('#load_table_students').html(data);
                 $('.loading_ani_img').hide();
             }
         );
@@ -57,13 +72,29 @@ function call_search_classrooms(query, faculty_id){
         }
     );
 }
+function call_search_students(query, classroom_id){
+    $.get("/getPaginateStudents?classroom_id="+classroom_id+"&query="+query,
+        function (data) {
+            $('#load_table_students').html(data);
+            $('#total_found_result').val($('#return_found_results').val());
+            $('.loading_ani_img').hide();
+        }
+    );
+}
 //detect when click button search & run fetch_search_classrooms()
 function call_tracking_input_search(){
     $('.cus-btn-search').on("click",function(){
         $('.loading_ani_img').show();
-        var query = change_alias($('#table-search').val()).toLowerCase();
-        var faculty_id = $('#faculty_id').val();
-        call_search_classrooms(query, faculty_id);
+        var query = change_alias($('#table-search').val());
+        //check if fetching classrooms or students
+        var isFetchingStudents = window.location.href.includes('students');
+        if(isFetchingStudents){
+            var classroom_id = $('#classroom_id').val();
+            call_search_students(query, classroom_id);
+        }else{
+            var faculty_id = $('#faculty_id').val();
+            call_search_classrooms(query, faculty_id);
+        }
     });
 }
 

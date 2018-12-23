@@ -37,7 +37,7 @@ Route::get('/classrooms/get_sel_faculties', 'ClassRoomController@getselfaculties
 Route::get('/classrooms/getlistclassrooms', 'ClassRoomController@getlistclassrooms');
 Route::get('/classrooms/manage', ['as' => 'classrooms.manage', 'uses' => 'ClassRoomController@manage']);
 Route::get('/classrooms/{faculty_id}', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
-
+//handle get classrooms pagination
 Route::get('/getPaginateClassrooms', 'ClassRoomController@getPaginateClassrooms');
 
 //handle is submit union note
@@ -54,6 +54,8 @@ Route::get('/students/manage', ['as' => 'students.manage', 'uses' => 'StudentCon
 Route::get('/students/show/{student_id}', ['as' => 'students.show', 'uses' => 'StudentController@show']);
 Route::get('/students/{faculty_id}/{classroom_id}', ['as' => 'students.index', 'uses' => 'StudentController@index']);
 Route::post('/students/update', ['as' => 'students.update', 'uses' => 'StudentController@update']);
+
+Route::get('/getPaginateStudents', 'StudentController@getPaginateStudents');
 
 //route for evaluate criteria
 Route::post('/criteria-evaluation/submit-evaluation', ['as' => 'criteria-evaluation.submit-evaluation', 'uses' => 'CriteriaManagermentController@submit_evaluation']);

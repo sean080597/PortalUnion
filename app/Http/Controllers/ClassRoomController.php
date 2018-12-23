@@ -93,7 +93,6 @@ class ClassRoomController extends Controller
         $user_de2 = User::where('id', $cur_faculty->uid_deputysecre2)->first();
 
         $classrooms = ClassRoom::where('faculty_id', $faculty_id)->paginate(20);
-
         $lsToShow_secs = array();
         foreach($classrooms as $key => $cla){
             $lsToShow_secs[$key] = User::where('id', $cla->uid_secretary)->first();

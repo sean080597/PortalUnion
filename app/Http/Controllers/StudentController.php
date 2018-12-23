@@ -19,7 +19,8 @@ use App\User;
 class StudentController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth', 'checkrole'])->except(['getMoreStudents', 'update', 'ajaxupload']);
+        $this->middleware(['auth', 'checkrole'])->except(['getMoreStudents', 'update',
+        'ajaxupload', 'getPaginateStudents']);
     }
 
     public function getMoreStudents(Request $request){
@@ -103,14 +104,15 @@ class StudentController extends Controller
      */
     public function index($faculty_id, $classroom_id)
     {
-        $all_students = Student::all();
-        $all_users = User::all();
-        $all_classrooms = ClassRoom::all();
         $cur_classroom = ClassRoom::findOrFail($classroom_id);
+        $user_sec = User::where('id', $cur_classroom->uid_secretary)->first();
+        $user_de1 = User::where('id', $cur_classroom->uid_deputysecre1)->first();
+        $user_de2 = User::where('id', $cur_classroom->uid_deputysecre2)->first();
 
-        $students = Student::where('class_room_id', $classroom_id)->get();
-        return view('students.index', ['students' => $students, 'all_students' => $all_students,
-        'all_users' => $all_users, 'all_classrooms' => $all_classrooms, 'cur_classroom' => $cur_classroom]);
+        $students = Student::where('class_room_id', $classroom_id)->paginate(20);
+        return view('students.index', ['cur_classroom' => $cur_classroom, 'students' => $students,
+        'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2,
+        ]);
     }
 
     /**
@@ -357,5 +359,37 @@ class StudentController extends Controller
         $student->is_submit = ($request->is_submit == "true") ? 1 : 0;
         $student->save();
         return;
+    }
+
+    //getPaginateStudents
+    public function getPaginateStudents(Request $request)
+    {
+        if($request->ajax()){
+            $classroom_id = $request->get('classroom_id');
+            $query = $request->get('query');
+            if($query != null){
+                $students = User::select('users.id', 'users.name', 'users.phone', 'users.email',
+                                'students.id', 'students.birthday')
+                ->join('students', 'students.user_id', '=', 'users.id')
+                ->where('class_room_id', $classroom_id)
+                ->where(function($sub_query) use ($query){
+                    $sub_query->where('students.id', 'like', '%'.$query.'%')
+                    ->orWhere('users.name', 'like', '%'.$query.'%')
+                    ->orWhere('users.phone', 'like', '%'.$query.'%')
+                    ->orWhere('users.email', 'like', '%'.$query.'%');
+                })
+                ->paginate(20);
+            }else{
+                $students = User::select('users.id', 'users.name', 'users.phone', 'users.email',
+                                'students.id', 'students.birthday')
+                ->join('students', 'students.user_id', '=', 'users.id')
+                ->where('class_room_id', $classroom_id)
+                ->paginate(20);
+            }
+            $total_row = $students->total();
+            return view('partials.pagination_students', compact(['students', 'classroom_id',
+            'total_row']))
+            ->render();
+        }
     }
 }

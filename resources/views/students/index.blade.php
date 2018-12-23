@@ -13,47 +13,47 @@
     <div class="note-info">
         <div class="row">
             <p class="col-sm-4">
-                <span>Bí thư: </span>{{ !empty($cur_classroom->uid_secretary) ? $all_users->where('id', $cur_classroom->uid_secretary)->first()->name : '' }}
+                <span>Bí thư: </span>{{ !empty($user_sec) ? $user_sec->name : '' }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ !empty($cur_classroom->uid_secretary) ? $all_users->where('id', $cur_classroom->uid_secretary)->first()->phone : '' }}
+                    <span>ĐT: </span>{{ !empty($user_sec) ? $user_sec->phone : '' }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ !empty($cur_classroom->uid_secretary) ? $all_users->where('id', $cur_classroom->uid_secretary)->first()->email : '' }}
+                    <span>Email: </span>{{ !empty($user_sec) ? $user_sec->email : '' }}
                 </p>
             </div>
         </div>
         <div class="row">
             <p class="col-sm-4">
-                <span>Phó bí thư: </span>{{ !empty($cur_classroom->uid_deputysecre1) ? $all_users->where('id', $cur_classroom->uid_deputysecre1)->first()->name : '' }}
+                <span>Phó bí thư: </span>{{ !empty($user_de1) ? $user_de1->name : '' }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ !empty($cur_classroom->uid_deputysecre1) ? $all_users->where('id', $cur_classroom->uid_deputysecre1)->first()->phone : '' }}
+                    <span>ĐT: </span>{{ !empty($user_de1) ? $user_de1->phone : '' }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ !empty($cur_classroom->uid_deputysecre1) ? $all_users->where('id', $cur_classroom->uid_deputysecre1)->first()->email : '' }}
+                    <span>Email: </span>{{ !empty($user_de1) ? $user_de1->email : '' }}
                 </p>
             </div>
         </div>
         <div class="row">
             <p class="col-sm-4">
-                <span>Phó bí thư: </span>{{ !empty($cur_classroom->uid_deputysecre2) ? $all_users->where('id', $cur_classroom->uid_deputysecre2)->first()->name : '' }}
+                <span>Phó bí thư: </span>{{ !empty($user_de2) ? $user_de2->name : '' }}
             </p>
             <div class="col-sm-8 row">
                 <p class="col-5">
-                    <span>ĐT: </span>{{ !empty($cur_classroom->uid_deputysecre2) ? $all_users->where('id', $cur_classroom->uid_deputysecre2)->first()->phone : '' }}
+                    <span>ĐT: </span>{{ !empty($user_de2) ? $user_de2->phone : '' }}
                 </p>
                 <p class="col-7 px-0">
-                    <span>Email: </span>{{ !empty($cur_classroom->uid_deputysecre2) ? $all_users->where('id', $cur_classroom->uid_deputysecre2)->first()->email : '' }}
+                    <span>Email: </span>{{ !empty($user_de2) ? $user_de2->email : '' }}
                 </p>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-3 mb-2">
+        {{-- <div class="col-md-3 mb-2">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text bg-danger text-white">Lọc</span>
@@ -66,18 +66,29 @@
                     <option value="0" selected>Tất cả</option>
                 </select>
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-9">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text bg-info text-white">Tìm kiếm</span>
                 </div>
                 <input type="text" class="form-control" id="table-search" />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary cus-btn-search" type="button">Tìm</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-2">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-danger text-white">Tìm thấy</span>
+                </div>
+                <input type="text" class="form-control" id="total_found_result" disabled>
             </div>
         </div>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive" id="load_table_students">
         <table class="table table-striped table-hover table-bordered" id="table">
             <thead class="thead-light">
                 <tr>
@@ -93,16 +104,18 @@
             </thead>
             <tbody>
                 @foreach ($students as $key=>$student)
+                    @php
+                        $cur_user = App\User::where('id', $student->user_id)->first();
+                    @endphp
                     <tr>
                         <td>{{ ++$key }}</td>
                         <td>{{ $student->id }}</td>
                         <td>{{ $student->name }}</td>
                         <td>{{ Carbon\Carbon::parse($student->birthday)->format('d-m-Y') }}</td>
-                        <td>{{ $all_users->where('id', $student->user_id)->first()->email }}</td>
-                        <td>{{ $all_users->where('id', $student->user_id)->first()->phone }}</td>
+                        <td>{{ $cur_user->email }}</td>
+                        <td>{{ $cur_user->phone }}</td>
                         <td class="text-center text-primary">
-                            <a href="{{ action('StudentController@show',
-                            $all_students->where('user_id', $student->user_id)->first()->id) }}">
+                            <a href="{{ action('StudentController@show', $student->id) }}">
                                 <i class="far fa-eye"></i>
                             </a>
                         </td>
@@ -114,10 +127,10 @@
             </tbody>
         </table>
         <div class="pagination-container">
-            <nav>
-                <ul class="pagination justify-content-end"></ul>
-            </nav>
+            {!! $students->links() !!}
         </div>
     </div>
+    {{-- input to store faculty_id --}}
+    <input type="hidden" id="classroom_id" name="classroom_id" value="{{ $cur_classroom->id }}">
 </div>
 @endsection

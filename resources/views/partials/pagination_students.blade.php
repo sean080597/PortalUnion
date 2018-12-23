@@ -3,8 +3,9 @@
     <thead class="thead-light">
         <tr>
             <th>STT</th>
-            <th class="width-100">Chi đoàn</th>
-            <th class="width-200">Bí thư</th>
+            <th class="width-100">MSSV</th>
+            <th class="width-200">Họ Tên</th>
+            <th class="width-100">Ngày sinh</th>
             <th class="width-200">Email</th>
             <th class="width-100">Điện thoại</th>
             <th class="width-80">Tác vụ</th>
@@ -12,15 +13,16 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($classrooms as $key=>$classroom)
+        @foreach ($students as $key=>$student)
             <tr>
-                <td>{{ $key+1 }}</td>
-                <td>{{ $classroom->id }}</td>
-                <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->name : ''  }}</td>
-                <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->email : '' }}</td>
-                <td>{{ !empty($lsToShow_secs[$key]) ? $lsToShow_secs[$key]->phone : '' }}</td>
+                <td>{{ ++$key }}</td>
+                <td>{{ $student->id }}</td>
+                <td>{{ $student->name }}</td>
+                <td>{{ Carbon\Carbon::parse($student->birthday)->format('d-m-Y') }}</td>
+                <td>{{ $student->email }}</td>
+                <td>{{ $student->phone }}</td>
                 <td class="text-center text-primary">
-                    <a href="{{ action('StudentController@index', [$faculty_id, $classroom->id]) }}">
+                    <a href="{{ action('StudentController@show', $student->id) }}">
                         <i class="far fa-eye"></i>
                     </a>
                 </td>
@@ -32,5 +34,5 @@
     </tbody>
 </table>
 <div class="pagination-container">
-    {!! $classrooms->links() !!}
+    {!! $students->links() !!}
 </div>
