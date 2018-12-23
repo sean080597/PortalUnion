@@ -18,7 +18,7 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('401', 'HomeController@deniedaccess')->name('deniedaccess');
-Route::get('notfound', 'HomeController@notfound')->name('notfound');
+Route::get('404', 'HomeController@notfound')->name('notfound');
 
 Route::get('/faculties/getInfoFaculty', 'FacultyController@getInfoFaculty');
 Route::get('/faculties/getlistfaculties', 'FacultyController@getlistfaculties');

@@ -77,7 +77,7 @@ class CheckRole
                 $user_faculty_id = $cur_classroom->faculty_id;
                 //check if the request is students/show/*
                 if(!empty($request->route('student_id'))){
-                    $showed_student = $all_students->where('id', $request->route('student_id'))->first();
+                    $showed_student = Student::findOrfail($request->route('student_id'));
                     if(strtolower($showed_student->class_room_id) == strtolower($cur_student->class_room_id)){
                         return $next($request);
                     }
@@ -98,10 +98,16 @@ class CheckRole
                 $user_faculty_id = $cur_classroom->faculty_id;
                 //check if the request is students/show/*
                 if(!empty($request->route('student_id'))){
-                    if(empty($cur_student)){
+                    //get showing student
+                    $showed_student = Student::findOrfail($request->route('student_id'));
+                    //return if not found
+                    if(empty($showed_student)){
                         return redirect('notfound');
-                    }else{
-                        $showed_faculty_id = $cur_classroom->faculty_id;
+                    }
+                    //return if not allowed
+                    else{
+                        $showed_classroom_id = ClassRoom::findOrfail($showed_student->class_room_id);
+                        $showed_faculty_id = $showed_classroom_id->faculty_id;
                         if(strtolower($showed_faculty_id) == strtolower($user_faculty_id)){
                             return $next($request);
                         }

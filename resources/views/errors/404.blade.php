@@ -35,10 +35,7 @@
 				</div>
 				<h2>Error<br>404</h2>
 			</div>
-            <p>Tài khoản của bạn không có quyền truy cập vào trang này</a></p>
-            <div id="page-error">
-                <h3 class="text-center">Quay trở lại <a href="{{url('/')}}" class="text-primary">Trang Chủ</a></h3>
-            </div>
+			<p>Trang không tìm thấy hoặc đã đổi tên.<a href="{{url('/')}}"> Về lại trang chủ</a></p>
 		</div>
 	</div>
 

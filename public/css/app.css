@@ -281,7 +281,8 @@ a[data-toggle="collapse"] {
 }
 
 #sidebar .sidebar-header h4 {
-  margin: 0;
+  margin: 5px;
+  font-size: 1.1rem;
 }
 
 #sidebar ul .components {

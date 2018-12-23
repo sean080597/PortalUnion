@@ -148,7 +148,7 @@
                         </ul>
                     </li>
                     @endif
-                    <li><a href="layout.html">Hỗ trợ</a></li>
+                    {{-- <li><a href="layout.html">Hỗ trợ</a></li> --}}
                 </ul>
             </nav><!-- End nav sidebar -->
             <div id="content" class="container-fluid">
