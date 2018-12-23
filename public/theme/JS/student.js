@@ -57,13 +57,13 @@ $(document).ready(function () {
             cache: false,
             processData: false,
             success: function (data) {
-                //hide loading image
-                $('.loading_ani_img').hide();
-
                 $('#profile-img img').attr('src', '/images/'+data.uploaded_image);
                 $('#current_img').val(data.uploaded_image);
-                alert(data.message);
                 $('#modal_change_image').modal('hide');
+
+                //hide loading image
+                $('.loading_ani_img').hide();
+                alert(data.message);
             }
         });
     });

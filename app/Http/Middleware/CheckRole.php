@@ -98,11 +98,10 @@ class CheckRole
                 $user_faculty_id = $cur_classroom->faculty_id;
                 //check if the request is students/show/*
                 if(!empty($request->route('student_id'))){
-                    $showed_student = $all_students->where('id', $request->route('student_id'))->first();
-                    if(empty($showed_student)){
+                    if(empty($cur_student)){
                         return redirect('notfound');
                     }else{
-                        $showed_faculty_id = $all_classrooms->where('id', $showed_student->class_room_id)->first()->faculty_id;
+                        $showed_faculty_id = $cur_classroom->faculty_id;
                         if(strtolower($showed_faculty_id) == strtolower($user_faculty_id)){
                             return $next($request);
                         }
@@ -111,8 +110,7 @@ class CheckRole
                 //check if the request is students/faculty_id/classroom_id
                 else{
                     if($request->route('faculty_id') == $user_faculty_id){
-                        $classroom = $all_classrooms->where('id', $request->route('classroom_id'))->first();
-                        if(empty($classroom)){
+                        if(empty($cur_classroom)){
                             return redirect('notfound');
                         }else{
                             return $next($request);
@@ -168,7 +166,7 @@ class CheckRole
                     if(empty($showed_student)){
                         return redirect('notfound');
                     }else{
-                        $showed_faculty_id = $all_classrooms->where('id', $showed_student->class_room_id)->first()->faculty_id;
+                        $showed_faculty_id = $cur_classroom->faculty_id;
                         if(strtolower($showed_faculty_id) == strtolower($user_faculty_id)){
                             return $next($request);
                         }
@@ -176,8 +174,7 @@ class CheckRole
                 }//check if the request is criteria-evaluation/faculty_id/classroom_id
                 else{
                     if($request->route('faculty_id') == $user_faculty_id){
-                        $classroom = $all_classrooms->where('id', $request->route('classroom_id'))->first();
-                        if(empty($classroom)){
+                        if(empty($cur_classroom)){
                             return redirect('notfound');
                         }else{
                             return $next($request);

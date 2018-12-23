@@ -15,9 +15,9 @@
 @section('content')
 <section class="row">
     <section class="col-lg-3 d-flex flex-column align-items-center">
-        <a href="#" id="profile-img"><img class="img-fluid mb-3" src="{{ !empty($student->image) ? asset('images/'.$student->image) : asset('theme/images/img_avatar1.png') }}" alt="Chania" width="120"></a>
+        <a href="#" id="profile-img"><img class="img-fluid mb-3" src="{{ !empty($cur_student->image) ? asset('images/'.$cur_student->image) : asset('theme/images/img_avatar1.png') }}" alt="Chania" width="120"></a>
         <div class="note-success">
-            <p>Cập nhật gần nhất: {{ $student->updated_at->format('G\h i') }} ngày {{ $student->updated_at->format('d/m/Y') }}</p>
+            <p>Cập nhật gần nhất: {{ $cur_student->updated_at->format('G\h i') }} ngày {{ $cur_student->updated_at->format('d/m/Y') }}</p>
         </div>
         <div class="note-info">
             <p>Yêu cầu chỉnh sửa các thông tin khác xin liên hệ:</p>
@@ -36,13 +36,13 @@
     <form method="POST" action="" class="col-lg-9 d-flex flex-column align-items-center" id="form-change-info-student">
         @csrf
         <div class="row info-section">
-            <div class="col-md-6">Mã số sinh viên: <span class="font-weight-bold">{{ $student->id }}</span> </div>
-            <div class="col-md-6">Họ và tên: <span class="font-weight-bold">{{ $student->name }}</span> </div>
-            <div class="col-md-6">Lớp: <span class="font-weight-bold">{{ $student->class_room_id }}</span> </div>
-            <div class="col-md-6">Ngày sinh: <span>{{ Carbon\Carbon::parse($student->birthday)->format('d-m-Y') }}</span> </div>
-            <div class="col-md-6">Khoa: <span class="font-weight-bold">{{ $faculty->name }}</span> </div>
+            <div class="col-md-6">Mã số sinh viên: <span class="font-weight-bold">{{ $cur_student->id }}</span> </div>
+            <div class="col-md-6">Họ và tên: <span class="font-weight-bold">{{ $cur_student->name }}</span> </div>
+            <div class="col-md-6">Lớp: <span class="font-weight-bold">{{ $cur_student->class_room_id }}</span> </div>
+            <div class="col-md-6">Ngày sinh: <span>{{ Carbon\Carbon::parse($cur_student->birthday)->format('d-m-Y') }}</span> </div>
+            <div class="col-md-6">Khoa: <span class="font-weight-bold">{{ $cur_faculty->name }}</span> </div>
             <div class="col-md-6">Niên khóa: <span>2015-2019</span> </div>
-            <div class="col-md-6">Chuyên ngành: <span class="font-weight-bold">{{ $faculty->name }}</span> </div>
+            <div class="col-md-6">Chuyên ngành: <span class="font-weight-bold">{{ $cur_faculty->name }}</span> </div>
         </div>
         <div class="info-section">
             <h5>Thông tin sinh viên</h5>
@@ -51,7 +51,7 @@
                     <label for="sex">Giới tính <span class="text-danger">(*)</span></label>
                     <select name="sex" id="sex" class="form-control">
                         <option value="-1" disabled>Chọn giới tính</option>
-                        @if($student->sex == 1)
+                        @if($cur_student->sex == 1)
                         <option value="1" selected>Nam</option>
                         <option value="0">Nữ</option>
                         @else
@@ -62,31 +62,36 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="hometown">Nơi sinh: <span class="text-danger">(*)</span></label>
-                    <input type="text" class="form-control" name="hometown" id="hometown" value="{{ !empty($student->hometown) ? $student->hometown : '' }}">
+                    <input type="text" class="form-control" name="hometown" id="hometown"
+                    value="{{ !empty($cur_student->hometown) ? $cur_student->hometown : '' }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="email">Email: <span class="text-danger">(*)</span></label>
-                    <input type="email" class="form-control" name="email" id="email" value="{{ $user->email }}">
+                    <input type="email" class="form-control" name="email" id="email"
+                    value="{{ $cur_user->email }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="phonenum">Điện thoại: <span class="text-danger">(*)</span></label>
                     <input type="tel" class="form-control" name="phonenum" id="phonenum"
-                    value="{{ $user->phone }}" maxlength="10"
+                    value="{{ $cur_user->phone }}" maxlength="10"
                     onkeypress="return event.keyCode>47 && event.keyCode<58 ? true : false"
                     onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
                     >
                 </div>
                 <div class="form-group col-md-6">
                     <label for="union_day">Ngày vào đoàn: <span class="text-danger">(*)</span></label>
-                    <input type="date" class="form-control" name="union_day" id="union_day" value="{{ !empty($student->union_date) ? $student->union_date : '' }}">
+                    <input type="date" class="form-control" name="union_day" id="union_day"
+                    value="{{ !empty($cur_student->union_date) ? $cur_student->union_date : '' }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="ethnic">Dân tộc:</label>
-                    <input type="text" class="form-control" name="ethnic" id="ethnic" value="{{ !empty($student->ethnic) ? $student->ethnic : '' }}">
+                    <input type="text" class="form-control" name="ethnic" id="ethnic"
+                    value="{{ !empty($cur_student->ethnic) ? $cur_student->ethnic : '' }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="religion">Tôn giáo:</label>
-                    <input type="text" class="form-control" name="religion" id="religion" value="{{ !empty($student->religion) ? $student->religion : '' }}">
+                    <input type="text" class="form-control" name="religion" id="religion"
+                    value="{{ !empty($cur_student->religion) ? $cur_student->religion : '' }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="culture">Trình độ văn hóa: <span class="text-danger">(*)</span></label>
@@ -113,7 +118,7 @@
                     <label for="address">Địa chỉ <span class="text-danger">(*)</span></label>
                     <input type="text" class="form-control" name="address" id="address"
                     placeholder="Số nhà, đường, phường/ xã"
-                    value="{{ !empty($student->address) ? $student->address : '' }}">
+                    value="{{ !empty($cur_student->address) ? $cur_student->address : '' }}">
                 </div>
             </div>
         </div>
@@ -123,15 +128,19 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="father_name">Họ tên cha: <span class="text-danger">(*)</span></label>
-                        <input type="text" class="form-control {{ (empty($dad->name) || $dad->name == '')?'text-danger border-danger':'' }}" name="father_name" id="father_name" value="{{ !empty($dad->name)?$dad->name:'' }}">
+                        <input type="text" name="father_name" id="father_name"
+                        class="form-control {{ (empty($dad->name) || $dad->name == '')?'text-danger border-danger':'' }}"
+                        value="{{ !empty($dad->name)?$dad->name:'' }}">
                     </div>
                     <div class="form-group">
                         <label for="father_birthday">Ngày sinh: <span class="text-danger">(*)</span></label>
-                        <input type="date" class="form-control" name="father_birthday" id="father_birthday" value="{{ !empty($dad->birthday) ? $dad->birthday : '' }}">
+                        <input type="date" class="form-control" name="father_birthday" id="father_birthday"
+                        value="{{ !empty($dad->birthday) ? $dad->birthday : '' }}">
                     </div>
                     <div class="form-group">
                         <label for="father_job">Nghề nghiệp: </label>
-                        <input type="text" class="form-control" name="father_job" id="father_job" value="{{ !empty($dad->job)?$dad->job:'' }}">
+                        <input type="text" class="form-control" name="father_job" id="father_job"
+                        value="{{ !empty($dad->job)?$dad->job:'' }}">
                     </div>
                     <div class="form-group">
                         <label for="father_phone">Điện thoại: <span class="text-danger">(*)</span></label>
@@ -149,11 +158,13 @@
                     </div>
                     <div class="form-group">
                         <label for="mother_birthday">Ngày sinh: <span class="text-danger">(*)</span></label>
-                        <input type="date" class="form-control" name="mother_birthday" id="mother_birthday" value="{{ !empty($mom->birthday) ? $mom->birthday : '' }}">
+                        <input type="date" class="form-control" name="mother_birthday" id="mother_birthday"
+                        value="{{ !empty($mom->birthday) ? $mom->birthday : '' }}">
                     </div>
                     <div class="form-group">
                         <label for="mother_job">Nghề nghiệp: </label>
-                        <input type="text" class="form-control" name="mother_job" id="mother_job" value="{{ !empty($mom->job)?$mom->job:'' }}">
+                        <input type="text" class="form-control" name="mother_job" id="mother_job"
+                        value="{{ !empty($mom->job)?$mom->job:'' }}">
                     </div>
                     <div class="form-group">
                         <label for="mother_phone">Điện thoại: <span class="text-danger">(*)</span></label>
@@ -167,8 +178,8 @@
             </div>
         </div>
         <div class="info-section">
-            <input type="text" id="student_id" name="student_id" value="{{ $student->id }}" style="display: none">
-            <input type="text" id="user_id" name="user_id" value="{{ $student->user_id }}" style="display: none">
+            <input type="text" id="student_id" name="student_id" value="{{ $cur_student->id }}" style="display: none">
+            <input type="text" id="user_id" name="user_id" value="{{ $cur_student->user_id }}" style="display: none">
             <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
         </div>
     </form>
@@ -187,15 +198,19 @@
         <div class="modal-body">
             <div class="row">
                 <div class="offset-3 col-6">
-                    <img class="img-thumbnail" id="profile-img-to-change" src="{{ !empty($student->image) ? asset('images/'.$student->image) : asset('theme/images/img_avatar1.png') }}" alt="profile image" width="100%">
+                    <img class="img-thumbnail" id="profile-img-to-change"
+                    src="{{ !empty($cur_student->image)?asset('images/'.$cur_student->image) : asset('theme/images/img_avatar1.png') }}"
+                    alt="profile image" width="100%">
                     <p></p>
                 </div>
                 <br>
                 <div class="col-12">
                     <form action="" id="uploadimage_form" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="current_img" id="current_img" style="display: none" value="{{ !empty($student->image) ? $student->image : '' }}">
-                        <input type="file" accept="image/*" name="select_file" id="select_file" class="col-6" style="margin:0 auto; display: block;">
+                        <input type="text" name="current_img" id="current_img" style="display: none"
+                        value="{{ !empty($cur_student->image) ? $cur_student->image : '' }}">
+                        <input type="file" accept="image/*" name="select_file" id="select_file"
+                        class="col-6" style="margin:0 auto; display: block;">
                         <span id="error-null-file" style="display: none; text-align:center; color: red; font-weight: 600">Hãy chọn 1 hình hoặc thoát!</span>
                     </form>
                 </div>

@@ -109,10 +109,21 @@ class StudentController extends Controller
         $user_de1 = User::where('id', $cur_classroom->uid_deputysecre1)->first();
         $user_de2 = User::where('id', $cur_classroom->uid_deputysecre2)->first();
 
+        //get list of students & paginate
         $students = Student::where('class_room_id', $classroom_id)->paginate(20);
-        return view('students.index', ['cur_classroom' => $cur_classroom, 'students' => $students,
-        'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2,
-        ]);
+
+        //get current student if exists
+        $cur_student = Student::where('user_id', Auth::user()->id)->first();
+        if($cur_student == null){
+            return view('students.index', ['cur_classroom' => $cur_classroom, 'students' => $students,
+            'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2,
+            ]);
+        }else{
+            return view('students.index', ['cur_classroom' => $cur_classroom, 'students' => $students,
+            'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2,
+            'cur_student' => $cur_student
+            ]);
+        }
     }
 
     /**
@@ -144,16 +155,13 @@ class StudentController extends Controller
      */
     public function show($student_id)
     {
-        $all_classrooms = ClassRoom::all();
-        $all_students = Student::all();
-
         //get student
-        $student = Student::findOrFail($student_id);
-        $user = User::where('id', $student->user_id)->first();
+        $cur_student = Student::findOrFail($student_id);
+        $cur_user = User::where('id', $cur_student->user_id)->first();
 
         //get classroom & faculty
-        $class = ClassRoom::findOrFail($student->class_room_id);
-        $faculty = Faculty::findOrFail($class->faculty_id);
+        $cur_classroom = ClassRoom::findOrFail($cur_student->class_room_id);
+        $cur_faculty = Faculty::findOrFail($cur_classroom->faculty_id);
 
         //get relations
         $list_relation = StudentRelation::where('student_id', $student_id)->get();
@@ -167,7 +175,9 @@ class StudentController extends Controller
             }
         }
 
-        return view('students.show', ['student' => $student, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'user' => $user, 'faculty' => $faculty, 'dad' => $dad, 'mom' => $mom]);
+        return view('students.show', ['cur_student' => $cur_student,
+        'cur_classroom' => $cur_classroom, 'cur_faculty' => $cur_faculty,
+        'cur_user' => $cur_user, 'dad' => $dad, 'mom' => $mom]);
     }
 
     /**

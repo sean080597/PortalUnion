@@ -97,10 +97,21 @@ class ClassRoomController extends Controller
         foreach($classrooms as $key => $cla){
             $lsToShow_secs[$key] = User::where('id', $cla->uid_secretary)->first();
         }
-        return view('classrooms.index', ['cur_faculty' => $cur_faculty, 'classrooms' => $classrooms,
-        'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2,
-        'lsToShow_secs' => $lsToShow_secs
-        ]);
+        //get current student if exists
+        $cur_student = Student::where('user_id', Auth::user()->id)->first();
+        if($cur_student == null){
+            return view('classrooms.index', ['cur_faculty' => $cur_faculty, 'classrooms' => $classrooms,
+            'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2,
+            'lsToShow_secs' => $lsToShow_secs
+            ]);
+        }else{
+            $cur_classroom = ClassRoom::findOrfail($cur_student->class_room_id);
+            return view('classrooms.index', ['cur_faculty' => $cur_faculty, 'classrooms' => $classrooms,
+            'user_sec' => $user_sec, 'user_de1' => $user_de1, 'user_de2' => $user_de2,
+            'lsToShow_secs' => $lsToShow_secs, 'cur_student' => $cur_student,
+            'cur_classroom' => $cur_classroom
+            ]);
+        }
     }
 
     /**
