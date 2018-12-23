@@ -11,7 +11,7 @@ $(document).ready(function () {
     //load table faculty
     function fetch_data_faculties(notify_success){
         $.get("/getPaginateFaculties", function (data) {
-            $('#load_table_faculties').html(data);
+            $('#load_table_faculties_manage').html(data);
             //hide loading image
             $('.loading_ani_img').hide();
             //show msg successfully
@@ -137,35 +137,18 @@ $(document).ready(function () {
     }
     //======================================================
     //load table classroom
-    function loadTableClassRoom() {
-        var faculty_id = $('#choose_faculties').val();
-        $.get('getlistclassrooms', {faculty_id:faculty_id}, function(data){
-            $('table tbody').html('');
-            $.each(data, function (key, val) {
-                $('table tbody')
-                .append('<tr><td class="text-center"><input type="checkbox"></td>'
-                    +'<td class="text-center">'+ ++key +'</td>'
-                    +'<td class="text-center">'+ val.id +'</td>'
-                    +'<td class="text-center">'
-                    +   '<a href="#" class="text-primary open_modal_classroom_to_edit" data-toggle="modal" data-target="#myModal" classroom_id="'+val.id+'">'
-                    +       '<i class="fas fa-user-edit"></i>'
-                    +   '</a>'
-                    +'</td>'
-                    +'<td class="text-center">'
-                    +   '<a href="#" class="text-danger delete_classroom" classroom_id="'+val.id+'">'
-                    +       '<i class="fas fa-trash-alt"></i>'
-                    +   '</a>'
-                    +'</td></tr>');
-            });
+    function fetch_data_classrooms(notify_success) {
+        $.get('/getPaginateClassroomsManage', function(data){
+            $('#load_table_classrooms_manage').html(data);
+            //hide loading image
+            $('.loading_ani_img').hide();
+            //show msg successfully
+            alert(notify_success);
             //call after loading table
             runAfterLoadingTableClassRoom();
-            call_tracking_input_search();//from datatable.js
         });
     }
 
-    $('#choose_faculties').on('change', function () {
-        loadTableClassRoom();
-    });
     //call this function after loading table
     function runAfterLoadingTableClassRoom() {
         //button delete class room

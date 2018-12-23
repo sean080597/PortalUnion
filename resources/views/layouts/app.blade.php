@@ -188,14 +188,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" defer></script>
 
     @yield('link_js_2')
-    <!-- Core plugin JavaScript-->
-    <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
-
-    <script src="{{ asset('theme/JS/datatable.js') }}" async></script>
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('theme/JS/javascript.js') }}" async></script>
     @yield('link_js')
+
     <script>
     document.onreadystatechange = function(){
         if(document.readyState == "interactive"){

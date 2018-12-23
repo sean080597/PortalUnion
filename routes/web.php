@@ -19,15 +19,16 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('401', 'HomeController@deniedaccess')->name('deniedaccess');
 Route::get('404', 'HomeController@notfound')->name('notfound');
-
-Route::get('/getPaginateClassrooms', 'ClassRoomController@getPaginateClassrooms');
-
+//handle get info of a specific faculty
 Route::get('/getInfoFaculty', 'FacultyController@getInfoFaculty');
-Route::get('/faculties/getlistfaculties', 'FacultyController@getlistfaculties');
+//handle get search faculties
+Route::get('/getSearchFaculties', 'FacultyController@getSearchFaculties');
+
 Route::get('/faculties/destroy', ['as' => 'faculties.destroy', 'uses' => 'FacultyController@destroy']);
 Route::get('/faculties/update', ['as' => 'faculties.update', 'uses' => 'FacultyController@update']);
 Route::get('/faculties/create', ['as' => 'faculties.create', 'uses' => 'FacultyController@create']);
 Route::get('/faculties/manage', ['as' => 'faculties.manage', 'uses' => 'FacultyController@manage']);
+Route::get('/faculties', ['as' => 'faculties.index', 'uses' => 'FacultyController@index']);
 
 //handle get students pagination
 Route::get('/getPaginateFaculties', 'FacultyController@getPaginateFaculties');
@@ -44,6 +45,7 @@ Route::get('/classrooms/{faculty_id}', ['as' => 'classrooms.index', 'uses' => 'C
 
 //handle get classrooms pagination
 Route::get('/getPaginateClassrooms', 'ClassRoomController@getPaginateClassrooms');
+Route::get('/getPaginateClassroomsManage', 'ClassRoomController@getPaginateClassroomsManage');
 
 //handle is submit union note ----------------------------------------------------------------------
 Route::post('/students/submit_union_note', 'StudentController@submit_union_note')->name('submit_union_note');

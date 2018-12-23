@@ -19,64 +19,14 @@ class ClassRoomController extends Controller
         'getPaginateClassrooms']);
     }
 
-    public function addnewclassroom(Request $request)
-    {
-        $new_classname = $request->new_classname;
-        $faculty_id = $request->faculty_id;
-
-        $msg = array();
-        if(ClassRoom::where('id', $new_classname)->count() > 0){
-            $msg['error'] = 'Đã tồn tại lớp này';
-        }else{
-            ClassRoom::insert([
-                'id' => $new_classname,
-                'faculty_id' => $faculty_id,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ]);
-            $msg['success'] = 'Tạo lớp thành công';
-        }
-        return $msg;
-    }
-
-    public function getselfaculties(Request $request){
-        $all_faculties = Faculty::orderby('name', 'asc')->get();
-
-        $opts = '';
-        if(!empty($request->classroom_id)){
-            foreach($all_faculties as $faculty){
-                $opts .= '<option value="'.$faculty->id.'" '.((($faculty->id) == ($request->faculty_id)) ? "selected" : "").'>'.$faculty->name.(!empty($faculty->note)?' ( '.$faculty->note.' )':'').'</option>';
-            }
-        }else{
-            foreach($all_faculties as $faculty){
-                $opts .= '<option value="'.$faculty->id.'">'.$faculty->name.(!empty($faculty->note)?' ( '.$faculty->note.' )':'').'</option>';
-            }
-        }
-
-        $result = '<form id="form_add_new_classroom">
-            <label for="add_new_classroom_name" class="mr-sm-2">Tên Lớp:</label>
-            <input type="text" class="form-control mb-2 mr-sm-2" id="add_new_classroom_name" maxlength="10" placeholder="Nhập tên lớp" value="'.$request->classroom_id.'">
-            <strong id="error_add_new_classname" style="color:red; display:none"></strong>
-            <label for="choose_faculty_for_new_classroom" class="mr-sm-2">Khoa / Viện:</label>
-            <select class="form-control" name="choose_faculty_for_new_classroom" id="choose_faculty_for_new_classroom">
-                <option value="0" disabled selected>=== Chọn Khoa / Viện ===</option>
-                '.$opts.'
-            </select>
-        </form>';
-        return response()->json($result);
-    }
-
-    public function getlistclassrooms(Request $request){
-        $all_classrooms = ClassRoom::where('faculty_id', '=', $request->faculty_id)->orderby('id', 'asc')->get();
-        return response()->json($all_classrooms);
-    }
-
     public function manage(Request $request)
     {
-        $all_faculties = Faculty::orderby('name', 'asc')->get();
-        $all_students = Student::all();//can remove
-        $all_classrooms = ClassRoom::all();//can remove
-        return view('classrooms.manage', ['all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'all_faculties' => $all_faculties]);
+        $classrooms = Faculty::select('faculties.name', 'class_rooms.id',
+        'class_rooms.faculty_id', 'class_rooms.updated_at')
+        ->join('class_rooms', 'class_rooms.faculty_id', '=', 'faculties.id')
+        ->orderBy('class_rooms.faculty_id', 'ASC')
+        ->paginate(20);
+        return view('classrooms.manage', ['classrooms' => $classrooms]);
     }
 
     /**
@@ -226,6 +176,32 @@ class ClassRoomController extends Controller
             $total_row = $classrooms->total();
             return view('partials.pagination_classrooms', compact(['classrooms', 'faculty_id',
             'lsToShow_secs', 'total_row']))
+            ->render();
+        }
+    }
+
+    //getPaginateClassrooms to manage
+    public function getPaginateClassroomsManage(Request $request){
+        if($request->ajax()){
+            $query = $request->get('query');
+            if($query != null){
+                $classrooms = Faculty::select('faculties.name', 'class_rooms.id',
+                'class_rooms.faculty_id', 'class_rooms.updated_at')
+                ->join('class_rooms', 'class_rooms.faculty_id', '=', 'faculties.id')
+                ->orderBy('class_rooms.faculty_id', 'ASC')
+                ->where('faculties.name', 'like', '%'.$query.'%')
+                ->orWhere('class_rooms.id', 'like', '%'.$query.'%')
+                ->orWhere('class_rooms.faculty_id', 'like', '%'.$query.'%')
+                ->paginate(20);
+            }else{
+                $classrooms = Faculty::select('faculties.name', 'class_rooms.id',
+                'class_rooms.faculty_id', 'class_rooms.updated_at')
+                ->join('class_rooms', 'class_rooms.faculty_id', '=', 'faculties.id')
+                ->orderBy('class_rooms.faculty_id', 'ASC')
+                ->paginate(20);
+            }
+            $total_row = $classrooms->total();
+            return view('partials.pagination_classrooms_manage', compact(['classrooms', 'total_row']))
             ->render();
         }
     }

@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="{{ asset('theme/CSS/ThongTin.css') }}">
 @endsection
 
+@section('link_js')
+<script src="{{ asset('theme/JS/datatable_admin.js') }}" async></script>
+@endsection
+
 @section('show_tab')
 <li class="breadcrumb-item"><a href="#">DS Khoa</a></li>
 @endsection
@@ -14,7 +18,7 @@
         <div class="col-md-3 mb-2">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text bg-info text-white">Lọc</span>
+                    <span class="input-group-text bg-dark text-white">Lọc</span>
                 </div>
                 <select name="state" id="maxRows" class="form-control">
                     <option value="10">10</option>
@@ -25,9 +29,12 @@
         <div class="col-md-9 mb-2">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text bg-info text-white">Tìm kiếm</span>
+                    <span class="input-group-text bg-dark text-white">Tìm kiếm</span>
                 </div>
                 <input type="text" class="form-control" id="table-search" />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary cus-btn-search" type="button">Tìm</button>
+                </div>
             </div>
         </div>
         <div class="col-sm-3 mb-2">
@@ -43,7 +50,7 @@
         </div>
     </div>
 
-    <div class="table-responsive" id="load_table_faculties">
+    <div class="table-responsive" id="load_table_faculties_manage">
         <table class="table table-striped table-hover table-bordered" id="table">
             <thead class="thead-light">
                 <tr>

@@ -160,7 +160,7 @@ class FacultyController extends Controller
     //getPaginateFaculties
     public function getPaginateFaculties() {
         $faculties = Faculty::orderby('name', 'asc')->get();
-        return view('partials.pagination_faculties', compact('faculties'))->render();
+        return view('partials.pagination_faculties_manage', compact('faculties'))->render();
     }
     //get info of faculty
     public function getInfoFaculty(Request $request){
@@ -169,5 +169,21 @@ class FacultyController extends Controller
             'fac_name' => $faculty->name,
             'fac_note' => $faculty->note
         ]);
+    }
+    //getSearchFaculties
+    public function getSearchFaculties(Request $request)
+    {
+        if($request->ajax()){
+            $query = $request->get('query');
+            if($query != null){
+                $faculties = Faculty::orderby('name', 'asc')
+                ->where('id', 'like', '%'.$query.'%')
+                ->orWhere('name', 'like', '%'.$query.'%')
+                ->get();
+            }else{
+                $faculties = Faculty::orderby('name', 'asc')->get();
+            }
+            return view('partials.pagination_faculties_manage', compact('faculties'))->render();
+        }
     }
 }

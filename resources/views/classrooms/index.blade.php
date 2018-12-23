@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="{{ asset('theme/CSS/ThongTin.css') }}">
 @endsection
 
+@section('link_js')
+<script src="{{ asset('theme/JS/datatable_client.js') }}" async></script>
+@endsection
+
 @section('show_tab')
 <li class="breadcrumb-item"><a href="#">TT Khoa</a></li>
 @endsection
@@ -67,7 +71,7 @@
         <div class="col-md-9">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text bg-info text-white">Tìm kiếm</span>
+                    <span class="input-group-text bg-dark text-white">Tìm kiếm</span>
                 </div>
                 <input type="text" class="form-control" id="table-search" />
                 <div class="input-group-append">
@@ -78,7 +82,7 @@
         <div class="col-md-3 mb-2">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text bg-danger text-white">Tìm thấy</span>
+                    <span class="input-group-text bg-dark text-white">Tìm thấy</span>
                 </div>
                 <input type="text" class="form-control" id="total_found_result" disabled>
             </div>
