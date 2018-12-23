@@ -15,27 +15,12 @@ class FacultyController extends Controller
 {
     public function __construct() {
         $this->middleware(['auth', 'checkrole'])
-        ->except(['getlistfaculties', 'getInfoFaculty']);
-    }
-
-    public function getInfoFaculty(Request $request){
-        $faculty = Faculty::findOrFail($request->fac_id);
-        $msg = array();
-        $msg['fac_name'] = $faculty->name;
-        $msg['fac_note'] = $faculty->note;
-        return $msg;
-    }
-
-    public function getlistfaculties(){
-        $all_faculties = Faculty::orderby('name', 'asc')->get();
-        return response()->json($all_faculties);
+        ->except(['getPaginateFaculties']);
     }
 
     public function manage() {
         $faculties = Faculty::orderby('name', 'asc')->get();
-        $all_classrooms = ClassRoom::all();//
-        $all_students = Student::all();//can remove after assign permissions
-        return view('faculties.manage', ['faculties' => $faculties, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students]);
+        return view('faculties.manage', ['faculties' => $faculties]);
     }
 
     /**
@@ -151,32 +136,12 @@ class FacultyController extends Controller
      */
     public function update(Request $request)
     {
-        $old_faculty_id = $request->old_faculty_id;
-        $new_faculty_name = $request->new_faculty_name;
-        $new_faculty_id = $request->new_faculty_id;
-        $new_faculty_note = $request->new_faculty_note;
-
-        $msg = array();
-        if($new_faculty_id == $old_faculty_id){
-            $f = Faculty::findOrFail($old_faculty_id);
-            $f->id = $new_faculty_id;
-            $f->name = $new_faculty_name;
-            $f->note = $new_faculty_note;
-            $f->save();
-            $msg['success'] = 'Sửa khoa thành công';
-        }else{
-            if(Faculty::where('id', $new_faculty_id)->count() > 0 ){
-                $msg['error'] = 'Đã tồn tại khoa này';
-            }else{
-                $f = Faculty::findOrFail($old_faculty_id);
-                $f->id = $new_faculty_id;
-                $f->name = $new_faculty_name;
-                $f->note = $new_faculty_note;
-                $f->save();
-                $msg['success'] = 'Sửa khoa thành công';
-            }
-        }
-        return $msg;
+        $faculty_id = $request->faculty_id;
+        $f = Faculty::findOrFail($faculty_id);
+        $f->name = $request->new_faculty_name;;
+        $f->note = $request->new_faculty_note;
+        $f->save();
+        return 'Sửa khoa thành công';
     }
 
     /**
@@ -189,6 +154,20 @@ class FacultyController extends Controller
     {
         $faculty = Faculty::findOrFail($request->faculty_id);
         $faculty->delete();
-        return 'Faculty with name - '.$request->faculty_id.' has been deleted';
+        return 'Đã xóa thành công '.$request->faculty_id;
+    }
+
+    //getPaginateFaculties
+    public function getPaginateFaculties() {
+        $faculties = Faculty::orderby('name', 'asc')->get();
+        return view('partials.pagination_faculties', compact('faculties'))->render();
+    }
+    //get info of faculty
+    public function getInfoFaculty(Request $request){
+        $faculty = Faculty::findOrFail($request->fac_id);
+        return response()->json([
+            'fac_name' => $faculty->name,
+            'fac_note' => $faculty->note
+        ]);
     }
 }

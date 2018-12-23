@@ -20,15 +20,19 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('401', 'HomeController@deniedaccess')->name('deniedaccess');
 Route::get('404', 'HomeController@notfound')->name('notfound');
 
-Route::get('/faculties/getInfoFaculty', 'FacultyController@getInfoFaculty');
+Route::get('/getPaginateClassrooms', 'ClassRoomController@getPaginateClassrooms');
+
+Route::get('/getInfoFaculty', 'FacultyController@getInfoFaculty');
 Route::get('/faculties/getlistfaculties', 'FacultyController@getlistfaculties');
 Route::get('/faculties/destroy', ['as' => 'faculties.destroy', 'uses' => 'FacultyController@destroy']);
 Route::get('/faculties/update', ['as' => 'faculties.update', 'uses' => 'FacultyController@update']);
 Route::get('/faculties/create', ['as' => 'faculties.create', 'uses' => 'FacultyController@create']);
 Route::get('/faculties/manage', ['as' => 'faculties.manage', 'uses' => 'FacultyController@manage']);
-Route::resource('faculties', 'FacultyController', ['except' => ['create', 'update', 'destroy']]);
 
-//handle manage classroom
+//handle get students pagination
+Route::get('/getPaginateFaculties', 'FacultyController@getPaginateFaculties');
+
+//handle manage classroom ----------------------------------------------------------------------
 Route::get('/classrooms/destroy', 'ClassRoomController@destroy');
 Route::get('/classrooms/update', 'ClassRoomController@update');
 
@@ -37,10 +41,11 @@ Route::get('/classrooms/get_sel_faculties', 'ClassRoomController@getselfaculties
 Route::get('/classrooms/getlistclassrooms', 'ClassRoomController@getlistclassrooms');
 Route::get('/classrooms/manage', ['as' => 'classrooms.manage', 'uses' => 'ClassRoomController@manage']);
 Route::get('/classrooms/{faculty_id}', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);
+
 //handle get classrooms pagination
 Route::get('/getPaginateClassrooms', 'ClassRoomController@getPaginateClassrooms');
 
-//handle is submit union note
+//handle is submit union note ----------------------------------------------------------------------
 Route::post('/students/submit_union_note', 'StudentController@submit_union_note')->name('submit_union_note');
 //handle fetch data when change select faculty
 Route::post('/students/fetchclassrooms', 'StudentController@fetchclassrooms')->name('fetchclassrooms');
@@ -55,9 +60,10 @@ Route::get('/students/show/{student_id}', ['as' => 'students.show', 'uses' => 'S
 Route::get('/students/{faculty_id}/{classroom_id}', ['as' => 'students.index', 'uses' => 'StudentController@index']);
 Route::post('/students/update', ['as' => 'students.update', 'uses' => 'StudentController@update']);
 
+//handle get students pagination
 Route::get('/getPaginateStudents', 'StudentController@getPaginateStudents');
 
-//route for evaluate criteria
+//route for evaluate criteria ----------------------------------------------------------------------
 Route::post('/criteria-evaluation/submit-evaluation', ['as' => 'criteria-evaluation.submit-evaluation', 'uses' => 'CriteriaManagermentController@submit_evaluation']);
 Route::get('/criteria-evaluation/student-evaluate/{student_id}', ['as' => 'criteria-evaluation.student-evaluate', 'uses' => 'CriteriaManagermentController@student_evaluate']);
 Route::get('/criteria-evaluation/{faculty_id}/{classroom_id}', ['as' => 'criteria-evaluation.classroom_evaluate', 'uses' => 'CriteriaManagermentController@classroom_evaluate']);

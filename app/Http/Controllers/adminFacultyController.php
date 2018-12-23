@@ -26,7 +26,7 @@ class adminFacultyController extends Controller
     public function index()
     {
         $faculties = Faculty::orderby('name','asc')->get();
-        return view('admin.faculty',['faculties'=>$faculties]);
+        return view('admin.faculty', ['faculties'=>$faculties]);
     }
 
     /**
@@ -36,7 +36,7 @@ class adminFacultyController extends Controller
      */
     public function create(Request $request)
     {
-       
+
     }
 
     /**

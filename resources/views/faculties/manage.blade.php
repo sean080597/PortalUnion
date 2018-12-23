@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('link_css')
+<link rel="stylesheet" href="{{ asset('theme/CSS/ThongTin.css') }}">
+@endsection
+
 @section('show_tab')
 <li class="breadcrumb-item"><a href="#">DS Khoa</a></li>
 @endsection
@@ -39,7 +43,7 @@
         </div>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive" id="load_table_faculties">
         <table class="table table-striped table-hover table-bordered" id="table">
             <thead class="thead-light">
                 <tr>
@@ -47,7 +51,8 @@
                     <th class="text-center" style="width:10px">STT</th>
                     <th class="width-100">MÃ Khoa</th>
                     <th class="width-200">Tên Khoa</th>
-                    <th>Note</th>
+                    <th>Nhánh</th>
+                    <th class="width-100">Cập nhật</th>
                     <th class="text-center" colspan="2">Tác vụ</th>
                 </tr>
             </thead>
@@ -59,8 +64,10 @@
                     <td>{{ $faculty->id }}</td>
                     <td>{{ $faculty->name }}</td>
                     <td>{{ $faculty->note }}</td>
+                    <td>{{ $faculty->updated_at }}</td>
                     <td class="text-center">
-                        <a href="#" class="text-primary open_modal_faculty_to_edit" data-toggle="modal" data-target="#modal_adjust_faculty" faculty_id="{{ $faculty->id }}">
+                        <a href="#" class="text-primary open_modal_faculty_to_edit" data-toggle="modal"
+                        data-target="#modal_adjust_faculty" faculty_id="{{ $faculty->id }}">
                             <i class="fas fa-user-edit"></i>
                         </a>
                     </td>

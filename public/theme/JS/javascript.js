@@ -5,78 +5,80 @@ $(document).ready(function () {
         $('#content').toggleClass('active');
     });
 
-    //call to delete faculty
+    //to call button delete event
     runAfterLoadingTableFaculty();
     //======================================================
     //load table faculty
-    function loadTableFaculty(){
-        $.get("getlistfaculties", function (data) {
-            $('table tbody').html('');
-            $.each(data, function (key, val) {
-                $('table tbody')
-                .append('<tr><td class="text-center"><input type="checkbox"></td>'
-                    +'<td class="text-center">'+ ++key +'</td>'
-                    +'<td>'+ val.id +'</td>'
-                    +'<td>'+ val.name +'</td>'
-                    +'<td>'+ (val.note == null ? "" : val.note) +'</td>'
-                    +'<td class="text-center">'
-                    +  '<a href="#" class="text-primary open_modal_faculty_to_edit" data-toggle="modal" data-target="#modal_adjust_faculty" faculty_id="'+ val.id +'">'
-                    +       '<i class="fas fa-user-edit"></i>'
-                    +  '</a>'
-                    +'</td>'
-                    +'<td class="text-center">'
-                    +  '<a href="#" class="text-danger delete_faculty" faculty_id="'+ val.id +'">'
-                    +       '<i class="fas fa-trash-alt"></i>'
-                    +  '</a>'
-                    +'</td></tr>');
-            });
-            //call after loading table
+    function fetch_data_faculties(notify_success){
+        $.get("/getPaginateFaculties", function (data) {
+            $('#load_table_faculties').html(data);
+            //hide loading image
+            $('.loading_ani_img').hide();
+            //show msg successfully
+            alert(notify_success);
             runAfterLoadingTableFaculty();
-            call_tracking_input_search();
         });
     }
 
     //to add new faculty
     $('#open_modal_faculty_to_add_new').on('click', function(event){
         event.preventDefault();
+        //set add new title
         $('#modal_adjust_faculty .modal-title').text('Thêm khoa');
+        //remove if disabled
+        $('#modal_adjust_faculty .modal-body input#fac_id').prop("disabled", false);
+        //set all null
+        $('#modal_adjust_faculty .modal-body input#fac_id').val('');
+        $('#modal_adjust_faculty .modal-body input#fac_name').val('');
+        $('#modal_adjust_faculty .modal-body input#fac_note').val('');
+        //add button add new to footer
         $('#modal_adjust_faculty .modal-footer').html(
             '<button type="submit" id="btn_add_new_faculty" class="btn btn-success">Thêm mới</button>'
         );
+        //call event add new faculty
         call_after_loading_modal_faculty();
     });
 
-    function runAfterLoadingTableFaculty() {
+    function runAfterLoadingTableFaculty(event) {
+        //to edit faculty
+        $('.open_modal_faculty_to_edit').on('click', function(event){
+            event.preventDefault();
+            //show loading image
+            $('.loading_ani_img').show();
+
+            var fac_id = $(this).attr('faculty_id');
+            //set edit title
+            $('#modal_adjust_faculty .modal-title').text('Sửa khoa');
+            $('#modal_adjust_faculty input#fac_id').attr( "disabled", "disabled" );
+            $.get("/getInfoFaculty", {fac_id:fac_id}, function(data){
+                $('input#fac_id').val(fac_id);
+                $('input#fac_name').val(data.fac_name);
+                $('input#fac_note').val(data.fac_note);
+                //hide loading image
+                $('.loading_ani_img').hide();
+            });
+            $('#modal_adjust_faculty .modal-footer').html(
+                '<button type="submit" id="btn_edit_faculty" class="btn btn-success">Sửa khoa</button>'
+            );
+            call_after_loading_modal_faculty();
+        });
+
         //to delete faculty
         $('.delete_faculty').on('click', function (e) {
             e.preventDefault();
             if(confirm('Bạn có chắc chắn muốn xóa?')){
+                //show loading image
+                $('.loading_ani_img').show();
+
                 var faculty_id = $(this).attr('faculty_id');
-                $.get("destroy", {faculty_id:faculty_id}, function (data) {
-                    alert(data);
-                    loadTableFaculty();
+                $.get("/faculties/destroy", {faculty_id:faculty_id}, function (data) {
+                    //reload table faculty
+                    fetch_data_faculties(data);
                 });
             }
         });
-
-        //to edit faculty
-        $('.open_modal_faculty_to_edit').on('click', function(e){
-            e.preventDefault();
-            var fac_id = $(this).attr('faculty_id');
-            $('#modal_adjust_faculty .modal-title').text('Sửa khoa');
-            $.get("getInfoFaculty", {fac_id:fac_id}, function(data){
-                $('input#fac_id').val(fac_id);
-                $('input#fac_name').val(data.fac_name);
-                $('input#fac_note').val(data.fac_note);
-            });
-            $('#modal_adjust_faculty .modal-footer').html(
-                '<button type="submit" id="btn_edit_faculty" class="btn btn-success" old_faculty_id="'+fac_id+'">Sửa khoa</button>'
-            );
-            call_after_loading_modal_faculty();
-        });
     }
 
-    //=====================================
     function call_after_loading_modal_faculty(){
         //to add new faculty
         $('#btn_add_new_faculty').on('click', function(event){
@@ -87,12 +89,17 @@ $(document).ready(function () {
             if(fac_id == '' || fac_name == ''){
                 alert('Không được để trống mã khoa hoặc tên khoa!');
             }else{
+                //show loading image
+                $('.loading_ani_img').show();
+
                 $.get('/faculties/create', {fac_id:fac_id, fac_name:fac_name, fac_note:fac_note}, function(data){
                     if(data.error == null){
+                        //reload table faculty & close modal
+                        fetch_data_faculties(data.success);
                         $('#modal_adjust_faculty').modal('hide');
-                        alert(data.success);
-                        loadTableFaculty();
                     }else{
+                        //hide loading image
+                        $('.loading_ani_img').hide();
                         $('#error_add_new_faculty').text(data.error);
                         $('#error_add_new_faculty').css('display', 'block');
                         $('#fac_id').css('border-color', 'red');
@@ -104,43 +111,32 @@ $(document).ready(function () {
         //to edit faculty
         $('#btn_edit_faculty').on('click', function (e) {
             e.preventDefault();
-            var new_faculty_id = $('input#fac_id').val();
-            var new_faculty_name = $('input#fac_name').val();
+            //show loading image
+            $('.loading_ani_img').show();
 
-            if(new_faculty_id == '' || new_faculty_name == ''){
-                alert('Không được để trống mục nào!');
-            }else{
-                $('#form_adjust_faculty').submit();
-            }
-        });
-
-        $('#form_adjust_faculty').on('submit', function(event){
-            event.preventDefault();
-            var old_faculty_id = $("#btn_edit_faculty").attr('old_faculty_id');
-            var new_faculty_id = $('input#fac_id').val();
+            var faculty_id = $('input#fac_id').val();
             var new_faculty_name = $('input#fac_name').val();
             var new_faculty_note = $('input#fac_note').val();
 
-            $.get("/faculties/update", {
-                old_faculty_id:old_faculty_id,
-                new_faculty_id:new_faculty_id,
-                new_faculty_name:new_faculty_name,
-                new_faculty_note:new_faculty_note
-            }, function (data) {
-                if(data.error == null){
+            if(new_faculty_name == ''){
+                alert('Không được để trống tên khoa!');
+            }else{
+                $.get("/faculties/update",
+                {
+                    faculty_id:faculty_id,
+                    new_faculty_name:new_faculty_name,
+                    new_faculty_note:new_faculty_note
+                },
+                function (data) {
+                    //reload table faculty & close modal
+                    fetch_data_faculties(data);
                     $('#modal_adjust_faculty').modal('hide');
-                    alert(data.success);
-                    loadTableFaculty();
-                }else{
-                    $('#error_add_new_faculty').text(data.error);
-                    $('#error_add_new_faculty').css('display', 'block');
-                    $('#fac_id').css('border-color', 'red');
-                }
-            });
+                });
+            }
         });
     }
-
     //======================================================
+    //load table classroom
     function loadTableClassRoom() {
         var faculty_id = $('#choose_faculties').val();
         $.get('getlistclassrooms', {faculty_id:faculty_id}, function(data){
