@@ -39,7 +39,7 @@ $(document).ready(function () {
         call_after_loading_modal_faculty();
     });
 
-    function runAfterLoadingTableFaculty(event) {
+    function runAfterLoadingTableFaculty() {
         //to edit faculty
         $('.open_modal_faculty_to_edit').on('click', function(event){
             event.preventDefault();
@@ -136,6 +136,8 @@ $(document).ready(function () {
         });
     }
     //======================================================
+    //to call button delete event
+    runAfterLoadingTableClassRoom();
     //load table classroom
     function fetch_data_classrooms(notify_success) {
         $.get('/getPaginateClassroomsManage', function(data){
@@ -148,103 +150,117 @@ $(document).ready(function () {
             runAfterLoadingTableClassRoom();
         });
     }
-
-    //call this function after loading table
-    function runAfterLoadingTableClassRoom() {
-        //button delete class room
-        $('.delete_classroom').on('click', function (e) {
-            e.preventDefault();
-            if(confirm('Bạn có chắc chắn muốn xóa?')){
-                var classroom_id = $(this).attr('classroom_id');
-                $.get("destroy", {classroom_id:classroom_id}, function (data) {
-                    alert(data);
-                    loadTableClassRoom();
-                });
-            }
+    //to add new faculty
+    $('#open_modal_classroom_to_add_new').on('click', function(event){
+        event.preventDefault();
+        //show loading image
+        $('.loading_ani_img').show();
+        //set add new title
+        $('#modal_classroom .modal-title').text('Thêm khoa');
+        //remove if disabled
+        $('#modal_classroom .modal-body input#cla_id').prop("disabled", false);
+        //set all null
+        $('#modal_classroom .modal-body input#cla_id').val('');
+        $.get("/getSelFaculties", function(data){
+            $('#modal_classroom .modal-body #sel-fac').html(data);
+            //hide loading image
+            $('.loading_ani_img').hide();
         });
+        //add button add new to footer
+        $('#modal_classroom .modal-footer').html(
+            '<button type="submit" id="btn_add_new_classroom" class="btn btn-success">Thêm mới</button>'
+        );
+        $('#modal_classroom').modal('show');
+        //call event add new classroom
+        call_after_loading_modal_classroom();
+    });
 
-        //button edit class room
+    function runAfterLoadingTableClassRoom() {
+        //to open modal edit classroom
         $('.open_modal_classroom_to_edit').on('click', function(e){
             e.preventDefault();
+            //show loading image
+            $('.loading_ani_img').show();
 
             var classroom_id = $(this).attr('classroom_id');
-            var faculty_id = $('#choose_faculties').val();
-
+            var faculty_id = $(this).attr('fa_id');
+            //set title edit classroom
             $('#modal_classroom .modal-title').text('Sửa lớp');
-            $.get("get_sel_faculties", {classroom_id:classroom_id, faculty_id:faculty_id}, function(data){
-                $('#modal_classroom .modal-body').html(data);
+            //set disabled
+            $('#modal_classroom .modal-body #cla_id').attr( "disabled", "disabled" );
+            $('#modal_classroom .modal-body #cla_id').val(classroom_id);
+            $.get("/getSelFaculties?faculty_id="+faculty_id,
+            function(data){
+                $('#modal_classroom .modal-body #sel-fac').html(data);
+                //hide loading image
+                $('.loading_ani_img').hide();
             });
             $('#modal_classroom .modal-footer').html(
-                '<button type="button" id="btn_edit_classroom" class="btn btn-primary mb-2" old_classroom_id="'+classroom_id+'" style="margin:0 !important">Sửa</button>'
+                '<button type="button" id="btn_edit_classroom" class="btn btn-primary mb-2" style="margin:0 !important">Sửa</button>'
                 +'<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>'
             );
             $('#modal_classroom').modal('show');
 
-            call_after_loading_classroom_form();
+            call_after_loading_modal_classroom();
+        });
+
+        //button delete class room
+        $('.delete_classroom').on('click', function (e) {
+            e.preventDefault();
+            if(confirm('Bạn có chắc chắn muốn xóa?')){
+                //show loading image
+                $('.loading_ani_img').show();
+
+                var classroom_id = $(this).attr('classroom_id');
+                $.get("/classrooms/destroy", {classroom_id:classroom_id}, function (data) {
+                    //reload table classroom
+                    fetch_data_classrooms(data);
+                });
+            }
         });
     }
-    //-------------------------------------------------------------------
-    //button add new class room
-    $('button#open_modal_classroom_to_add_new').on('click', function(e){
-        e.preventDefault();
 
-        $('#modal_classroom .modal-title').text('Tạo mới lớp');
-        $.get("get_sel_faculties", function(data){
-            $('#modal_classroom .modal-body').html(data);
-        });
-        $('#modal_classroom .modal-footer').html(
-            '<button type="button" id="btn_add_new_classroom" class="btn btn-primary mb-2" style="margin:0 !important">Tạo mới</button>'
-            +'<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>'
-        );
-        $('#modal_classroom').modal('show');
-
-        call_after_loading_classroom_form();
-    });
-
-    //------------------------------------------------------------------------------------
-    function call_after_loading_classroom_form(){
-        $('#btn_add_new_classroom').on('click', function (e) {
-            e.preventDefault();
-            var new_classname = $('#form_add_new_classroom input#add_new_classroom_name').val();
-            var faculty_id = $('#choose_faculty_for_new_classroom').val();
+    function call_after_loading_modal_classroom(){
+        //to add new classroom
+        $('#btn_add_new_classroom').on('click', function(event){
+            event.preventDefault();
+            var new_classname = $('#form_adjust_classroom input#cla_id').val();
+            var faculty_id = $('#sel-fac').val();
             if(new_classname == null || faculty_id == null){
                 alert('Không được để trống mục nào!');
             }else{
-                $.get('add_new_classroom', {new_classname:new_classname, faculty_id:faculty_id}, function(data){
+                //show loading image
+                $('.loading_ani_img').show();
+                $.get('/classrooms/create', {new_classname:new_classname, faculty_id:faculty_id},
+                function(data){
                     if(data.error == null){
+                        //reload table classrooms
+                        fetch_data_classrooms(data.success);
                         $('#modal_classroom').modal('hide');
-                        alert(data.success);
-                        loadTableClassRoom();
                     }else{
+                        //hide loading image
+                        $('.loading_ani_img').hide();
                         $('#error_add_new_classname').text(data.error);
                         $('#error_add_new_classname').css('display', 'block');
-                        $('#add_new_classroom_name').css('border-color', 'red');
+                        $('input#cla_id').css('border-color', 'red');
                     }
                 });
             }
         });
 
+        //button edit classroom
         $('#btn_edit_classroom').on('click', function (e) {
             e.preventDefault();
-            var old_classname = $(this).attr('old_classroom_id');
-            var new_classname = $('#form_add_new_classroom input#add_new_classroom_name').val();
-            var faculty_id = $('#choose_faculty_for_new_classroom').val();
+            //show loading image
+            $('.loading_ani_img').show();
+            var classroom_id = $('#form_adjust_classroom input#cla_id').val();
+            var faculty_id = $('#sel-fac').val();
 
-            if(new_classname == null || faculty_id == null){
-                alert('Không được để trống mục nào!');
-            }else{
-                $.get('update', {old_classname:old_classname, new_classname:new_classname, faculty_id:faculty_id}, function(data){
-                    if(data.error == null){
-                        $('#modal_classroom').modal('hide');
-                        alert(data.success);
-                        loadTableClassRoom();
-                    }else{
-                        $('#error_add_new_classname').text(data.error);
-                        $('#error_add_new_classname').css('display', 'block');
-                        $('#add_new_classroom_name').css('border-color', 'red');
-                    }
-                });
-            }
+            $.get('update', {classroom_id:classroom_id, faculty_id:faculty_id}, function(data){
+                //reload table classrooms
+                fetch_data_classrooms(data);
+                $('#modal_classroom').modal('hide');
+            });
         });
     }
     //=============================================================================

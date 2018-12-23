@@ -24,7 +24,7 @@ class ClassRoomController extends Controller
         $classrooms = Faculty::select('faculties.name', 'class_rooms.id',
         'class_rooms.faculty_id', 'class_rooms.updated_at')
         ->join('class_rooms', 'class_rooms.faculty_id', '=', 'faculties.id')
-        ->orderBy('class_rooms.faculty_id', 'ASC')
+        ->orderBy('class_rooms.id', 'ASC')
         ->paginate(20);
         return view('classrooms.manage', ['classrooms' => $classrooms]);
     }
@@ -69,9 +69,24 @@ class ClassRoomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $new_classname = $request->new_classname;
+        $faculty_id = strtoupper($request->faculty_id);
+
+        $msg = array();
+        if(ClassRoom::where('id', $new_classname)->count() > 0){
+            $msg['error'] = 'Đã tồn tại lớp này';
+        }else{
+            ClassRoom::insert([
+                'id' => $new_classname,
+                'faculty_id' => $faculty_id,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]);
+            $msg['success'] = 'Tạo lớp thành công';
+        }
+        return $msg;
     }
 
     /**
@@ -116,28 +131,13 @@ class ClassRoomController extends Controller
      */
     public function update(Request $request)
     {
-        $old_classname = $request->old_classname;
-        $new_classname = $request->new_classname;
+        $classroom_id = $request->classroom_id;
         $faculty_id = $request->faculty_id;
 
-        $msg = array();
-        if($new_classname == $old_classname){
-            $c = ClassRoom::findOrFail($old_classname);
-            $c->faculty_id = $faculty_id;
-            $c->save();
-            $msg['success'] = 'Sửa lớp thành công';
-        }else{
-            if(ClassRoom::where('id', $new_classname)->count() > 0 ){
-                $msg['error'] = 'Đã tồn tại lớp này';
-            }else{
-                $c = ClassRoom::findOrFail($old_classname);
-                $c->id = $new_classname;
-                $c->faculty_id = $faculty_id;
-                $c->save();
-                $msg['success'] = 'Sửa lớp thành công';
-            }
-        }
-        return $msg;
+        $c = ClassRoom::findOrFail($classroom_id);
+        $c->faculty_id = $faculty_id;
+        $c->save();
+        return  'Sửa lớp thành công';
     }
 
     /**
@@ -150,7 +150,7 @@ class ClassRoomController extends Controller
     {
         $classRoom = ClassRoom::findOrFail($request->classroom_id);
         $classRoom->delete();
-        return 'ClassRoom with name - '.$request->classroom_id.' has been deleted';
+        return 'Đã xóa thành công lớp: '.$request->classroom_id;
     }
 
     //getPaginateClassrooms
@@ -188,7 +188,7 @@ class ClassRoomController extends Controller
                 $classrooms = Faculty::select('faculties.name', 'class_rooms.id',
                 'class_rooms.faculty_id', 'class_rooms.updated_at')
                 ->join('class_rooms', 'class_rooms.faculty_id', '=', 'faculties.id')
-                ->orderBy('class_rooms.faculty_id', 'ASC')
+                ->orderBy('class_rooms.id', 'ASC')
                 ->where('faculties.name', 'like', '%'.$query.'%')
                 ->orWhere('class_rooms.id', 'like', '%'.$query.'%')
                 ->orWhere('class_rooms.faculty_id', 'like', '%'.$query.'%')
@@ -197,12 +197,25 @@ class ClassRoomController extends Controller
                 $classrooms = Faculty::select('faculties.name', 'class_rooms.id',
                 'class_rooms.faculty_id', 'class_rooms.updated_at')
                 ->join('class_rooms', 'class_rooms.faculty_id', '=', 'faculties.id')
-                ->orderBy('class_rooms.faculty_id', 'ASC')
+                ->orderBy('class_rooms.id', 'ASC')
                 ->paginate(20);
             }
             $total_row = $classrooms->total();
             return view('partials.pagination_classrooms_manage', compact(['classrooms', 'total_row']))
             ->render();
+        }
+    }
+
+    //getSelFaculties
+    public function getSelFaculties(Request $request)
+    {
+        $faculty_id = $request->faculty_id;
+        if($faculty_id == null){
+            $faculties = Faculty::orderBy('name', 'ASC')->get();
+            return view('partials.sel_option_faculties', compact(['faculties']))->render();
+        }else{
+            $faculties = Faculty::orderBy('name', 'ASC')->get();
+            return view('partials.sel_option_faculties', compact(['faculties', 'faculty_id']))->render();
         }
     }
 }

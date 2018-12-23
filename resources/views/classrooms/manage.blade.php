@@ -52,7 +52,9 @@
             </div>
         </div>
         <div class="col-sm-9 mb-2">
-            <a href="#" class="btn btn-success mb-2" data-toggle="modal" data-target="#myModal" id="create"><i class="fas fa-plus-circle"></i> Thêm lớp</a>
+            <a href="#" class="btn btn-success mb-2" id="open_modal_classroom_to_add_new">
+                <i class="fas fa-plus-circle"></i> Thêm lớp
+            </a>
         </div>
     </div>
 
@@ -77,12 +79,14 @@
                         <td>{{ $classroom->name }}</td>
                         <td>{{ $classroom->updated_at }}</td>
                         <td class="text-center">
-                            <a href="#" class="text-primary edit" data-toggle="modal" data-target="#myModal">
+                            <a href="#" class="text-primary open_modal_classroom_to_edit"
+                            classroom_id="{{ $classroom->id }}" fa_id="{{ $classroom->faculty_id }}"
+                            data-toggle="modal" data-target="#modal_classroom">
                                 <i class="fas fa-user-edit"></i>
                             </a>
                         </td>
                         <td class="text-center">
-                            <a href="#" class="text-danger delete">
+                            <a href="#" class="text-danger delete_classroom" classroom_id="{{ $classroom->id }}">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
@@ -92,13 +96,6 @@
         </table>
         <div class="pagination-container">
             {!! $classrooms->links() !!}
-        </div>
-    </div>
-</div>
-<!-- Modal --------------------------------->
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-md modal-dialog-centered">
-        <div class="modal-content" id="modal-ct">
         </div>
     </div>
 </div>
@@ -114,7 +111,20 @@
         </div>
         <!-- Modal body -->
         <div class="modal-body">
-          Modal body..
+            <form action="" method="POST" id="form_adjust_classroom">
+                @csrf
+                <div class="form-group">
+                    <label for="cla_id">Mã Lớp</label>
+                    <input type="text" id="cla_id" name="cla_id" class="form-control" maxlength="10">
+                    <strong id="error_add_new_classname" style="color:red; display:none"></strong>
+                </div>
+                <div class="form-group">
+                    <label for="name">Khoa</label>
+                    <select name="sel-fac" id="sel-fac" class="form-control">
+                        //some options
+                    </select>
+                </div>
+            </form>
         </div>
         <!-- Modal footer -->
         <div class="modal-footer">

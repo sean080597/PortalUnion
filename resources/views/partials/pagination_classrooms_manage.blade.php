@@ -19,12 +19,14 @@
                     <td>{{ $classroom->name }}</td>
                     <td>{{ $classroom->updated_at }}</td>
                     <td class="text-center">
-                        <a href="#" class="text-primary edit" data-toggle="modal" data-target="#myModal">
+                        <a href="#" class="text-primary open_modal_classroom_to_edit"
+                        classroom_id="{{ $classroom->id }}" fa_id="{{ $classroom->faculty_id }}"
+                        data-toggle="modal" data-target="#modal_classroom">
                             <i class="fas fa-user-edit"></i>
                         </a>
                     </td>
                     <td class="text-center">
-                        <a href="#" class="text-danger delete">
+                        <a href="#" class="text-danger delete_classroom" classroom_id="{{ $classroom->id }}">
                             <i class="fas fa-trash-alt"></i>
                         </a>
                     </td>

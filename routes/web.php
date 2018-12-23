@@ -36,9 +36,11 @@ Route::get('/getPaginateFaculties', 'FacultyController@getPaginateFaculties');
 //handle manage classroom ----------------------------------------------------------------------
 Route::get('/classrooms/destroy', 'ClassRoomController@destroy');
 Route::get('/classrooms/update', 'ClassRoomController@update');
+Route::get('/classrooms/create', 'ClassRoomController@create');
 
-Route::get('/classrooms/add_new_classroom', 'ClassRoomController@addnewclassroom');
-Route::get('/classrooms/get_sel_faculties', 'ClassRoomController@getselfaculties');
+//handle get sel options faculty
+Route::get('/getSelFaculties', 'ClassRoomController@getSelFaculties');
+
 Route::get('/classrooms/getlistclassrooms', 'ClassRoomController@getlistclassrooms');
 Route::get('/classrooms/manage', ['as' => 'classrooms.manage', 'uses' => 'ClassRoomController@manage']);
 Route::get('/classrooms/{faculty_id}', ['as' => 'classrooms.index', 'uses' => 'ClassRoomController@index']);

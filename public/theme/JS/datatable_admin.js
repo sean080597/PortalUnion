@@ -65,10 +65,10 @@ function call_search_faculties(query){
         }
     );
 }
-function call_search_classrooms(query, faculty_id){
-    $.get("/getPaginateClassrooms?faculty_id="+faculty_id+"&query="+query,
+function call_search_classrooms(query){
+    $.get("/getPaginateClassroomsManage?query="+query,
         function (data) {
-            $('#load_table_classrooms').html(data);
+            $('#load_table_classrooms_manage').html(data);
             $('#total_found_result').val($('#return_found_results').val());
 
             //hide loading image
@@ -99,8 +99,7 @@ function call_tracking_input_search(){
         if(isFetchingStudents.includes('faculties')){
             call_search_faculties(query);
         }else if(isFetchingStudents.includes('classrooms')){
-            var faculty_id = $('#faculty_id').val();
-            call_search_classrooms(query, faculty_id);
+            call_search_classrooms(query);
         }else{
             // var classroom_id = $('#classroom_id').val();
             // call_search_students(query, classroom_id);
