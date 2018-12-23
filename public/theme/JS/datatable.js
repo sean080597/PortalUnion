@@ -32,7 +32,9 @@ function call_tracking_select_all(){
 function loadTrackingPaginate(){
     $(document).on('click', '.pagination a', function(event){
         event.preventDefault();
+        //show loading image
         $('.loading_ani_img').show();
+
         var page = $(this).attr('href').split('page=')[1];
         var query = change_alias($('#table-search').val()).toLowerCase();
         //check if fetching classrooms or students
@@ -49,6 +51,8 @@ function loadTrackingPaginate(){
         $.get("/getPaginateClassrooms?page="+page+"&faculty_id="+faculty_id+"&query="+query,
             function (data) {
                 $('#load_table_classrooms').html(data);
+
+                //hide loading image
                 $('.loading_ani_img').hide();
             }
         );
@@ -57,6 +61,8 @@ function loadTrackingPaginate(){
         $.get("/getPaginateStudents?page="+page+"&classroom_id="+classroom_id+"&query="+query,
             function (data) {
                 $('#load_table_students').html(data);
+
+                //hide loading image
                 $('.loading_ani_img').hide();
             }
         );
@@ -68,6 +74,8 @@ function call_search_classrooms(query, faculty_id){
         function (data) {
             $('#load_table_classrooms').html(data);
             $('#total_found_result').val($('#return_found_results').val());
+
+            //hide loading image
             $('.loading_ani_img').hide();
         }
     );
@@ -77,6 +85,8 @@ function call_search_students(query, classroom_id){
         function (data) {
             $('#load_table_students').html(data);
             $('#total_found_result').val($('#return_found_results').val());
+
+            //hide loading image
             $('.loading_ani_img').hide();
         }
     );
@@ -84,7 +94,9 @@ function call_search_students(query, classroom_id){
 //detect when click button search & run fetch_search_classrooms()
 function call_tracking_input_search(){
     $('.cus-btn-search').on("click",function(){
+        //show loading image
         $('.loading_ani_img').show();
+
         var query = change_alias($('#table-search').val());
         //check if fetching classrooms or students
         var isFetchingStudents = window.location.href.includes('students');

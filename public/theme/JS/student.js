@@ -43,6 +43,9 @@ $(document).ready(function () {
     //submit new profile image & student_id to change image of student
     $('#uploadimage_form').on('submit', function (event) {
         event.preventDefault();
+        //show loading image
+        $('.loading_ani_img').show();
+
         var formData = new FormData(this);
         formData.append('student_id', $('input#student_id').val());
         $.ajax({
@@ -54,6 +57,9 @@ $(document).ready(function () {
             cache: false,
             processData: false,
             success: function (data) {
+                //hide loading image
+                $('.loading_ani_img').hide();
+
                 $('#profile-img img').attr('src', '/images/'+data.uploaded_image);
                 $('#current_img').val(data.uploaded_image);
                 alert(data.message);
@@ -62,8 +68,12 @@ $(document).ready(function () {
         });
     });
 
+    //submit form change info of student
     $('#form-change-info-student').on('submit', function (event) {
         event.preventDefault();
+        //show loading image
+        $('.loading_ani_img').show();
+
         $.ajax({
             type: "POST",
             url: "/students/update",
@@ -73,11 +83,15 @@ $(document).ready(function () {
             cache: false,
             processData: false,
             success: function (data) {
+                //hide loading image
+                $('.loading_ani_img').hide();
+
                 alert(data.message);
             }
         });
     });
 
+    //detect submit union note
     $('#is_submit').on('change', function (event) {
         event.preventDefault();
         var is_submit = $(this).is(":checked");

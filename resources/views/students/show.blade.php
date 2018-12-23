@@ -72,7 +72,7 @@
                     <label for="phonenum">Điện thoại: <span class="text-danger">(*)</span></label>
                     <input type="tel" class="form-control" name="phonenum" id="phonenum"
                     value="{{ $user->phone }}" maxlength="10"
-                    onkeypress="return event.keyCode>48 && event.keyCode<57 ? true : false"
+                    onkeypress="return event.keyCode>47 && event.keyCode<58 ? true : false"
                     onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
                     >
                 </div>
@@ -111,7 +111,9 @@
                 </div>
                 <div class="form-group col-md-12">
                     <label for="address">Địa chỉ <span class="text-danger">(*)</span></label>
-                    <input type="text" class="form-control" name="address" id="address" placeholder="Số nhà, đường, phường/ xã">
+                    <input type="text" class="form-control" name="address" id="address"
+                    placeholder="Số nhà, đường, phường/ xã"
+                    value="{{ !empty($student->address) ? $student->address : '' }}">
                 </div>
             </div>
         </div>
