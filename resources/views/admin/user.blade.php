@@ -1,4 +1,4 @@
-@extends('layouts.appAdmin')
+@extends('layouts.app')
 
 @section('link_css')
 <link rel="stylesheet" href="{{ asset('theme/CSS/ThongTin.css') }}">

@@ -382,15 +382,6 @@ class StudentController extends Controller
     public function destroy(Request $request)
     {
         $stu = Student::findOrfail($request->stu_id);
-        if(!empty(StudentCriteriaMandatory::where('student_id', $request->stu_id)->first())){
-            $stu->criteria_mandatories()->detach();
-        }
-        if(!empty(StudentCriteriaSelfregis::where('student_id', $request->stu_id)->first())){
-            $stu->criteria_selfregis()->detach();
-        }
-        if(!empty(StudentEvent::where('student_id', $request->stu_id)->first())){
-            $stu->events()->detach();
-        }
         $stu->user()->delete();
         // return 'Đã xóa thành công '.$request->student_id;
         return response()->json(['data' => 'Đã xóa thành công '.$stu->name]);
