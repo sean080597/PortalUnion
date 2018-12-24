@@ -50,6 +50,7 @@ function loadTrackingPaginate(){
 
                 //hide loading image
                 $('.loading_ani_img').hide();
+                callTrackingDeleteStudent();
             }
         );
     }
@@ -83,9 +84,11 @@ function call_search_students(query){
 
             //hide loading image
             $('.loading_ani_img').hide();
+            callTrackingDeleteStudent();
         }
     );
 }
+
 //detect when click button search & run fetch_search_classrooms()
 function call_tracking_input_search(){
     $('.cus-btn-search').on("click",function(){
@@ -105,7 +108,29 @@ function call_tracking_input_search(){
     });
 }
 
+function callTrackingDeleteStudent() {
+    $('.delete_student_manage').on('click', function(event){
+        event.preventDefault();
+        if(confirm('Bạn có chắc chắn muốn xóa?')){
+            //show loading image
+            $('.loading_ani_img').show();
+            var stu_id = $(this).attr('stu_id');
+            var _token = $('input[name="_token"]').val();
+            $.post("/students/manage/delete",
+                {_token: _token, stu_id: stu_id},
+                function (data) {
+                    var query = change_alias($('#table-search').val());
+                    call_search_students(query);
+                    alert(data.data);
+                }
+            );
+
+        }
+    });
+}
+
 $(document).ready(function () {
     loadTrackingPaginate();
     call_tracking_input_search();
+    callTrackingDeleteStudent();
 });

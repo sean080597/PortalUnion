@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('link_css')
-<link rel="stylesheet" href="{{ asset('theme/CSS/ThongTin.css') }}">
+    <link rel="stylesheet" href="{{ asset('theme/CSS/ThongTin.css') }}">
 @endsection
 
 @section('show_tab')
-<li class="breadcrumb-item"><a href="#">Đoàn viên</a></li>
+    <li class="breadcrumb-item"><a href="#">Đoàn viên</a></li>
 @endsection
 
 @section('link_js')
@@ -122,7 +122,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="faculty">Đoàn khoa</label>
-                            <select name="faculty" id="faculty" class="form-control" data-dependent="id">
+                            <select name="sel-faculty" id="sel-faculty" class="form-control">
                                 <option value="0" disabled selected>=== Chọn Khoa / Viện ===</option>
                                 @foreach ($all_faculties as $single_faculty)
                                     @if ($cur_class_fac[0]->faculty_id == $single_faculty->id)
@@ -135,7 +135,7 @@
                         </div>
                         <div class="form-group">
                             <label for="class_room">Chi đoàn</label>
-                            <select name="class_room" id="class_room" class="form-control">
+                            <select name="sel-class_room" id="sel-class_room" class="form-control">
                                 <option value="0" disabled selected>=== Chọn Lớp ===</option>
                                 @foreach ($all_classrooms as $single_classroom)
                                     @if ($cur_student->class_room_id == $single_classroom->id)

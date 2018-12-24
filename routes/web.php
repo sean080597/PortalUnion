@@ -58,6 +58,9 @@ Route::get('/students/getMoreStudents', 'StudentController@getMoreStudents')->na
 //handle upload profile image
 Route::post('/students/ajaxupload', 'StudentController@ajaxupload')->name('ajaxupload');
 
+
+Route::post('/students/manage/delete', ['as' => 'students.managedelete', 'uses' => 'StudentController@destroy']);
+
 Route::get('/students/manage/show/{student_id}', ['as' => 'students.manageshow', 'uses' => 'StudentController@manageshow']);
 Route::get('/students/manage', ['as' => 'students.manage', 'uses' => 'StudentController@manage']);
 Route::get('/students/manage/create', ['as' => 'students.managecreate', 'uses' => 'StudentController@create']);

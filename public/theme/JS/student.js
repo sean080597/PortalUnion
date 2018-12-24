@@ -73,7 +73,10 @@ $(document).ready(function () {
         event.preventDefault();
         //show loading image
         $('.loading_ani_img').show();
+
         var formData = new FormData(this);
+        formData.append('faculty_id', $('#sel-faculty').val());
+        formData.append('class_room', $('#sel-class_room').val());
         formData.append('is_submit', $('#is_submit').is(":checked"));
         $.ajax({
             type: "POST",
@@ -86,7 +89,6 @@ $(document).ready(function () {
             success: function (data) {
                 //hide loading image
                 $('.loading_ani_img').hide();
-
                 alert(data.message);
             }
         });

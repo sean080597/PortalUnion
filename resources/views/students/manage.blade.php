@@ -116,7 +116,7 @@
                         </a>
                     </td>
                     <td class="text-center">
-                        <a href="#" class="text-danger">
+                        <a href="#" class="text-danger delete_student_manage" stu_id="{{ $student->id }}">
                             <i class="fas fa-trash-alt"></i>
                         </a>
                     </td>

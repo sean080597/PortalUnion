@@ -12,7 +12,10 @@ use App\Student;
 use App\ClassRoom;
 use App\Faculty;
 use App\Relation;
+use App\StudentEvent;
 use App\StudentRelation;
+use App\StudentCriteriaMandatory;
+use App\StudentCriteriaSelfregis;
 use App\User;
 
 class StudentController extends Controller
@@ -376,9 +379,21 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy(Request $request)
     {
-        //
+        $stu = Student::findOrfail($request->stu_id);
+        if(!empty(StudentCriteriaMandatory::where('student_id', $request->stu_id)->first())){
+            $stu->criteria_mandatories()->detach();
+        }
+        if(!empty(StudentCriteriaSelfregis::where('student_id', $request->stu_id)->first())){
+            $stu->criteria_selfregis()->detach();
+        }
+        if(!empty(StudentEvent::where('student_id', $request->stu_id)->first())){
+            $stu->events()->detach();
+        }
+        $stu->user()->delete();
+        // return 'Đã xóa thành công '.$request->student_id;
+        return response()->json(['data' => 'Đã xóa thành công '.$stu->name]);
     }
 
     public function insert_relation($student_id, $name, $birthday, $phone, $job, $role){
