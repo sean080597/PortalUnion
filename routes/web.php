@@ -66,6 +66,7 @@ Route::post('/students/update', ['as' => 'students.update', 'uses' => 'StudentCo
 
 //handle get students pagination
 Route::get('/getPaginateStudents', 'StudentController@getPaginateStudents');
+Route::get('/getPaginateStudentsManage', 'StudentController@getPaginateStudentsManage');
 
 //route for evaluate criteria ----------------------------------------------------------------------
 Route::post('/criteria-evaluation/submit-evaluation', ['as' => 'criteria-evaluation.submit-evaluation', 'uses' => 'CriteriaManagermentController@submit_evaluation']);

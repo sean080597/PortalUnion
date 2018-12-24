@@ -29,8 +29,7 @@ function loadTrackingPaginate(){
         if(isFetchingClassrooms){
             fetch_data_classrooms(page, query);
         }else{
-            // var classroom_id = $('#classroom_id').val();
-            // fetch_data_students(page, classroom_id, query);
+            fetch_data_students(page, query);
         }
     });
 
@@ -44,10 +43,10 @@ function loadTrackingPaginate(){
             }
         );
     }
-    function fetch_data_students(page, classroom_id, query){
-        $.get("/getPaginateStudents?page="+page+"&classroom_id="+classroom_id+"&query="+query,
+    function fetch_data_students(page, query){
+        $.get("/getPaginateStudentsManage?page="+page+"&query="+query,
             function (data) {
-                $('#load_table_students').html(data);
+                $('#load_table_students_manage').html(data);
 
                 //hide loading image
                 $('.loading_ani_img').hide();
@@ -76,10 +75,10 @@ function call_search_classrooms(query){
         }
     );
 }
-function call_search_students(query, classroom_id){
-    $.get("/getPaginateStudents?classroom_id="+classroom_id+"&query="+query,
+function call_search_students(query){
+    $.get("/getPaginateStudentsManage?query="+query,
         function (data) {
-            $('#load_table_students').html(data);
+            $('#load_table_students_manage').html(data);
             $('#total_found_result').val($('#return_found_results').val());
 
             //hide loading image
@@ -101,8 +100,7 @@ function call_tracking_input_search(){
         }else if(isFetchingStudents.includes('classrooms')){
             call_search_classrooms(query);
         }else{
-            // var classroom_id = $('#classroom_id').val();
-            // call_search_students(query, classroom_id);
+            call_search_students(query);
         }
     });
 }

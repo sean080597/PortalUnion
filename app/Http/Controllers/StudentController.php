@@ -80,21 +80,13 @@ class StudentController extends Controller
 
     public function manage()
     {
-        $info_students = [];
-        $all_faculties = Faculty::all();
-        $all_classrooms = ClassRoom::all();
-        $top_students = Student::take(10)->get();
-
-        foreach ($top_students as $student){
-            $arr = [
-                'id' => $student->id,
-                'name' => $student->name,
-                'classroom_id' => $student->class_room_id,
-                'faculty_name' => Faculty::where('id', ClassRoom::where('id', $student->class_room_id)->first()->faculty_id)->first()->name
-            ];
-            $info_students[] = $arr;
-        }
-        return view('students.manage', ['info_students' => $info_students]);
+        $students = Student::select('students.id', 'students.name', 'students.class_room_id',
+        'students.created_at', 'faculties.name as faculty_name')
+        ->join('class_rooms', 'class_rooms.id', '=', 'students.class_room_id')
+        ->join('faculties', 'faculties.id', '=', 'class_rooms.faculty_id')
+        ->orderBy('students.class_room_id', 'ASC')
+        ->paginate(40);
+        return view('students.manage', ['students' => $students]);
     }
 
     /**
@@ -323,7 +315,7 @@ class StudentController extends Controller
         ]);
     }
 
-    //handle upload profil image
+    //handle upload profile image
     public function ajaxupload(Request $request){
         $validation = Validator::make($request->all(), [
             'select_file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
@@ -399,6 +391,36 @@ class StudentController extends Controller
             $total_row = $students->total();
             return view('partials.pagination_students', compact(['students', 'classroom_id',
             'total_row']))
+            ->render();
+        }
+    }
+
+    //getPaginateStudentsManage
+    public function getPaginateStudentsManage(Request $request)
+    {
+        if($request->ajax()){
+            $query = $request->get('query');
+            if($query != null){
+                $students = Student::select('students.id', 'students.name', 'students.class_room_id',
+                'students.created_at', 'faculties.name as faculty_name')
+                ->join('class_rooms', 'class_rooms.id', '=', 'students.class_room_id')
+                ->join('faculties', 'faculties.id', '=', 'class_rooms.faculty_id')
+                ->orderBy('students.class_room_id', 'ASC')
+                ->where('students.id', 'like', '%'.$query.'%')
+                ->orWhere('students.name', 'like', '%'.$query.'%')
+                ->orWhere('students.class_room_id', 'like', '%'.$query.'%')
+                ->orWhere('faculties.name', 'like', '%'.$query.'%')
+                ->paginate(40);
+            }else{
+                $students = Student::select('students.id', 'students.name', 'students.class_room_id',
+                'students.created_at', 'faculties.name as faculty_name')
+                ->join('class_rooms', 'class_rooms.id', '=', 'students.class_room_id')
+                ->join('faculties', 'faculties.id', '=', 'class_rooms.faculty_id')
+                ->orderBy('students.class_room_id', 'ASC')
+                ->paginate(40);
+            }
+            $total_row = $students->total();
+            return view('partials.pagination_students_manage', compact(['students', 'total_row']))
             ->render();
         }
     }
