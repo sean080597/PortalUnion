@@ -52,7 +52,7 @@ Route::get('/getPaginateClassroomsManage', 'ClassRoomController@getPaginateClass
 //handle is submit union note ----------------------------------------------------------------------
 Route::post('/students/submit_union_note', 'StudentController@submit_union_note')->name('submit_union_note');
 //handle fetch data when change select faculty
-Route::post('/students/fetchclassrooms', 'StudentController@fetchclassrooms')->name('fetchclassrooms');
+Route::post('/students/fetchDependentClassrooms', 'StudentController@fetchDependentClassrooms')->name('fetchDependentClassrooms');
 //handle get more student when scroll to the bottom of page
 Route::get('/students/getMoreStudents', 'StudentController@getMoreStudents')->name('getMoreStudents');
 //handle upload profile image
@@ -60,6 +60,8 @@ Route::post('/students/ajaxupload', 'StudentController@ajaxupload')->name('ajaxu
 
 Route::get('/students/manage/show/{student_id}', ['as' => 'students.manageshow', 'uses' => 'StudentController@manageshow']);
 Route::get('/students/manage', ['as' => 'students.manage', 'uses' => 'StudentController@manage']);
+Route::get('/students/manage/create', ['as' => 'students.managecreate', 'uses' => 'StudentController@create']);
+Route::post('/students/manage/store', ['as' => 'students.managestore', 'uses' => 'StudentController@store']);
 Route::get('/students/show/{student_id}', ['as' => 'students.show', 'uses' => 'StudentController@show']);
 Route::get('/students/{faculty_id}/{classroom_id}', ['as' => 'students.index', 'uses' => 'StudentController@index']);
 Route::post('/students/update', ['as' => 'students.update', 'uses' => 'StudentController@update']);

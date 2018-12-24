@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="col-sm-9 mb-2">
-            <a href="./Admin/ADQLCTDV.html" class="btn btn-success mb-2"><i class="fas fa-plus-circle"></i> Thêm đoàn viên</a>
+            <a href="{{route('students.managecreate')}}" class="btn btn-success mb-2"><i class="fas fa-plus-circle"></i> Thêm đoàn viên</a>
         </div>
     </div>
 

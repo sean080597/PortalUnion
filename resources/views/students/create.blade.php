@@ -9,116 +9,23 @@
 @endsection
 
 @section('link_js')
-    <script src="{{ asset('theme/JS/student.js') }}" async></script>
-    <script async>
-        function set_faculty(){
-            $.ajax({
-                type:'POST',
-                url:'create/get',
-                success:function(data){
-                    $('#faculty').html(function(){
-                        var selected = '<option value="" selected>=== Chọn khoa ===</option>';
-                        $.each(data.faculties,function(key,value){
-                            selected = selected + '<option value="'+value.id+'">'+value.name+'</option>';
-                        });
-                        return selected;
-                    });
-                    
-                }
-            });
-        }
-        function get_data($id){
-            var $mssv = $('#mssv').val();
-            var $name = $('#name').val();
-            //var img = $('#profile-img').val();
-            var $birthday = $('#birthday').val();
-            var $sex = $('#sex').val();
-            var $union_date = $('#union_data').val();
-            var $hometown = $('#hometown').val();
-            var $ethnic = $('#ethnic').val();
-            var $religion = $('#religion').val();
-            var $is_submit = $('#is_submit').val();
-            var $phonenum = $('#phonenum').val();
-            var $email = $('#email').val();
-            var $address = $('#address').val();
-            var $class_room = $('#class_room').val();
-            var $faculty = $('#faculty').val();
-            var $father_name = $('#father_name').val();
-            var $father_birthday = $('#father_birthday').val();
-            var $father_job = $('#father_job').val();
-            var $father_phone = $('#father_phone').val();
-            var $mother_name = $('#mother_name').val();
-            var $mother_birthday = $('#mother_birthday').val();
-            var $mother_job = $('#mother_job').val();
-            var $mother_phone = $('#mother_phone').val();
-            $.ajax({
-                type:'POST',
-                url:'create/store',
-                data:{
-                    mssv:$mssv,
-                    name:$name,
-                    //img:$img,
-                    birthday:$birthday,
-                    sex:$sex,
-                    union_date:$union_date,
-                    hometown:$hometown,
-                    ethnic:$ethnic,
-                    religion:$religion,
-                    is_submit:$is_submit,
-                    phonenum:$phonenum,
-                    email:$email,
-                    address:$address,
-                    class_room:$class_room,
-                    //faculty:$faculty,
-                    father_name:$father_name,
-                    father_birthday:$father_birthday,
-                    father_job:$father_job,
-                    father_phone:$father_phone,
-                    mother_name:$mother_name,
-                    mother_birthday:$mother_birthday,
-                    mother_job:$mother_job,
-                    mother_phone:$mother_phone
-                },
-                success:function(msg){
-                    alert(msg);
-                }
-            });
-        }
-        function create_student(){
-            get_data();
-            //history.back();
-        }
-        $(function(){
-            $id = $('#mssv').val();
-            $idC =$('#class_room').attr('name');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $(document).ajaxComplete(function(){
-                call_tracking_input_search();
-                call_tracking_select_all();
-            });
-            set_faculty();
-            $('#btn-submit').click(function(){
-                create_student();
-                
-            });
-        })
-    </script>
+<script src="{{ asset('theme/JS/student.js') }}" async></script>
 @endsection
 
 @section('content')
 <div class="container">
-    <form action="" id="form-change-info-student" method="POST">
+    <form action="" id="form-create-student" method="POST">
         @csrf
         <div class="row">
             <div class="input-group mb-3 col-12">
                 <div class="input-group-prepend">
                     <span class="input-group-text">MSSV</span>
                 </div>
-                <input type="text" class="form-control" id="mssv">
+                <input type="text" class="form-control" name="mssv" id="mssv"
+                maxlength="10" required
+                onkeypress="return event.keyCode>47 && event.keyCode<58 ? true : false"
+                onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
+                >
             </div>
             <div class="col-md-6">
                 <div class="card">
@@ -132,13 +39,13 @@
                         </div>
                         <div class="form-group">
                             <label for="name">Họ Tên</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Nguyễn Văn A">
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Nguyễn Văn A" required>
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="birthday">Ngày sinh</label>
-                                    <input type="date" class="form-control" name="birthday" id="birthday">
+                                    <input type="date" class="form-control" name="birthday" id="birthday" required>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -187,9 +94,9 @@
                                     <label for="phone">SĐT</label>
                                     <input type="tel" class="form-control" name="phonenum" id="phonenum"
                                     maxlength="10"
-                                    onkeypress="return event.keyCode>48 && event.keyCode<57 ? true : false"
+                                    onkeypress="return event.keyCode>47 && event.keyCode<58 ? true : false"
                                     onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
-                                    >
+                                    required>
                                 </div>
                             </div>
                         </div>
@@ -210,14 +117,18 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="faculty">Đoàn khoa</label>
-                            <select name="faculty" id="faculty" class="form-control" data-dependent="id">
-                                
+                            <select name="sel-faculty" id="sel-faculty" class="form-control">
+                                <option value="0" disabled selected>=== Chọn Khoa / Viện ===</option>
+                                @foreach ($all_faculties as $single_faculty)
+                                    <option value="{{ $single_faculty->id }}">{{ $single_faculty->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="class_room">Chi đoàn</label>
-                            <select name="class_room" id="class_room" class="form-control">
-                                
+                            <select name="sel-class_room" id="sel-class_room" class="form-control">
+                                <option value="0" disabled selected>=== Chọn Lớp ===</option>
+                                //show dependent dropdown classrooms
                             </select>
                         </div>
                     </div>
@@ -227,7 +138,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="father_name">Họ tên</label>
-                            <input type="text" class="form-control name="father_name" id="father_name">
+                            <input type="text" class="form-control" name="father_name" id="father_name">
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
@@ -241,7 +152,7 @@
                                     <label for="father_phone">Điện thoại</label>
                                     <input type="text" class="form-control" name="father_phone" id="father_phone"
                                     maxlength="10"
-                                    onkeypress="return event.keyCode>48 && event.keyCode<57 ? true : false"
+                                    onkeypress="return event.keyCode>47 && event.keyCode<58 ? true : false"
                                     onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
                                     >
                                 </div>
@@ -272,7 +183,7 @@
                                     <label for="mother_phone">Điện thoại</label>
                                     <input type="text" class="form-control" name="mother_phone" id="mother_phone"
                                     maxlength="10"
-                                    onkeypress="return event.keyCode>48 && event.keyCode<57 ? true : false"
+                                    onkeypress="return event.keyCode>47 && event.keyCode<58 ? true : false"
                                     onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
                                     >
                                 </div>
@@ -313,7 +224,7 @@
                         <form action="" id="uploadimage_form" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="text" name="current_img" id="current_img" style="display: none" value="{{ !empty($student->image) ? $student->image : '' }}">
-                            <input type="file" accept="image/*" name="select_file" id="select_file" class="col-6" style="margin:0 auto; display: block;">
+                            <input type="file" accept='image/*' name="select_file" id="select_file" class="col-6" style="margin:0 auto; display: block;">
                             <span id="error-null-file" style="display: none; text-align:center; color: red; font-weight: 600">Hãy chọn 1 hình hoặc thoát!</span>
                         </form>
                     </div>

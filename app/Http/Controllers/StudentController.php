@@ -7,7 +7,6 @@ use Validator;
 use File;
 use Carbon\Carbon;
 use Auth;
-use DB;
 
 use App\Student;
 use App\ClassRoom;
@@ -19,35 +18,35 @@ use App\User;
 class StudentController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth', 'checkrole'])->except(['getMoreStudents', 'update',
+        $this->middleware(['auth', 'checkrole'])->except(['update',
         'ajaxupload', 'getPaginateStudents']);
     }
 
-    public function getMoreStudents(Request $request){
-        if($request->stt_student == DB::table('students')->count()){
-            return null;
-        }
-        $next_students = [];
-        $all_faculties = Faculty::all();
-        $all_classrooms = ClassRoom::all();
+    // public function getMoreStudents(Request $request){
+    //     if($request->stt_student == DB::table('students')->count()){
+    //         return null;
+    //     }
+    //     $next_students = [];
+    //     $all_faculties = Faculty::all();
+    //     $all_classrooms = ClassRoom::all();
 
-        $splice_students = Student::all()->splice($request->stt_student);
-        $splice_students = $splice_students->take(10);
+    //     $splice_students = Student::all()->splice($request->stt_student);
+    //     $splice_students = $splice_students->take(10);
 
-        $result = '';
-        foreach ($splice_students as $student){
-            $result .= '<tr><td class="text-center"><input type="checkbox"></td>'
-                    .'<td class="text-center">'.++$request->stt_student.'</td>'
-                    .'<td>'.$student->id.'</td>'
-                    .'<td>'.$student->name.'</td>'
-                    .'<td>'.$student->class_room_id.'</td>'
-                    .'<td>'.Faculty::where('id', ClassRoom::where('id', $student->class_room_id)->first()->faculty_id)->first()->name.'</td>'
-                    .'<td class="text-center"><a href="/students/show/'.$student->id.'" class="text-secondary"><i class="fas fa-eye"></i></a></td>'
-                    .'<td class="text-center"><a href="#" class="text-primary"><i class="fas fa-user-edit"></i></a></td>'
-                    .'<td class="text-center"><a href="#" class="text-danger"><i class="fas fa-trash-alt"></i></a></td></tr>';
-        }
-        return $result;
-    }
+    //     $result = '';
+    //     foreach ($splice_students as $student){
+    //         $result .= '<tr><td class="text-center"><input type="checkbox"></td>'
+    //                 .'<td class="text-center">'.++$request->stt_student.'</td>'
+    //                 .'<td>'.$student->id.'</td>'
+    //                 .'<td>'.$student->name.'</td>'
+    //                 .'<td>'.$student->class_room_id.'</td>'
+    //                 .'<td>'.Faculty::where('id', ClassRoom::where('id', $student->class_room_id)->first()->faculty_id)->first()->name.'</td>'
+    //                 .'<td class="text-center"><a href="/students/show/'.$student->id.'" class="text-secondary"><i class="fas fa-eye"></i></a></td>'
+    //                 .'<td class="text-center"><a href="#" class="text-primary"><i class="fas fa-user-edit"></i></a></td>'
+    //                 .'<td class="text-center"><a href="#" class="text-danger"><i class="fas fa-trash-alt"></i></a></td></tr>';
+    //     }
+    //     return $result;
+    // }
 
     public function manageshow($student_id)
     {
@@ -81,7 +80,7 @@ class StudentController extends Controller
     public function manage()
     {
         $students = Student::select('students.id', 'students.name', 'students.class_room_id',
-        'students.created_at', 'faculties.name as faculty_name')
+        'students.updated_at', 'faculties.name as faculty_name')
         ->join('class_rooms', 'class_rooms.id', '=', 'students.class_room_id')
         ->join('faculties', 'faculties.id', '=', 'class_rooms.faculty_id')
         ->orderBy('students.class_room_id', 'ASC')
@@ -125,7 +124,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        $all_faculties = Faculty::orderBy('name', 'ASC')->get();
+        return view('students.create', ['all_faculties'=>$all_faculties]);
     }
 
     /**
@@ -136,7 +136,85 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $result = null; $isSuccess = null;
+        $u = User::where('email', $request->email)->first();
+        if($u != null){
+            $result = 'Email đã đã được đăng ký!';
+        }else{
+            //check if exists student_id
+            $stu_id = Student::where('id', $request->mssv)->first();
+            if($stu_id != null){
+                $result = "Đã tồn tại sinh viên này!!";
+            }else{
+                $created_uid = new User();
+                $created_uid->name = $request->name;
+                $created_uid->phone = $request->phonenum;
+                $created_uid->email = $request->email;
+                //generate password by dd + mm + yy
+                $day = date('d', strtotime($request->birthday));
+                $mon = date('m', strtotime($request->birthday));
+                $year = date('y', strtotime($request->birthday));
+                $pass = $day.$mon.$year;
+                $created_uid->password = bcrypt($pass);
+
+                $created_uid->role_id = 'stu';
+                $created_uid->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                $created_uid->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                $created_uid->save();
+
+                //get last inserted id
+                $insertedId = $created_uid->id;
+
+                Student::insert([
+                    'id' => $request->mssv,
+                    'name' => $request->name,
+                    'address' => $request->address,
+                    'sex' => $request->sex,
+                    'birthday' => $request->birthday,
+                    'hometown' => $request->hometown,
+                    'ethnic' => $request->ethnic,
+                    'religion' => $request->religion,
+                    'union_date'=> $request->union_day,
+                    'is_submit' => ($request->is_submit == "true") ? 1 : 0,
+                    'class_room_id' => $request->classroom_id,
+                    'user_id' => $insertedId,
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ]);
+
+                //get info to insert table relations
+                if(!empty($request->father_name)){
+                    $dad_name = $request->father_name;
+                }else{
+                    $dad_name = '';
+                }
+                $dad_birthday = $request->father_birthday;
+                $dad_job = $request->father_job;
+                $dad_phone = $request->father_phone;
+
+                if(!empty($request->mother_name)){
+                    $mom_name = $request->mother_name;
+                }else{
+                    $mom_name = '';
+                }
+                $mom_birthday = $request->mother_birthday;
+                $mom_job = $request->mother_job;
+                $mom_phone = $request->mother_phone;
+
+                if(!empty($dad_name)){
+                    self::insert_relation($request->mssv, $dad_name, $dad_birthday, $dad_phone, $dad_job, '1');
+                }
+                if(!empty($mom_name)){
+                    self::insert_relation($request->mssv, $mom_name, $mom_birthday, $mom_phone, $mom_job, '0');
+                }
+                $result = "Thêm mới đoàn viên thành công!";
+                $isSuccess = 1;
+            }
+        }
+        return response()->json([
+            'data' => $result,
+            'isSuccess' => $isSuccess
+        ]);
     }
 
     /**
@@ -216,7 +294,7 @@ class StudentController extends Controller
         $user->email = $request->email;
         $user->save();
 
-        // //get info to update table relations
+        //get info to update table relations
         if(!empty($request->father_name)){
             $dad_name = $request->father_name;
         }else{
@@ -262,21 +340,21 @@ class StudentController extends Controller
                 $relation->phone = $dad_phone;
                 $relation->job = $dad_job;
                 $relation->save();
-                self::insert_relation($request, $mom_name, $mom_birthday, $mom_phone, $mom_job, '0');
+                self::insert_relation($request->student_id, $mom_name, $mom_birthday, $mom_phone, $mom_job, '0');
             }else{
                 $relation->name = $mom_name;
                 $relation->birthday = $mom_birthday;
                 $relation->phone = $mom_phone;
                 $relation->job = $mom_job;
                 $relation->save();
-                self::insert_relation($request, $dad_name, $dad_birthday, $dad_phone, $dad_job, '1');
+                self::insert_relation($request->student_id, $dad_name, $dad_birthday, $dad_phone, $dad_job, '1');
             }
         }else{
             if(!empty($dad_name)){
-                self::insert_relation($request, $dad_name, $dad_birthday, $dad_phone, $dad_job, '1');
+                self::insert_relation($request->student_id, $dad_name, $dad_birthday, $dad_phone, $dad_job, '1');
             }
             if(!empty($mom_name)){
-                self::insert_relation($request, $mom_name, $mom_birthday, $mom_phone, $mom_job, '0');
+                self::insert_relation($request->student_id, $mom_name, $mom_birthday, $mom_phone, $mom_job, '0');
             }
         }
 
@@ -297,7 +375,7 @@ class StudentController extends Controller
         //
     }
 
-    public function insert_relation(Request $request, $name, $birthday, $phone, $job, $role){
+    public function insert_relation($student_id, $name, $birthday, $phone, $job, $role){
         Relation::insert([
             'name' => $name,
             'birthday' => $birthday,
@@ -308,7 +386,7 @@ class StudentController extends Controller
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
         StudentRelation::insert([
-            'student_id' => $request->student_id,
+            'student_id' => $student_id,
             'relation_id' => Relation::max('id'),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
@@ -343,13 +421,11 @@ class StudentController extends Controller
     }
 
     //handle fetch classrooms
-    function fetchclassrooms(Request $request){
+    function fetchDependentClassrooms(Request $request){
         $faculty_id = $request->get('faculty_id');
-        $data = DB::table('class_rooms')
-                ->where("faculty_id", $faculty_id)
-                ->get();
+        $classrooms = ClassRoom::where("faculty_id", $faculty_id)->orderBy('id', 'ASC')->get();
         $output = '<option value="0" disabled selected>=== Chọn Lớp ===</option>';
-        foreach($data as $row){
+        foreach($classrooms as $row){
             $output .= '<option value="'.$row->id.'">'.$row->id.'</option>';
         }
         echo $output;
@@ -402,7 +478,7 @@ class StudentController extends Controller
             $query = $request->get('query');
             if($query != null){
                 $students = Student::select('students.id', 'students.name', 'students.class_room_id',
-                'students.created_at', 'faculties.name as faculty_name')
+                'students.updated_at', 'faculties.name as faculty_name')
                 ->join('class_rooms', 'class_rooms.id', '=', 'students.class_room_id')
                 ->join('faculties', 'faculties.id', '=', 'class_rooms.faculty_id')
                 ->orderBy('students.class_room_id', 'ASC')
@@ -413,7 +489,7 @@ class StudentController extends Controller
                 ->paginate(40);
             }else{
                 $students = Student::select('students.id', 'students.name', 'students.class_room_id',
-                'students.created_at', 'faculties.name as faculty_name')
+                'students.updated_at', 'faculties.name as faculty_name')
                 ->join('class_rooms', 'class_rooms.id', '=', 'students.class_room_id')
                 ->join('faculties', 'faculties.id', '=', 'class_rooms.faculty_id')
                 ->orderBy('students.class_room_id', 'ASC')

@@ -92,27 +92,65 @@ $(document).ready(function () {
     });
 
     //detect submit union note
-    $('#is_submit').on('change', function (event) {
-        event.preventDefault();
-        var is_submit = $(this).is(":checked");
-        var student_id = $('#student_id').val();
-        var _token = $('input[name="_token"]').val();
-        $.post("/students/submit_union_note",
-            {_token:_token, student_id:student_id, is_submit:is_submit}
-        );
-    });
+    // $('#is_submit').on('change', function (event) {
+    //     event.preventDefault();
+    //     var is_submit = $(this).is(":checked");
+    //     var student_id = $('#student_id').val();
+    //     var _token = $('input[name="_token"]').val();
+    //     $.post("/students/submit_union_note",
+    //         {_token:_token, student_id:student_id, is_submit:is_submit}
+    //     );
+    // });
     //============================================================================
-    $('#faculty').change(function(){
+    $('#sel-faculty').change(function(){
         if($(this).val() != ''){
+            //show loading image
+            $('.loading_ani_img').show();
+
             var faculty_id = $(this).val();
-            var dependent = $(this).data('dependent');
             var _token = $('input[name="_token"]').val();
-            $.post("/students/fetchclassrooms",
-                {faculty_id:faculty_id, _token:_token, dependent:dependent},
+            $.post("/students/fetchDependentClassrooms",
+                {faculty_id:faculty_id, _token:_token},
                 function (data) {
-                    $('#class_room').html(data);
+                    $('#sel-class_room').html(data);
+                    //hide loading image
+                    $('.loading_ani_img').hide();
                 }
             );
+        }
+    });
+    //=========================================================================
+    $('#form-create-student').on('submit', function(event){
+        event.preventDefault();
+        var faculty_id = $('#sel-faculty').val();
+        var classroom_id = $('#sel-class_room').val();
+        if(faculty_id == null || classroom_id == null){
+            alert('Vui lòng chọn khoa và lớp!');
+        }else{
+            //show loading image
+            $('.loading_ani_img').show();
+
+            var formData = new FormData(this);
+            formData.append('faculty_id', faculty_id);
+            formData.append('classroom_id', classroom_id);
+            formData.append('is_submit', $('#is_submit').is(":checked"));
+            $.ajax({
+                type: "post",
+                url: "/students/manage/store",
+                data: formData,
+                dataType: "JSON",
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (data) {
+                    //hide loading image
+                    $('.loading_ani_img').hide();
+                    alert(data.data);
+                    if (data.isSuccess) {
+                        window.location.href = "/students/manage";
+                    }
+                }
+            });
         }
     });
 });
