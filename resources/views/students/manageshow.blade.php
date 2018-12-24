@@ -21,7 +21,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">MSSV</span>
                 </div>
-                <input type="text" class="form-control" value="{{ $student->id }}" disabled>
+                <input type="text" class="form-control" value="{{ $cur_student->id }}" disabled>
             </div>
             <div class="col-md-6">
                 <div class="card">
@@ -30,25 +30,25 @@
                        <div class="form-group">
                             <label for="image">Hình Ảnh</label>
                             <div class="wrap-avatar mb-1">
-                                <a href="#" id="profile-img"><img class="img-fluid mb-3" src="{{ !empty($student->image) ? asset('images/'.$student->image) : asset('theme/images/img_avatar1.png') }}" alt="Chania" width="30%"></a>
+                                <a href="#" id="profile-img"><img class="img-fluid mb-3" src="{{ !empty($cur_student->image) ? asset('images/'.$cur_student->image) : asset('theme/images/img_avatar1.png') }}" alt="Chania" width="30%"></a>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="name">Họ Tên</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Nguyễn Văn A" value="{{ $student->name }}">
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Nguyễn Văn A" value="{{ $cur_student->name }}" required>
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="birthday">Ngày sinh</label>
-                                    <input type="date" class="form-control" name="birthday" id="birthday" value="{{ !empty($student->birthday) ? $student->birthday : '' }}">
+                                    <input type="date" class="form-control" name="birthday" id="birthday" value="{{ !empty($cur_student->birthday) ? $cur_student->birthday : '' }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="sex">Giới tính</label>
                                     <select name="sex" id="sex" class="form-control">
-                                        @if($student->sex == 1)
+                                        @if($cur_student->sex == 1)
                                         <option value="1" selected>Nam</option>
                                         <option value="0">Nữ</option>
                                         @else
@@ -61,30 +61,30 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="union_day">Ngày vào đoàn</label>
-                                    <input type="date" class="form-control" name="union_day" id="union_day" value="{{ !empty($student->union_date) ? $student->union_date : '' }}">
+                                    <input type="date" class="form-control" name="union_day" id="union_day" value="{{ !empty($cur_student->union_date) ? $cur_student->union_date : '' }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="hometown">Quê quán</label>
-                                    <input type="text" class="form-control" name="hometown" id="hometown" value="{{ !empty($student->hometown) ? $student->hometown : '' }}">
+                                    <input type="text" class="form-control" name="hometown" id="hometown" value="{{ !empty($cur_student->hometown) ? $cur_student->hometown : '' }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="ethnic">Dân tộc</label>
-                                    <input type="text" class="form-control" name="ethnic" id="ethnic" value="{{ !empty($student->ethnic) ? $student->ethnic : '' }}">
+                                    <input type="text" class="form-control" name="ethnic" id="ethnic" value="{{ !empty($cur_student->ethnic) ? $cur_student->ethnic : '' }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="religion">Tôn giáo</label>
-                                    <input type="text" class="form-control" name="religion" id="religion" value="{{ !empty($student->religion) ? $student->religion : '' }}">
+                                    <input type="text" class="form-control" name="religion" id="religion" value="{{ !empty($cur_student->religion) ? $cur_student->religion : '' }}">
                                 </div>
                             </div>
                             <div class="col-lg-6 mb-2">
                                 <div class="form-check-inline">
-                                    @if ($student->is_submit)
+                                    @if ($cur_student->is_submit)
                                     <input type="checkbox" class="form-check-input" name="is_submit" id="is_submit" checked>
                                     @else
                                     <input type="checkbox" class="form-check-input" name="is_submit" id="is_submit">
@@ -98,7 +98,7 @@
                                 <div class="form-group">
                                     <label for="phone">SĐT</label>
                                     <input type="tel" class="form-control" name="phonenum" id="phonenum"
-                                    value="{{ $student->phone }}" maxlength="10"
+                                    value="{{ $cur_user->phone }}" maxlength="10" required
                                     onkeypress="return event.keyCode>48 && event.keyCode<57 ? true : false"
                                     onkeydown="return event.keyCode == 69 || event.keyCode == 189 ? false : true"
                                     >
@@ -107,11 +107,11 @@
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" value="{{ $user->email }}" placeholder="nguyenvana@gmail.com" required>
+                            <input type="email" class="form-control" name="email" id="email" value="{{ $cur_user->email }}" placeholder="nguyenvana@gmail.com" required>
                         </div>
                         <div class="form-group">
                             <label for="address">Địa chỉ</label>
-                            <textarea name="address" id="address" rows="3" class="form-control" placeholder="Số nhà, đường, phường/ xã">{{ trim($student->address) }}</textarea>
+                            <textarea name="address" id="address" rows="3" class="form-control" placeholder="Số nhà, đường, phường/ xã">{{ trim($cur_student->address) }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -125,8 +125,8 @@
                             <select name="faculty" id="faculty" class="form-control" data-dependent="id">
                                 <option value="0" disabled selected>=== Chọn Khoa / Viện ===</option>
                                 @foreach ($all_faculties as $single_faculty)
-                                    @if ($faculty->id == $single_faculty->id)
-                                    <option value="{{ $faculty->id }}" selected>{{ $faculty->name }}</option>
+                                    @if ($cur_class_fac[0]->faculty_id == $single_faculty->id)
+                                    <option value="{{ $cur_class_fac[0]->faculty_id }}" selected>{{ $cur_class_fac[0]->name }}</option>
                                     @else
                                     <option value="{{ $single_faculty->id }}">{{ $single_faculty->name }}</option>
                                     @endif
@@ -138,8 +138,8 @@
                             <select name="class_room" id="class_room" class="form-control">
                                 <option value="0" disabled selected>=== Chọn Lớp ===</option>
                                 @foreach ($all_classrooms as $single_classroom)
-                                    @if ($student->class_room_id == $single_classroom->id)
-                                    <option value="{{ $student->class_room_id }}" selected>{{ $student->class_room_id }}</option>
+                                    @if ($cur_student->class_room_id == $single_classroom->id)
+                                    <option value="{{ $cur_student->class_room_id }}" selected>{{ $cur_student->class_room_id }}</option>
                                     @else
                                     <option value="{{ $single_classroom->id }}">{{ $single_classroom->id }}</option>
                                     @endif
@@ -211,8 +211,8 @@
                     </div>
                 </div>
             </div>
-            <input type="text" id="student_id" name="student_id" value="{{ $student->id }}" style="display: none">
-            <input type="text" id="user_id" name="user_id" value="{{ $student->user_id }}" style="display: none">
+            <input type="text" id="student_id" name="student_id" value="{{ $cur_student->id }}" style="display: none">
+            <input type="text" id="user_id" name="user_id" value="{{ $cur_student->user_id }}" style="display: none">
             <button type="submit" class="btn btn-success mx-auto mt-3">Lưu thông tin</button>
         </div>
     </form>
@@ -231,14 +231,14 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="offset-3 col-6">
-                        <img class="img-thumbnail" id="profile-img-to-change" src="{{ !empty($student->image) ? asset('images/'.$student->image) : asset('theme/images/img_avatar1.png') }}" alt="profile image" width="100%">
+                        <img class="img-thumbnail" id="profile-img-to-change" src="{{ !empty($cur_student->image) ? asset('images/'.$cur_student->image) : asset('theme/images/img_avatar1.png') }}" alt="profile image" width="100%">
                         <p></p>
                     </div>
                     <br>
                     <div class="col-12">
                         <form action="" id="uploadimage_form" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <input type="text" name="current_img" id="current_img" style="display: none" value="{{ !empty($student->image) ? $student->image : '' }}">
+                            <input type="text" name="current_img" id="current_img" style="display: none" value="{{ !empty($cur_student->image) ? $cur_student->image : '' }}">
                             <input type="file" accept="image/*" name="select_file" id="select_file" class="col-6" style="margin:0 auto; display: block;">
                             <span id="error-null-file" style="display: none; text-align:center; color: red; font-weight: 600">Hãy chọn 1 hình hoặc thoát!</span>
                         </form>

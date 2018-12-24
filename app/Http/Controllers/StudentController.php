@@ -52,15 +52,18 @@ class StudentController extends Controller
     {
         $all_faculties = Faculty::all();
         $all_classrooms = ClassRoom::all();
-        $all_students = Student::all();
 
         //get student
-        $student = Student::findOrFail($student_id);
-        $user = User::where('id', $student->user_id)->first();
+        $cur_student = Student::findOrFail($student_id);
+        $cur_user = User::where('id', $cur_student->user_id)->first();
 
         //get classroom & faculty
-        $class = ClassRoom::findOrFail($student->class_room_id);
-        $faculty = Faculty::findOrFail($class->faculty_id);
+        $cur_class_fac = ClassRoom::select('class_rooms.id as classroom_id',
+        'faculties.id as faculty_id', 'faculties.name')
+        ->join('faculties', 'faculties.id', '=', 'class_rooms.faculty_id')
+        ->where('class_rooms.id', $cur_student->class_room_id)
+        ->orderBy('faculties.name', 'ASC')
+        ->get();
 
         //get relations
         $list_relation = StudentRelation::where('student_id', $student_id)->get();
@@ -74,7 +77,9 @@ class StudentController extends Controller
             }
         }
 
-        return view('students.manageshow', ['student' => $student, 'all_faculties' => $all_faculties, 'all_classrooms' => $all_classrooms, 'all_students' => $all_students, 'user' => $user, 'faculty' => $faculty, 'dad' => $dad, 'mom' => $mom]);
+        return view('students.manageshow', ['cur_student' => $cur_student,
+        'all_faculties' => $all_faculties, 'all_classrooms' => $all_classrooms,
+        'cur_user' => $cur_user, 'cur_class_fac' => $cur_class_fac, 'dad' => $dad, 'mom' => $mom]);
     }
 
     public function manage()
@@ -284,6 +289,7 @@ class StudentController extends Controller
         $student->union_date = $request->union_day;
         $student->ethnic = $request->ethnic;
         $student->religion = $request->religion;
+        $student->is_submit = ($request->is_submit == "true") ? 1 : 0;
         $student->save();
 
         //get info to update table users

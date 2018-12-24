@@ -73,11 +73,12 @@ $(document).ready(function () {
         event.preventDefault();
         //show loading image
         $('.loading_ani_img').show();
-
+        var formData = new FormData(this);
+        formData.append('is_submit', $('#is_submit').is(":checked"));
         $.ajax({
             type: "POST",
             url: "/students/update",
-            data: new FormData(this),
+            data: formData,
             dataType: "JSON",
             contentType: false,
             cache: false,
@@ -90,17 +91,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    //detect submit union note
-    // $('#is_submit').on('change', function (event) {
-    //     event.preventDefault();
-    //     var is_submit = $(this).is(":checked");
-    //     var student_id = $('#student_id').val();
-    //     var _token = $('input[name="_token"]').val();
-    //     $.post("/students/submit_union_note",
-    //         {_token:_token, student_id:student_id, is_submit:is_submit}
-    //     );
-    // });
     //============================================================================
     $('#sel-faculty').change(function(){
         if($(this).val() != ''){
