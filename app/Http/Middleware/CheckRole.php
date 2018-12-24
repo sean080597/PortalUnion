@@ -63,7 +63,7 @@ class CheckRole
         }
 
         //check if redirecting to the student page
-        if ($request->is('students/*/*'))
+        if ($request->is(['students/*/*', 'criteria-evaluation/*/*']))
         {
             if($user_roleid == 'stu' && $request->is('students/show/*')){
                 //get logged student
@@ -114,70 +114,6 @@ class CheckRole
                     }
                 }
                 //check if the request is students/faculty_id/classroom_id
-                else{
-                    if($request->route('faculty_id') == $user_faculty_id){
-                        if(empty($cur_classroom)){
-                            return redirect('notfound');
-                        }else{
-                            return $next($request);
-                        }
-                    }
-                }
-            }
-
-            if ($user_roleid == 'sch')
-            {
-                return $next($request);
-            }
-        }
-
-        if ($request->is('criteria-evaluation/*/*')){
-            if($user_roleid == 'stu' && $request->is('criteria-evaluation/student-evaluate/*')){
-                //get logged student
-                if($request->route('student_id') == $cur_student->id){
-                    return $next($request);
-                }
-            }
-
-            if ($user_roleid == 'cla')
-            {
-                //get logged student
-                $user_faculty_id = $cur_classroom->faculty_id;
-                //check if the request is criteria-evaluation/show/*
-                if(!empty($request->route('student_id'))){
-                    //get showed student
-                    $showed_student = $all_students->where('id', $request->route('student_id'))->first();
-                    if(strtolower($showed_student->class_room_id) == strtolower($cur_student->class_room_id)){
-                        return $next($request);
-                    }
-                }//check if the request is criteria-evaluation/faculty_id/classroom_id
-                else{
-                    $logged_faculty_id = $cur_classroom->faculty_id;
-                    if(strtolower($request->route('faculty_id')) == strtolower($logged_faculty_id)){
-                        if(strtolower($request->route('classroom_id')) == strtolower($cur_student->class_room_id)){
-                            return $next($request);
-                        }
-                    }
-                }
-            }
-
-            if ($user_roleid == 'fac')
-            {
-                //get logged student
-                $user_faculty_id = $cur_classroom->faculty_id;
-                //check if the request is criteria-evaluation/show/*
-                if(!empty($request->route('student_id'))){
-                    //get showed student
-                    $showed_student = $all_students->where('id', $request->route('student_id'))->first();
-                    if(empty($showed_student)){
-                        return redirect('notfound');
-                    }else{
-                        $showed_faculty_id = $cur_classroom->faculty_id;
-                        if(strtolower($showed_faculty_id) == strtolower($user_faculty_id)){
-                            return $next($request);
-                        }
-                    }
-                }//check if the request is criteria-evaluation/faculty_id/classroom_id
                 else{
                     if($request->route('faculty_id') == $user_faculty_id){
                         if(empty($cur_classroom)){

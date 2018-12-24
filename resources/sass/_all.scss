@@ -26,11 +26,17 @@ h5{
     font-size: 1.1rem;
     text-transform: uppercase;
 }
-
+//css for button search
 .cus-btn-search{
     color: #efefef;
     background-color:#17A2B8;
     :hover{
         color:#999;
     }
+}
+//css for show mark disabled
+input.dis_mark {
+    text-align: center;
+    border: none;
+    background: transparent !important;
 }
