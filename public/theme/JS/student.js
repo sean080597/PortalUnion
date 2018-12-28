@@ -112,6 +112,27 @@ $(document).ready(function () {
         }
     });
     //=========================================================================
+    var default_profile_img = $('#profile-img-addnew img').attr('src');
+    //open modal & set current profile image to add new
+    $('#profile-img-addnew').on('click', function (e) {
+        e.preventDefault();
+        $("#select_new_image").click();
+    });
+    //handle when choose image to add new
+    $('#select_new_image').on('change', function (event) {
+        event.preventDefault();
+        if($(this).val() == null || $(this).val() == ''){
+            //set default image for cropbox
+            $("#profile-img-addnew img").attr("src", default_profile_img);
+        }
+        else {
+            var files = $(this)[0].files;
+            var file = files[0];
+            //set image for cropbox
+            $("#profile-img-addnew img").attr("src", window.URL.createObjectURL(file));
+        }
+    });
+
     $('#form-create-student').on('submit', function(event){
         event.preventDefault();
         var faculty_id = $('#sel-faculty').val();
@@ -137,9 +158,17 @@ $(document).ready(function () {
                 success: function (data) {
                     //hide loading image
                     $('.loading_ani_img').hide();
-                    alert(data.data);
-                    if (data.isSuccess) {
-                        window.location.href = "/students/manage";
+                    if(data.error != null){
+                        var err = '';
+                        $.each(data.error, function (index, value) {
+                             err += "* " + value + "\n";
+                        });
+                        alert(err);
+                    }else{
+                        alert(data.data);
+                        if (data.isSuccess) {
+                            window.location.href = "/students/manage";
+                        }
                     }
                 }
             });

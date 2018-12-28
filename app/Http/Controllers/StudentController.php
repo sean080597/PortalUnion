@@ -144,6 +144,22 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        $new_name = null;
+        $validation = Validator::make($request->all(), [
+            'select_new_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+        if($validation->passes()){
+            $image = $request->file('select_new_image');
+            if(!empty($image)){
+                $new_name = rand().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('images'), $new_name);
+            }
+        }else{
+            return response()->json([
+                'error_img' => $validation->errors()->all(),
+            ]);
+        }
+
         $result = null; $isSuccess = null;
         $u = User::where('email', $request->email)->first();
         if($u != null){
@@ -177,6 +193,7 @@ class StudentController extends Controller
                     'id' => $request->mssv,
                     'name' => $request->name,
                     'address' => $request->address,
+                    'image' => $new_name,
                     'sex' => $request->sex,
                     'birthday' => $request->birthday,
                     'hometown' => $request->hometown,
@@ -382,7 +399,10 @@ class StudentController extends Controller
     public function destroy(Request $request)
     {
         $stu = Student::findOrfail($request->stu_id);
+        $ls_relations = StudentRelation::where('student_id', $request->stu_id)->pluck('relation_id');
+        File::delete('images/'.$stu->image);
         $stu->user()->delete();
+        Relation::whereIn('id', $ls_relations)->delete();
         // return 'Đã xóa thành công '.$request->student_id;
         return response()->json(['data' => 'Đã xóa thành công '.$stu->name]);
     }

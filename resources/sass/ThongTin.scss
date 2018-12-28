@@ -12,7 +12,7 @@
     border-right: 1px solid #d1c9bf;
 }
 
-#profile-img:hover img {
+%hover-profile-img {
     -webkit-filter: brightness(70%);
 	-moz-filter: brightness(70%);
 	-o-filter: brightness(70%);
@@ -22,4 +22,11 @@
     padding: 2px;
     border-radius: 4px;
     -webkit-filter:brightness(70%);
+}
+
+#profile-img:hover img{
+    @extend %hover-profile-img;
+}
+#profile-img-addnew:hover img{
+    @extend %hover-profile-img;
 }

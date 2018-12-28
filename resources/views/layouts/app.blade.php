@@ -66,14 +66,19 @@
                         <a href="/">Trang Chủ</a>
                     </li>
 
-                    @if (auth()->user()->role_id == 'adm')
+                    @if (auth()->user()->role_id == 'adm'
+                    || auth()->user()->role_id == 'sch')
                     <li>
                         <a href="#manage-admin" class="dropdown-toggle" data-toggle="collapse" aria-expanded="false">Quản lý</a>
                         <ul class="collapse list-unstyled" id="manage-admin">
                             <li><a href="{{ route('students.manage') }}">Đoàn viên</a></li>
                             <li><a href="{{ route('classrooms.manage') }}">Lớp</a></li>
                             <li><a href="{{ route('faculties.manage') }}">Khoa</a></li>
-                            <li><a href="{{ route('admin.user_index') }}">Tài khoản</a></li>
+                            @if (auth()->user()->role_id == 'adm')
+
+                                <li><a href="{{ route('admin.user_index') }}">Tài khoản</a></li>
+
+                            @endif
                         </ul>
                     </li>
                     @endif

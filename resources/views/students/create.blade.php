@@ -34,7 +34,8 @@
                        <div class="form-group">
                             <label for="image">Hình Ảnh</label>
                             <div class="wrap-avatar mb-1">
-                                <a href="#" id="profile-img"><img class="img-fluid mb-3" src="{{ asset('theme/images/img_avatar1.png') }}" alt="Chania" width="30%"></a>
+                                <a href="#" id="profile-img-addnew"><img class="img-fluid mb-3" src="{{ asset('theme/images/img_avatar1.png') }}" alt="Chania" width="30%"></a>
+                                <input type="file" accept='image/*' name="select_new_image" id="select_new_image" class="col-6" style="display: none;">
                             </div>
                         </div>
                         <div class="form-group">
@@ -203,39 +204,4 @@
     </form>
 </div>
 
-{{-- modal change profile image --}}
-<div class="modal fade" id="modal_change_image">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h4 class="modal-title">Sửa ảnh đại diện</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="row">
-                    <div class="offset-3 col-6">
-                        <img class="img-thumbnail" id="profile-img-to-change" src="{{ !empty($student->image) ? asset('images/'.$student->image) : asset('theme/images/img_avatar1.png') }}" alt="profile image" width="100%">
-                        <p></p>
-                    </div>
-                    <br>
-                    <div class="col-12">
-                        <form action="" id="uploadimage_form" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <input type="text" name="current_img" id="current_img" style="display: none" value="{{ !empty($student->image) ? $student->image : '' }}">
-                            <input type="file" accept='image/*' name="select_file" id="select_file" class="col-6" style="margin:0 auto; display: block;">
-                            <span id="error-null-file" style="display: none; text-align:center; color: red; font-weight: 600">Hãy chọn 1 hình hoặc thoát!</span>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" id="btn_change_image">Sửa</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-    </div>
 @endsection
