@@ -15,8 +15,7 @@ class ClassRoomController extends Controller
 {
     public function __construct() {
         $this->middleware(['auth', 'checkrole'])
-        ->except(['getlistclassrooms', 'get_sel_faculties', 'add_new_classroom',
-        'getPaginateClassrooms']);
+        ->except(['getSelFaculties', 'getPaginateClassrooms', 'getPaginateClassroomsManage']);
     }
 
     public function manage(Request $request)
@@ -153,6 +152,7 @@ class ClassRoomController extends Controller
         return 'Đã xóa thành công lớp: '.$request->classroom_id;
     }
 
+    //========================================================================
     //getPaginateClassrooms
     public function getPaginateClassrooms(Request $request)
     {
@@ -210,12 +210,7 @@ class ClassRoomController extends Controller
     public function getSelFaculties(Request $request)
     {
         $faculty_id = $request->faculty_id;
-        if($faculty_id == null){
-            $faculties = Faculty::orderBy('name', 'ASC')->get();
-            return view('partials.sel_option_faculties', compact(['faculties']))->render();
-        }else{
-            $faculties = Faculty::orderBy('name', 'ASC')->get();
-            return view('partials.sel_option_faculties', compact(['faculties', 'faculty_id']))->render();
-        }
+        $faculties = Faculty::orderBy('name', 'ASC')->get();
+        return view('partials.sel_option_faculties', compact(['faculties', 'faculty_id']))->render();
     }
 }

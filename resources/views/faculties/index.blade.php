@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="{{ asset('theme/CSS/ThongTin.css') }}">
 @endsection
 
+@section('link_js')
+<script src="{{ asset('theme/JS/datatable_client.js') }}" async></script>
+@endsection
+
 @section('show_tab')
 <li class="breadcrumb-item"><a href="#">TT Trường</a></li>
 @endsection
@@ -69,12 +73,12 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text bg-dark text-white">Tìm kiếm</span>
                 </div>
-                <input type="text" class="form-control" id="table-search" />
+                <input type="text" class="form-control" id="table-search-faculty" />
             </div>
         </div>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive" id="table_faculties_client">
         <table class="table table-striped table-hover table-bordered" id="table">
             <thead class="thead-light">
                 <tr>
@@ -108,11 +112,6 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="pagination-container">
-            <nav>
-                <ul class="pagination justify-content-end"></ul>
-            </nav>
-        </div>
     </div>
 </div>
 @endsection

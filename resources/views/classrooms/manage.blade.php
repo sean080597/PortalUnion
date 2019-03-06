@@ -5,7 +5,7 @@
 @endsection
 
 @section('link_js')
-<script src="{{ asset('theme/JS/datatable_admin.js') }}" async></script>
+{{--  <script src="{{ asset('theme/JS/datatable_admin.js') }}" async></script>  --}}
 @endsection
 
 @section('show_tab')
@@ -81,7 +81,7 @@
                         <td class="text-center">
                             <a href="#" class="text-primary open_modal_classroom_to_edit"
                             classroom_id="{{ $classroom->id }}" fa_id="{{ $classroom->faculty_id }}"
-                            data-toggle="modal" data-target="#modal_classroom">
+                            data-toggle="modal" data-target="#modal_adjust_classroom">
                                 <i class="fas fa-user-edit"></i>
                             </a>
                         </td>
@@ -101,7 +101,7 @@
 </div>
 
 <!-- The Modal -->
-<div class="modal fade" id="modal_classroom">
+<div class="modal fade" id="modal_adjust_classroom">
     <div class="modal-dialog">
       <div class="modal-content">
         <!-- Modal Header -->

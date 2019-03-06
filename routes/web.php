@@ -23,6 +23,7 @@ Route::get('404', 'HomeController@notfound')->name('notfound');
 Route::get('/getInfoFaculty', 'FacultyController@getInfoFaculty');
 //handle get search faculties
 Route::get('/getSearchFaculties', 'FacultyController@getSearchFaculties');
+Route::get('/getSearchFacultiesClient', 'FacultyController@getSearchFacultiesClient');
 
 Route::get('/faculties/destroy', ['as' => 'faculties.destroy', 'uses' => 'FacultyController@destroy']);
 Route::get('/faculties/update', ['as' => 'faculties.update', 'uses' => 'FacultyController@update']);
@@ -57,7 +58,6 @@ Route::post('/students/fetchDependentClassrooms', 'StudentController@fetchDepend
 Route::get('/students/getMoreStudents', 'StudentController@getMoreStudents')->name('getMoreStudents');
 //handle upload profile image
 Route::post('/students/ajaxupload', 'StudentController@ajaxupload')->name('ajaxupload');
-
 
 Route::post('/students/manage/delete', ['as' => 'students.managedelete', 'uses' => 'StudentController@destroy']);
 

@@ -110,8 +110,22 @@ function call_tracking_input_search(){
     });
 }
 
+//input search faculty
+function call_search_faculty_onKeyUp(){
+    $('#table-search-faculty').on('keyup', function (event) {
+        event.preventDefault();
+        var query = change_alias($(this).val());
+        $.get("/getSearchFacultiesClient?query="+query,
+            function (data) {
+                $('#table_faculties_client').html(data);
+            }
+        );
+    });
+}
+
 $(document).ready(function () {
-    // call_tracking_select_all();
     loadTrackingPaginate();
     call_tracking_input_search();
+
+    call_search_faculty_onKeyUp();
 });

@@ -5,7 +5,7 @@
 @endsection
 
 @section('link_js')
-<script src="{{ asset('theme/JS/datatable_admin.js') }}" async></script>
+{{--  <script src="{{ asset('theme/JS/datatable_admin.js') }}" async></script>  --}}
 @endsection
 
 @section('show_tab')

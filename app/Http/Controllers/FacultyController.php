@@ -15,7 +15,8 @@ class FacultyController extends Controller
 {
     public function __construct() {
         $this->middleware(['auth', 'checkrole'])
-        ->except(['getPaginateFaculties']);
+        ->except(['getPaginateFaculties', 'getSearchFaculties', 'getInfoFaculty',
+        'getSearchFacultiesClient']);
     }
 
     public function manage() {
@@ -156,12 +157,13 @@ class FacultyController extends Controller
         $faculty->delete();
         return 'Đã xóa thành công '.$request->faculty_id;
     }
-
+    //==========================================================================
     //getPaginateFaculties
     public function getPaginateFaculties() {
         $faculties = Faculty::orderby('name', 'asc')->get();
         return view('partials.pagination_faculties_manage', compact('faculties'))->render();
     }
+
     //get info of faculty
     public function getInfoFaculty(Request $request){
         $faculty = Faculty::findOrFail($request->fac_id);
@@ -184,6 +186,30 @@ class FacultyController extends Controller
                 $faculties = Faculty::orderby('name', 'asc')->get();
             }
             return view('partials.pagination_faculties_manage', compact('faculties'))->render();
+        }
+    }
+
+    //getSearchFacultiesClient
+    public function getSearchFacultiesClient(Request $request)
+    {
+        if($request->ajax()){
+            $query = $request->get('query');
+            if($query != null){
+                $faculties = Faculty::select('faculties.id', 'faculties.name as faculty_name', 'faculties.note',
+                'users.name as user_name', 'users.email', 'users.phone')
+                ->leftJoin('users', 'users.id', '=', 'faculties.uid_secretary')
+                ->where('faculties.id', 'like', 'CONCAT("%", "'.$query.'", "%")')
+                // ->orWhere('faculties.name', 'like', '%'.$query.'%')
+                ->orderBy('faculties.name', 'ASC')
+                ->get();
+            }else{
+                $faculties = Faculty::select('faculties.id', 'faculties.name as faculty_name', 'faculties.note',
+                'users.name as user_name', 'users.email', 'users.phone')
+                ->leftJoin('users', 'users.id', '=', 'faculties.uid_secretary')
+                ->orderBy('faculties.name', 'ASC')
+                ->get();
+            }
+            return view('partials.pagination_faculties_client', compact('faculties'))->render();
         }
     }
 }
